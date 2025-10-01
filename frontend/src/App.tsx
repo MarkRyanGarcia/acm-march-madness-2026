@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Problems from './pages/Problems';
+import ProblemDetail from './pages/ProblemDetail';
 import Leaderboard from './pages/Leaderboard';
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/problems" element={<Problems />} />
+                        <Route path="/problems/:id" element={<ProblemDetail />} />
                         <Route path="/leaderboard" element={<Leaderboard />} />
                     </Routes>
                 </Box>

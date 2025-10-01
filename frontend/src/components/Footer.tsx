@@ -11,7 +11,7 @@ export default function Footer() {
             component="footer"
             sx={{
                 py: 2,
-                px: { md: 12, xs: 2 },
+                px: { md: 15, xs: 2 },
                 mt: 'auto',
                 background: '#052155',
             }}

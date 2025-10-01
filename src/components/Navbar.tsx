@@ -35,7 +35,7 @@ export default function Navbar() {
     return (
         <AppBar position="sticky" sx={{
             zIndex: (theme) => theme.zIndex.drawer + 1,
-            background: '#082863'
+            background: '#052155'
         }}>
             <Toolbar>
                 <IconButton

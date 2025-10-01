@@ -4,7 +4,7 @@ export default function Home() {
     return (
         <Stack>
             <Stack sx={{ alignItems: 'center', alignText: 'center' }}>
-                <Typography variant="h2">March Madness 2026</Typography>
+                <Typography variant="h2" color="white">March Madness 2026</Typography>
             </Stack>
         </Stack>
     );

@@ -1,12 +1,10 @@
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
+import Hero from "../components/home/Hero";
 
 export default function Home() {
     return (
         <Stack>
-            <Stack sx={{ alignItems: 'center', alignText: 'center' }}>
-                <Typography variant="h2" color="white">March Madness 2026</Typography>
-                <Typography variant="caption" color="white">About Page</Typography>
-            </Stack>
+            <Hero />
         </Stack>
     );
 }

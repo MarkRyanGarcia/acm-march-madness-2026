@@ -11,7 +11,7 @@ export default function Navbar() {
     const location = useLocation();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const tabValue = location.pathname === '/' ? '/' : location.pathname;
+    const tabValue = location.pathname;
 
     const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -36,7 +36,7 @@ export default function Navbar() {
         <AppBar position="sticky" sx={{
             zIndex: (theme) => theme.zIndex.drawer + 1,
             background: '#052155',
-            px: 12,
+            px: { md: 12, xs: 1 },
         }}>
             <Toolbar>
                 <IconButton
@@ -57,7 +57,7 @@ export default function Navbar() {
                         }
                     }}
                 >
-                    <strong>March Madness</strong>
+                    at <strong>CSUF</strong> | March Madness
                 </Typography>
 
                 {isMobile ? (

@@ -24,7 +24,7 @@ export default function Footer() {
                         </Typography>
                         <Stack direction="row" spacing={1} justifyContent={isMobile ? "center" : "flex-start"}>
                             <IconButton
-                                href="https://www.acmcsuf.com/discord"
+                                href="https://acmcsuf.com/discord"
                                 target="_blank"
                                 sx={{
                                     color: "#dddddd",
@@ -37,13 +37,13 @@ export default function Footer() {
                             >
                                 <DiscordIcon style={{ height: 25, width: 25, fill: "currentColor" }} />
                             </IconButton>
-                            <IconButton href="https://www.acmcsuf.com/instagram" target="_blank" sx={{ color: '#dddddd', "&:hover": { color: 'white' } }}>
+                            <IconButton href="https://acmcsuf.com/instagram" target="_blank" sx={{ color: '#dddddd', "&:hover": { color: 'white' } }}>
                                 <Instagram />
                             </IconButton>
-                            <IconButton href="https://www.acmcsuf.com/youtube" target="_blank" sx={{ color: '#dddddd', "&:hover": { color: 'white' } }}>
+                            <IconButton href="https://acmcsuf.com/youtube" target="_blank" sx={{ color: '#dddddd', "&:hover": { color: 'white' } }}>
                                 <YouTube />
                             </IconButton>
-                            <IconButton href="https://www.acmcsuf.com/linkedin" target="_blank" sx={{ color: '#dddddd', "&:hover": { color: 'white' } }}>
+                            <IconButton href="https://acmcsuf.com/linkedin" target="_blank" sx={{ color: '#dddddd', "&:hover": { color: 'white' } }}>
                                 <LinkedIn />
                             </IconButton>
                         </Stack>

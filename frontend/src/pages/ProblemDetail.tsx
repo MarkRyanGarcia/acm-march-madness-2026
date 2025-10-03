@@ -1,6 +1,10 @@
 import { useParams } from "react-router-dom";
-import { Typography, Stack, Paper, Box } from "@mui/material";
+import { Typography, Stack, Paper, } from "@mui/material";
 import { problemList } from "./Problems";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 export default function ProblemDetail() {
     const { id } = useParams<{ id: string }>();
@@ -27,17 +31,44 @@ export default function ProblemDetail() {
     return (
         <Stack sx={{ alignItems: "center", textAlign: "center", mt: 4 }}>
             <Paper sx={{ p: 4, maxWidth: 800 }}>
-                <Typography variant="h4" gutterBottom>
-                    {problem.name}
-                </Typography>
-                <Typography variant="body1" sx={{ mt: 2 }}>
-                    {problem.desc}
-                </Typography>
-                <Box sx={{ textAlign: 'center' }}>
-                    <pre><code >
-                        {`3   4\n4   3\n2   5\n1   3\n3   9\n3   3`}
-                    </code></pre>
-                </Box>
+                <div style={{ padding: "20px" }}>
+                    <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                            code: ({
+                                node,
+                                inline,
+                                className,
+                                children,
+                                ...props
+                            }: React.DetailedHTMLProps<
+                                React.HTMLAttributes<HTMLElement>,
+                                HTMLElement
+                            > & {
+                                inline?: boolean;
+                                node?: any;
+                            }) => {
+                                const match = /language-(\w+)/.exec(className || "");
+                                return !inline && match ? (
+                                    <SyntaxHighlighter
+                                        style={oneDark}
+                                        language={match[1]}
+                                        PreTag="div"
+                                        {...props}
+                                    >
+                                        {String(children).replace(/\n$/, "")}
+                                    </SyntaxHighlighter>
+                                ) : (
+                                    <code className={className} {...props}>
+                                        {children}
+                                    </code>
+                                );
+                            },
+                        }}
+                    >
+                        {problem.desc}
+                    </ReactMarkdown>
+                </div>
             </Paper>
         </Stack>
     );

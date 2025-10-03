@@ -13,10 +13,10 @@ export default function Footer() {
                 py: 2,
                 px: { md: 15, xs: 2 },
                 mt: 'auto',
-                background: '#052155',
+                background: '#041536',
             }}
         >
-            <Grid container spacing={isMobile ? 4 : 15} alignItems={"center"} justifyContent={"center"}>
+            <Grid container spacing={isMobile ? 4 : 15} justifyContent={"center"}>
                 <Grid size={{ xs: 12, md: 4 }} sx={{ textAlign: isMobile ? "center" : "left" }} order={{ xs: 2, md: 1 }}>
                     <Stack spacing={1} alignItems={isMobile ? "center" : "flex-start"}>
                         <Typography variant="h6" color="white">
@@ -53,7 +53,7 @@ export default function Footer() {
                 <Grid size={{ xs: 12, md: 4 }} sx={{ textAlign: "center" }} order={{ xs: 1, md: 2 }}>
                     <Stack spacing={1}>
                         <Typography variant="h6" color="white">
-                            <strong>© 2026 ACM Chapter at CSUF</strong>
+                            <strong>© {new Date().getFullYear()} ACM Chapter at CSUF</strong>
                         </Typography>
                         <Typography
                             variant="body1"

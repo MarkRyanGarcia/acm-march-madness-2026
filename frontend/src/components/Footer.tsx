@@ -57,9 +57,6 @@ export default function Footer() {
                         </Typography>
                         <Typography
                             variant="body1"
-                            component="a"
-                            href="https://acmcsuf.com/"
-                            target="_blank"
                             sx={{
                                 color: "#dddddd",
                                 textDecoration: "none",
@@ -69,7 +66,7 @@ export default function Footer() {
                                 },
                             }}
                         >
-                            acmcsuf.com
+                            Made by <a href='https://github.com/MarkRyanGarcia'>Mark</a> and <a href='https://github.com/elenav24'>Elena</a>, with borrowed code from <a href='https://github.com/acmCSUFDev/march-madness-2024'>Diamond</a>
                         </Typography>
                     </Stack>
                 </Grid>

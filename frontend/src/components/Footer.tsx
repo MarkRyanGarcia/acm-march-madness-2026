@@ -97,13 +97,9 @@ export default function Footer() {
                             sx={{
                                 color: "#dddddd",
                                 textDecoration: "none",
-                                "&:hover": {
-                                    color: "white",
-                                    textDecoration: "underline",
-                                },
                             }}
                         >
-                            Made by <a href='https://github.com/MarkRyanGarcia' style={{ color: 'yellow', }}>Mark</a> and <a href='https://github.com/elenav24' style={{ color: 'yellow', }}>Elena</a>, with borrowed code from <a href='https://github.com/acmCSUFDev/march-madness-2024' style={{ color: 'yellow', }}>Diamond</a>
+                            Made by <a href='https://github.com/MarkRyanGarcia' style={{ color: 'yellow', }}>Mark</a> and <a href='https://github.com/elenav24' style={{ color: 'yellow', }}>Elena</a>, with borrowed code from <a href='https://github.com/acmCSUFDev/march-madness-2024' style={{ color: 'yellow', }}>Here</a>
                         </Typography>
                     </Stack>
                 </Grid>

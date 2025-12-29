@@ -20,20 +20,25 @@ fileConfig(config.config_file_name)
 
 target_metadata = Base.metadata
 
+
 def run_migrations_online():
     connectable = AsyncEngine(
         engine_from_config(
             config.get_section(config.config_ini_section),
-            prefix='sqlalchemy.',
+            prefix="sqlalchemy.",
             poolclass=pool.NullPool,
-            future=True
+            future=True,
         )
     )
 
     async def do_run_migrations():
         async with connectable.connect() as conn:
-            await conn.run_sync(lambda connection: context.run_migrations(connection=connection))
+            await conn.run_sync(
+                lambda connection: context.run_migrations(connection=connection)
+            )
 
     asyncio.run(do_run_migrations())
 
+
 run_migrations_online()
+

@@ -1,7 +1,12 @@
 from fastapi import APIRouter, Depends, Header, HTTPException
 from app.core.security import verify_clerk_token
+from backend.app.db.database import AsyncSessionLocal
 
 router = APIRouter()
+
+async def get_db():
+    async with AsyncSessionLocal() as session:
+        yield session
 
 async def get_current_user(authorization: str = Header(...)):
     try:

@@ -1,12 +1,17 @@
 from fastapi import APIRouter, Depends, Header, HTTPException
 from app.core.security import verify_clerk_token
-from backend.app.db.database import AsyncSessionLocal
+from app.db.database import SessionLocal
 
 router = APIRouter()
 
-async def get_db():
-    async with AsyncSessionLocal() as session:
-        yield session
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 
 async def get_current_user(authorization: str = Header(...)):
     try:
@@ -16,9 +21,8 @@ async def get_current_user(authorization: str = Header(...)):
     except Exception:
         raise HTTPException(status_code=401, detail="Invalid token")
 
+
 @router.get("/protected")
 async def protected_route(user=Depends(get_current_user)):
-    return {
-        "user_id": user["sub"],
-        "email": user.get("email")
-    }
+    return {"user_id": user["sub"], "email": user.get("email")}
+

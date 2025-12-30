@@ -9,7 +9,7 @@ load_dotenv()
 # -----------------------------
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql+asyncpg://user:password@localhost/dbname"  # fallback for local dev
+    "postgresql://user:password@localhost/dbname",  # fallback for local dev
 )
 
 # -----------------------------
@@ -17,14 +17,12 @@ DATABASE_URL = os.getenv(
 # -----------------------------
 CLERK_JWKS_URL = os.getenv(
     "CLERK_JWKS_URL",
-    "https://your-clerk-domain.clerk.accounts.dev/.well-known/jwks.json"
+    "https://your-clerk-domain.clerk.accounts.dev/.well-known/jwks.json",
 )
-CLERK_ISSUER = os.getenv(
-    "CLERK_ISSUER",
-    "https://your-clerk-domain.clerk.accounts.dev"
-)
+CLERK_ISSUER = os.getenv("CLERK_ISSUER", "https://your-clerk-domain.clerk.accounts.dev")
 
 # -----------------------------
 # Other settings (optional)
 # -----------------------------
 DEBUG = os.getenv("DEBUG", "true").lower() in ("true", "1", "yes")
+

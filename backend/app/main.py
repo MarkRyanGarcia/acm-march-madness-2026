@@ -7,3 +7,4 @@ load_dotenv()
 app = FastAPI()
 
 app.include_router(router)
+

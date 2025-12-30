@@ -13,6 +13,7 @@ from sqlalchemy import (
     func,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.sql import false, true
 from app.db.database import Base
 
 
@@ -40,7 +41,7 @@ class Team(Base):
     )
     invite_code: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
     accepting_members: Mapped[bool] = mapped_column(
-        Boolean, nullable=False, server_default=func.true()
+        Boolean, nullable=False, server_default=true()
     )
 
     members = relationship(
@@ -60,7 +61,7 @@ class TeamMember(Base):
         DateTime, nullable=False, server_default=func.now()
     )
     is_leader: Mapped[bool] = mapped_column(
-        Boolean, nullable=False, server_default=func.false()
+        Boolean, nullable=False, server_default=false()
     )
 
     team = relationship("Team", back_populates="members")

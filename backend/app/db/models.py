@@ -99,26 +99,3 @@ class TeamSubmitAttempt(Base):
     )
 
     submitter = relationship("User")
-
-
-class HackathonSubmission(Base):
-    __tablename__ = "hackathon_submissions"
-
-    team_id: Mapped[int] = mapped_column(ForeignKey("teams.id"), primary_key=True)
-    submitted_at: Mapped[datetime] = mapped_column(
-        DateTime, nullable=False, server_default=func.now()
-    )
-    project_url: Mapped[str] = mapped_column(Text, nullable=False)
-    project_description: Mapped[Optional[str]] = mapped_column(Text)
-    category: Mapped[str] = mapped_column(Text, nullable=False)
-    won_rank: Mapped[Optional[int]] = mapped_column(
-        Integer,
-        unique=True,
-    )
-
-    __table_args__ = (
-        CheckConstraint(
-            "won_rank IS NULL OR (won_rank > 0 AND won_rank <= 3)",
-            name="won_rank_check",
-        ),
-    )

@@ -1,15 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Outfit:wght@100..900&family=DynaPuff:wght@400..700&display=swap");
 @import "tailwindcss";
 
-body {
-  margin: 0;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+:root {
+  --ff-primary: "DynaPuff";
+  --ff-secondary: "Outfit";
+  --ff-code: "Fira Code";
+
+  --color-sky: 164, 227, 255;
+  --color-grass: 37, 179, 92;
+  --color-pink: 255, 158, 227;
+
+  background-color: rgb(var(--color-sky));
+
+  font-family: var(--ff-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+body {
+  margin: 0;
+}
+
 code {
-  font-family:
-    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: var(--ff-code);
 }

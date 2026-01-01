@@ -1,37 +1,33 @@
-import { useAuth, useSignIn, useUser } from "@clerk/clerk-react";
 import { createFileRoute } from "@tanstack/react-router";
+import type React from "react";
+import { Navbar } from "@/components/navbar";
 
 export const Route = createFileRoute("/")({
   component: App,
 });
 
+const Hero: React.FC = () => {
+  return (
+    <div className="max-w-max mx-auto mt-12">
+      <h1
+        className="text-white font-extrabold text-center
+        [-webkit-text-stroke:1.5px_rgb(88,108,140)]
+        [text-shadow:-0px_6px_2px_rgb(var(--color-pink))]"
+      >
+        <span className="block text-8xl">March Madness</span>
+        <span className="text-green-200 text-9xl">2026</span>
+      </h1>
+    </div>
+  );
+};
+
 function App() {
-  const { signIn, isLoaded } = useSignIn();
-  const { signOut } = useAuth();
-  const { isSignedIn, user } = useUser();
-
-  if (!isLoaded) return null;
-
-  const handleSignIn = () => {
-    signIn.authenticateWithRedirect({
-      strategy: "oauth_github",
-      redirectUrl: "/",
-      redirectUrlComplete: "/",
-    });
-  };
-
   return (
     <div>
-      Hello!
-      {isSignedIn ? (
-        <>
-          <button onClick={() => signOut()}>Sign Out</button>
-          <div>Welcome! {user.username}</div>
-          <img src={user.imageUrl} className="w-20" />
-        </>
-      ) : (
-        <button onClick={handleSignIn}>Sign In With GitHub</button>
-      )}
+      <Navbar />
+      <main className="max-w-7xl mx-auto">
+        <Hero />
+      </main>
     </div>
   );
 }

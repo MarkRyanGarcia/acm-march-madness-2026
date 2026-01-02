@@ -15,6 +15,7 @@ DATABASE_URL = os.getenv(
 # -----------------------------
 # Clerk
 # -----------------------------
+CLERK_SECRET_KEY = os.getenv("CLERK_SECRET_KEY", "sk-...")
 CLERK_JWKS_URL = os.getenv(
     "CLERK_JWKS_URL",
     "https://your-clerk-domain.clerk.accounts.dev/.well-known/jwks.json",
@@ -25,4 +26,3 @@ CLERK_ISSUER = os.getenv("CLERK_ISSUER", "https://your-clerk-domain.clerk.accoun
 # Other settings (optional)
 # -----------------------------
 DEBUG = os.getenv("DEBUG", "true").lower() in ("true", "1", "yes")
-

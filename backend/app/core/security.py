@@ -20,4 +20,3 @@ async def verify_clerk_token(token: str):
     return jwt.decode(
         token, jwks, algorithms=["RS256"], audience=None, issuer=CLERK_ISSUER
     )
-

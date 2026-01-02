@@ -1,22 +1,19 @@
-from jose import jwt
-import httpx
-from app.core.config import CLERK_JWKS_URL, CLERK_ISSUER
+from clerk_backend_api import AuthenticateRequestOptions, Clerk
+from fastapi import HTTPException, Request, status
 
-jwks = None
+from app.core.config import CLERK_SECRET_KEY
 
-
-async def get_jwks():
-    global jwks
-    if jwks is None:
-        async with httpx.AsyncClient() as client:
-            res = await client.get(CLERK_JWKS_URL)
-            jwks = res.json()
-    return jwks
+clerk = Clerk(bearer_auth=CLERK_SECRET_KEY)
 
 
-async def verify_clerk_token(token: str):
-    jwks = await get_jwks()
-
-    return jwt.decode(
-        token, jwks, algorithms=["RS256"], audience=None, issuer=CLERK_ISSUER
-    )
+def require_clerk_auth(request: Request):
+    auth_state = clerk.authenticate_request(request, AuthenticateRequestOptions())
+    if not auth_state.is_signed_in:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail={
+                "message": "Unauthorized",
+                "reason": str(auth_state.reason),
+            },
+        )
+    return auth_state

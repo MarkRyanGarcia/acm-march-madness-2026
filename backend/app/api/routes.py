@@ -1,5 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from app.core.security import require_clerk_auth
 from app.db.database import SessionLocal
 from app.db.models import User
 from app.schemas.user import UserCreate, UserRead
@@ -16,8 +17,8 @@ def get_db():
 
 
 @router.post("/hello")
-def post_hello(request: Request):
-    print(request.headers.items())
+def post_hello(auth=Depends(require_clerk_auth)):
+    print(auth)
 
 
 @router.post("/users", response_model=UserRead)

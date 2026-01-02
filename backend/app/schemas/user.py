@@ -17,4 +17,4 @@ class UserRead(BaseModel):
     created_at: datetime
 
     class Config:
-        orm_mode = True  # Allows returning SQLAlchemy model instances directly
+        form_attributes = True

@@ -6,7 +6,7 @@ type ApiFetchOptions = RequestInit & {
 
 export async function apiFetchWithToken<T>(
   input: RequestInfo | URL,
-  token: string | null,
+  token: string,
   init?: ApiFetchOptions,
 ): Promise<T> {
   const { auth = true, ...requestInit } = init ?? {};
@@ -21,7 +21,6 @@ export async function apiFetchWithToken<T>(
 
   if (auth) {
     if (import.meta.env.VITE_ENV === "production") {
-      if (!token) throw new Error("No auth token provided");
       headers.Authorization = `Bearer ${token}`;
     } else {
       headers.Authorization = `Dev ${import.meta.env.VITE_DEV_USER_ID || "user_dev_default"}`;

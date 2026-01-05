@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type React from "react";
 import { Navbar } from "@/components/navbar";
-import { useHello } from "@/client/hello";
 
 export const Route = createFileRoute("/")({
   component: App,
@@ -23,12 +22,6 @@ const Hero: React.FC = () => {
 };
 
 function App() {
-  const { mutate: callHelloFn, isError } = useHello();
-
-  const handleClick = () => {
-    callHelloFn({ message: "hello from the frontend boii" });
-  };
-
   return (
     <div>
       <Navbar />
@@ -43,7 +36,6 @@ function App() {
         <button className="py-2 px-6 rounded-xl bg-white max-w-max">
           Sign In With GitHub
         </button>
-        <button onClick={handleClick}>Click to see the API call</button>
       </main>
     </div>
   );

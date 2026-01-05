@@ -11,7 +11,7 @@ export const Navbar: React.FC = () => {
     signIn?.authenticateWithRedirect({
       strategy: "oauth_github",
       redirectUrl: "/",
-      redirectUrlComplete: "/",
+      redirectUrlComplete: "/team",
     });
   };
 

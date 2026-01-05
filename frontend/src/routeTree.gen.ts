@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TeamIndexRouteImport } from './routes/team/index'
 import { Route as SigninSsoCallbackIndexRouteImport } from './routes/signin/sso-callback/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamIndexRoute = TeamIndexRouteImport.update({
+  id: '/team/',
+  path: '/team/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SigninSsoCallbackIndexRoute = SigninSsoCallbackIndexRouteImport.update({
@@ -25,27 +31,31 @@ const SigninSsoCallbackIndexRoute = SigninSsoCallbackIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/team': typeof TeamIndexRoute
   '/signin/sso-callback': typeof SigninSsoCallbackIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/team': typeof TeamIndexRoute
   '/signin/sso-callback': typeof SigninSsoCallbackIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/team/': typeof TeamIndexRoute
   '/signin/sso-callback/': typeof SigninSsoCallbackIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/signin/sso-callback'
+  fullPaths: '/' | '/team' | '/signin/sso-callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/signin/sso-callback'
-  id: '__root__' | '/' | '/signin/sso-callback/'
+  to: '/' | '/team' | '/signin/sso-callback'
+  id: '__root__' | '/' | '/team/' | '/signin/sso-callback/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  TeamIndexRoute: typeof TeamIndexRoute
   SigninSsoCallbackIndexRoute: typeof SigninSsoCallbackIndexRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/team/': {
+      id: '/team/'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof TeamIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/signin/sso-callback/': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  TeamIndexRoute: TeamIndexRoute,
   SigninSsoCallbackIndexRoute: SigninSsoCallbackIndexRoute,
 }
 export const routeTree = rootRouteImport

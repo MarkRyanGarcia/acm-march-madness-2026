@@ -2,19 +2,17 @@ from datetime import datetime
 from typing import Optional
 from sqlalchemy import (
     Boolean,
-    CheckConstraint,
     DateTime,
     Float,
     ForeignKey,
     Index,
-    Integer,
     String,
     Text,
     func,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import false, true
-from app.db.database import Base
+from app.deps.db import Base
 
 
 class User(Base):

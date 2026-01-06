@@ -10,22 +10,16 @@ from app.schemas.user import UserCreate, UserRead
 router = APIRouter()
 
 
-@router.post("/hello")
-def post_hello(auth=Depends(require_clerk_auth)):
-    print(auth)
-
-
-@router.get("/users/{user_id}", response_model=UserRead)
+@router.get("/users/{clerk_user_id}", response_model=UserRead | None)
 def get_user_by_clerk_id(
     clerk_user_id: str,
     db: Annotated[Session, Depends(get_db)],
     auth: Annotated[RequestState, Depends(require_clerk_auth)],
 ):
-    print(auth)
-    existing_user = db.query(User).filter(User.clerk_user_id == clerk_user_id).first()
-    if not existing_user:
-        raise HTTPException(status_code=404, detail="User not found")
-    return existing_user
+    if not auth.payload or auth.payload.get("sub") != clerk_user_id:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    return db.query(User).filter(User.clerk_user_id == clerk_user_id).first()
 
 
 @router.post("/users", response_model=UserRead)

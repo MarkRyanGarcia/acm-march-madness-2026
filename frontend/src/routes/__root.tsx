@@ -5,6 +5,7 @@ import { TanStackDevtools } from "@tanstack/react-devtools";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import type { QueryClient } from "@tanstack/react-query";
 import type { GetToken, UserResource } from "@clerk/types";
+import { Navbar } from "@/components/Navbar";
 
 interface AppRouterContext {
   queryClient: QueryClient;
@@ -19,6 +20,7 @@ interface AppRouterContext {
 export const Route = createRootRouteWithContext<AppRouterContext>()({
   component: () => (
     <>
+      <Navbar />
       <Outlet />
       <TanStackDevtools
         config={{

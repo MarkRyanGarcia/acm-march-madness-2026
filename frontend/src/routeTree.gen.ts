@@ -9,18 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TeamRouteImport } from './routes/team'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as TeamIndexRouteImport } from './routes/team/index'
 import { Route as SigninSsoCallbackIndexRouteImport } from './routes/signin/sso-callback/index'
 
+const TeamRoute = TeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TeamIndexRoute = TeamIndexRouteImport.update({
-  id: '/team/',
-  path: '/team/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SigninSsoCallbackIndexRoute = SigninSsoCallbackIndexRouteImport.update({
@@ -31,18 +31,18 @@ const SigninSsoCallbackIndexRoute = SigninSsoCallbackIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/team': typeof TeamIndexRoute
+  '/team': typeof TeamRoute
   '/signin/sso-callback': typeof SigninSsoCallbackIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/team': typeof TeamIndexRoute
+  '/team': typeof TeamRoute
   '/signin/sso-callback': typeof SigninSsoCallbackIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/team/': typeof TeamIndexRoute
+  '/team': typeof TeamRoute
   '/signin/sso-callback/': typeof SigninSsoCallbackIndexRoute
 }
 export interface FileRouteTypes {
@@ -50,29 +50,29 @@ export interface FileRouteTypes {
   fullPaths: '/' | '/team' | '/signin/sso-callback'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/team' | '/signin/sso-callback'
-  id: '__root__' | '/' | '/team/' | '/signin/sso-callback/'
+  id: '__root__' | '/' | '/team' | '/signin/sso-callback/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  TeamIndexRoute: typeof TeamIndexRoute
+  TeamRoute: typeof TeamRoute
   SigninSsoCallbackIndexRoute: typeof SigninSsoCallbackIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/team': {
+      id: '/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof TeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/team/': {
-      id: '/team/'
-      path: '/team'
-      fullPath: '/team'
-      preLoaderRoute: typeof TeamIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/signin/sso-callback/': {
@@ -87,7 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  TeamIndexRoute: TeamIndexRoute,
+  TeamRoute: TeamRoute,
   SigninSsoCallbackIndexRoute: SigninSsoCallbackIndexRoute,
 }
 export const routeTree = rootRouteImport

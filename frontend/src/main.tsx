@@ -22,8 +22,8 @@ const router = createRouter({
       isLoaded: false,
       isSignedIn: false,
       user: null,
-      getToken: async () => Promise.resolve(null)
-    }
+      getToken: async () => Promise.resolve(null),
+    },
   },
   defaultPreload: "intent",
   scrollRestoration: true,
@@ -39,20 +39,25 @@ declare module "@tanstack/react-router" {
 }
 
 function RouterProviderWithAuth() {
-  const { isLoaded, isSignedIn, user } = useUser()
-  const { getToken } = useAuth()
+  const { isLoaded, isSignedIn, user } = useUser();
+  const { getToken } = useAuth();
 
   if (!isLoaded) return null;
 
-  return <RouterProvider router={router} context={{
-    ...router.options.context,
-    auth: {
-      isLoaded,
-      isSignedIn,
-      user,
-      getToken,
-    }
-  }} />
+  return (
+    <RouterProvider
+      router={router}
+      context={{
+        ...router.options.context,
+        auth: {
+          isLoaded,
+          isSignedIn,
+          user,
+          getToken,
+        },
+      }}
+    />
+  );
 }
 
 // Render the app

@@ -1,12 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type React from "react";
-import { Navbar } from "@/components/navbar";
 
 export const Route = createFileRoute("/")({
-  beforeLoad: ({ context }) => {
-    console.log(context.auth);
-  },
-  component: App,
+  component: LandingPage,
 });
 
 const Hero: React.FC = () => {
@@ -24,22 +20,18 @@ const Hero: React.FC = () => {
   );
 };
 
-function App() {
+function LandingPage() {
   return (
-    <div>
-      <Navbar />
-      <main className="max-w-7xl mx-auto grid items-center justify-center gap-16">
-        <Hero />
-        <p className="text-center text-white font-bold [-webkit-text-stroke:0.7px_black] text-xl">
-          A 5-day coding challenge event hosted by ACM at California State
-          University, Fullerton! Collaborate in teams and put your
-          problem-solving skills to the test to see if you shall become the
-          best!
-        </p>
-        <button className="py-2 px-6 rounded-xl bg-white max-w-max">
-          Sign In With GitHub
-        </button>
-      </main>
-    </div>
+    <main className="max-w-7xl mx-auto grid items-center justify-center gap-16">
+      <Hero />
+      <p className="text-center text-white font-bold [-webkit-text-stroke:0.7px_black] text-xl">
+        A 5-day coding challenge event hosted by ACM at California State
+        University, Fullerton! Collaborate in teams and put your problem-solving
+        skills to the test to see if you shall become the best!
+      </p>
+      <button className="py-2 px-6 rounded-xl bg-white max-w-max">
+        Sign In With GitHub
+      </button>
+    </main>
   );
 }

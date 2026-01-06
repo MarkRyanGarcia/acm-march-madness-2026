@@ -6,21 +6,29 @@
   --ff-secondary: "Outfit";
   --ff-code: "Fira Code";
 
-  --color-sky: 164, 227, 255;
-  --color-grass: 37, 179, 92;
-  --color-pink: 255, 158, 227;
-
-  background-color: rgb(var(--color-sky));
+  --sky: rgb(164, 227, 255);
+  --grass: rgb(37, 179, 92);
+  --pink: rgb(255, 158, 227);
 
   font-family: var(--ff-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+@theme inline {
+  --color-sky: var(--sky);
+  --color-grass: var(--grass);
+  --color-pink: var(--pink);
+}
+
 @layer base {
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
+  }
+
+  body {
+    @apply bg-sky m-0;
   }
 }
 

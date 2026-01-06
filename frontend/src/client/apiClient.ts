@@ -1,5 +1,7 @@
 import { useAuth } from "@clerk/clerk-react";
 
+export const API_BACKEND_URL = import.meta.env.VITE_API_BACKEND_URL;
+
 type ApiFetchOptions = RequestInit & {
   auth?: boolean;
 };
@@ -62,7 +64,7 @@ export function useApiClient() {
     init?: ApiFetchOptions,
   ): Promise<T> {
     if (init?.auth === false) {
-      return apiFetchWithToken<T>(input, null, init);
+      return apiFetchWithToken<T>(input, "", init);
     }
 
     const token = await getToken();

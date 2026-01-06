@@ -31,6 +31,7 @@
     "tailwindcss": "^4.0.6"
   },
   "devDependencies": {
+    "@clerk/types": "^4.101.9",
     "@tanstack/devtools-event-client": "^0.3.2",
     "@tanstack/devtools-vite": "^0.3.11",
     "@tanstack/eslint-config": "^0.3.0",

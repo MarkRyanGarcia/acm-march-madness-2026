@@ -3,6 +3,9 @@ import type React from "react";
 import { Navbar } from "@/components/navbar";
 
 export const Route = createFileRoute("/")({
+  beforeLoad: ({ context }) => {
+    console.log(context.auth);
+  },
   component: App,
 });
 

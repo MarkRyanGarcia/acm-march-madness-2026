@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import users
+from app.routers import teams, users
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -16,3 +16,4 @@ app.add_middleware(
 )
 
 app.include_router(users.router)
+app.include_router(teams.router)

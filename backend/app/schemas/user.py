@@ -9,7 +9,7 @@ class UserCreate(BaseModel):
     email: Optional[EmailStr] = None
 
 
-class UserRead(BaseModel):
+class UserOut(BaseModel):
     id: str
     username: str
     email: Optional[EmailStr] = None

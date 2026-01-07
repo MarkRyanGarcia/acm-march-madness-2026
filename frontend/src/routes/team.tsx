@@ -1,6 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { CreateUserForm } from "@/components/CreateUser";
 import { useUser } from "@/client/getUser";
+import { useUserTeam } from "@/client/getUserTeam";
 
 export const Route = createFileRoute("/team")({
   beforeLoad: ({ context }) => {
@@ -13,11 +14,11 @@ export const Route = createFileRoute("/team")({
 
 function TeamPage() {
   const clerkUser = Route.useRouteContext().auth.user!;
-  const { isLoading, data } = useUser(clerkUser.id);
+  const userQuery = useUser(clerkUser.id);
+  const teamQuery = useUserTeam(clerkUser.id);
 
-  if (isLoading) return <div>Loading…</div>;
-
-  if (!data) {
+  if (userQuery.isLoading) return <div>Loading…</div>;
+  if (!userQuery.data) {
     return (
       <CreateUserForm
         userId={clerkUser.id}
@@ -26,5 +27,11 @@ function TeamPage() {
       />
     );
   }
+
+  if (teamQuery.isLoading) return <div>Loading...</div>;
+  if (!teamQuery.data) {
+    return <div>You don't have a team bro</div>
+  }
+
   return <div>Hello "/team"!</div>;
 }

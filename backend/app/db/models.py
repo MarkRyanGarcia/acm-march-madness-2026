@@ -33,7 +33,7 @@ class Team(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     team_name: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    invite_code: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
+    invite_code: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     accepting_members: Mapped[bool] = mapped_column(
         Boolean, nullable=False, server_default=true()
     )

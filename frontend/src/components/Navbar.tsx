@@ -1,11 +1,10 @@
-import { useAuth, useSignIn, useUser } from "@clerk/clerk-react";
+import { useAuth, useSignIn } from "@clerk/clerk-react";
 import { Link } from "@tanstack/react-router";
 import type React from "react";
 
 export const Navbar: React.FC = () => {
   const { signIn, isLoaded } = useSignIn();
-  const { signOut } = useAuth();
-  const { isSignedIn, user } = useUser();
+  const { isSignedIn, signOut } = useAuth();
 
   const handleSignIn = () => {
     signIn?.authenticateWithRedirect({
@@ -26,10 +25,13 @@ export const Navbar: React.FC = () => {
         </Link>
       </div>
       <div className="flex items-center justify-center gap-8">
-        <div>Problems</div>
-        <div>Leaderboard</div>
+        <Link to="/problems">Problems</Link>
+        <Link to="/leaderboard">Leaderboard</Link>
         {isLoaded && isSignedIn ? (
-          <button onClick={() => signOut()}>{user.username}</button>
+          <>
+            <Link to="/team">My Team</Link>
+            <button onClick={() => signOut}>Sign Out</button>
+          </>
         ) : (
           <button onClick={handleSignIn}>Sign In</button>
         )}

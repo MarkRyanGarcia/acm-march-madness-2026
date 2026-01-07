@@ -1,8 +1,8 @@
-"""add initial schemas
+"""create schema
 
-Revision ID: 0e1a3515b326
+Revision ID: 13568e054044
 Revises: 
-Create Date: 2025-12-29 16:02:12.386182
+Create Date: 2026-01-06 16:52:59.684044
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '0e1a3515b326'
+revision: str = '13568e054044'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -24,39 +24,25 @@ def upgrade() -> None:
     op.create_table('teams',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('team_name', sa.Text(), nullable=False),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.Column('invite_code', sa.Text(), nullable=False),
     sa.Column('accepting_members', sa.Boolean(), server_default=sa.text('true'), nullable=False),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('invite_code'),
     sa.UniqueConstraint('team_name')
     )
     op.create_table('users',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('clerk_user_id', sa.String(), nullable=False),
+    sa.Column('id', sa.String(), nullable=False),
     sa.Column('username', sa.String(), nullable=False),
     sa.Column('email', sa.String(), nullable=True),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('clerk_user_id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
-    op.create_table('hackathon_submissions',
-    sa.Column('team_id', sa.Integer(), nullable=False),
-    sa.Column('submitted_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
-    sa.Column('project_url', sa.Text(), nullable=False),
-    sa.Column('project_description', sa.Text(), nullable=True),
-    sa.Column('category', sa.Text(), nullable=False),
-    sa.Column('won_rank', sa.Integer(), nullable=True),
-    sa.CheckConstraint('won_rank IS NULL OR (won_rank > 0 AND won_rank <= 3)', name='won_rank_check'),
-    sa.ForeignKeyConstraint(['team_id'], ['teams.id'], ),
-    sa.PrimaryKeyConstraint('team_id'),
-    sa.UniqueConstraint('won_rank')
-    )
     op.create_table('team_members',
     sa.Column('team_id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.String(), nullable=False),
     sa.Column('joined_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.Column('is_leader', sa.Boolean(), server_default=sa.text('false'), nullable=False),
     sa.ForeignKeyConstraint(['team_id'], ['teams.id'], ),
@@ -78,7 +64,7 @@ def upgrade() -> None:
     sa.Column('problem_id', sa.Text(), nullable=False),
     sa.Column('submitted_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.Column('correct', sa.Boolean(), nullable=False),
-    sa.Column('submitted_by_user_id', sa.Integer(), nullable=False),
+    sa.Column('submitted_by_user_id', sa.String(), nullable=False),
     sa.ForeignKeyConstraint(['submitted_by_user_id'], ['users.id'], ),
     sa.ForeignKeyConstraint(['team_id'], ['teams.id'], ),
     sa.PrimaryKeyConstraint('team_id', 'problem_id', 'submitted_at')
@@ -94,7 +80,6 @@ def downgrade() -> None:
     op.drop_table('team_points')
     op.drop_index('team_members_user_id_unique', table_name='team_members')
     op.drop_table('team_members')
-    op.drop_table('hackathon_submissions')
     op.drop_table('users')
     op.drop_table('teams')
     # ### end Alembic commands ###

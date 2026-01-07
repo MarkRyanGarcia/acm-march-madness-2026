@@ -4,14 +4,13 @@ from datetime import datetime
 
 
 class UserCreate(BaseModel):
-    clerk_user_id: str
+    id: str
     username: str
     email: Optional[EmailStr] = None
 
 
 class UserRead(BaseModel):
-    id: int
-    clerk_user_id: str
+    id: str
     username: str
     email: Optional[EmailStr] = None
     created_at: datetime

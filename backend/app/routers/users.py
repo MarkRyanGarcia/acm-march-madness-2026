@@ -10,23 +10,28 @@ from app.schemas.user import UserCreate, UserRead
 router = APIRouter()
 
 
-@router.get("/users/{clerk_user_id}", response_model=UserRead | None)
-def get_user_by_clerk_id(
-    clerk_user_id: str,
+@router.get("/users/{user_id}", response_model=UserRead | None)
+def get_user(
+    user_id: str,
     db: Annotated[Session, Depends(get_db)],
     auth: Annotated[RequestState, Depends(require_clerk_auth)],
 ):
-    if not auth.payload or auth.payload.get("sub") != clerk_user_id:
+    if not auth.payload or auth.payload.get("sub") != user_id:
         raise HTTPException(status_code=401, detail="Unauthorized")
 
-    return db.query(User).filter(User.clerk_user_id == clerk_user_id).first()
+    return db.query(User).filter(User.id == user_id).first()
 
 
 @router.post("/users", response_model=UserRead)
-def create_user(user_in: UserCreate, db: Session = Depends(get_db)):
-    existing_user = (
-        db.query(User).filter((User.clerk_user_id == user_in.clerk_user_id)).first()
-    )
+def create_user(
+    user_in: UserCreate,
+    db: Annotated[Session, Depends(get_db)],
+    auth: Annotated[RequestState, Depends(require_clerk_auth)],
+):
+    if not auth.payload or auth.payload.get("sub") != user_in.id:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    existing_user = db.query(User).filter((User.id == user_in.id)).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="User already exists")
 

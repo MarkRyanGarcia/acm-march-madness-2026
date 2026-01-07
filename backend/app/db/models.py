@@ -12,21 +12,20 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import false, true
-from app.deps.db import Base
+from app.db.base import Base
 
 
 class User(Base):
     __tablename__ = "users"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
-    clerk_user_id: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    id: Mapped[str] = mapped_column(String, primary_key=True, nullable=False)
     username: Mapped[str] = mapped_column(String, unique=True, nullable=False)
     email: Mapped[Optional[str]] = mapped_column(String, unique=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()
     )
 
-    team_memberships = relationship("TeamMember", back_populates="user")
+    team_membership = relationship("TeamMember", back_populates="user")
 
 
 class Team(Base):
@@ -34,12 +33,12 @@ class Team(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     team_name: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime, nullable=False, server_default=func.now()
-    )
     invite_code: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
     accepting_members: Mapped[bool] = mapped_column(
         Boolean, nullable=False, server_default=true()
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
     )
 
     members = relationship(
@@ -54,7 +53,9 @@ class TeamMember(Base):
     __tablename__ = "team_members"
 
     team_id: Mapped[int] = mapped_column(ForeignKey("teams.id"), primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+    user_id: Mapped[str] = mapped_column(
+        String, ForeignKey("users.id"), primary_key=True
+    )
     joined_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()
     )
@@ -63,7 +64,7 @@ class TeamMember(Base):
     )
 
     team = relationship("Team", back_populates="members")
-    user = relationship("User", back_populates="team_memberships")
+    user = relationship("User", back_populates="team_membership")
 
     __table_args__ = (Index("team_members_user_id_unique", "user_id", unique=True),)
 
@@ -92,8 +93,8 @@ class TeamSubmitAttempt(Base):
         DateTime, nullable=False, server_default=func.now(), primary_key=True
     )
     correct: Mapped[bool] = mapped_column(Boolean, nullable=False)
-    submitted_by_user_id: Mapped[int] = mapped_column(
-        ForeignKey("users.id"), nullable=False
+    submitted_by_user_id: Mapped[str] = mapped_column(
+        String, ForeignKey("users.id"), nullable=False
     )
 
     submitter = relationship("User")

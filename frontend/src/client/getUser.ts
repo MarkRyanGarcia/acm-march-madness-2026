@@ -2,12 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { API_BACKEND_URL, useApiClient } from "./apiClient";
 import type { User, UserResponse } from "@/types/user";
 
-export function useUser(clerkUserId: string) {
+export function useUser(userId: string) {
   const { apiFetch } = useApiClient();
 
   const fetchUser = async (): Promise<User | null> => {
     const userResponse: UserResponse = await apiFetch(
-      `${API_BACKEND_URL}/users/${clerkUserId}`,
+      `${API_BACKEND_URL}/users/${userId}`,
     );
     if (!userResponse) return null;
     return {
@@ -18,7 +18,7 @@ export function useUser(clerkUserId: string) {
   };
 
   return useQuery({
-    queryKey: ["user", clerkUserId],
+    queryKey: ["user", userId],
     queryFn: fetchUser,
   });
 }

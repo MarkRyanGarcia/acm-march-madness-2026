@@ -1,19 +1,18 @@
 export type UserInput = {
-  clerk_user_id: string;
+  id: string;
   username: string;
   email: string | null;
 };
 
 export type UserResponse = null | {
-  id: number;
-  clerk_user_id: string;
+  id: string;
   username: string;
   email: string | null;
   createdAt: string;
 };
 
 export type User = {
-  id: number;
+  id: string;
   userName: string;
   email: string | null;
 };

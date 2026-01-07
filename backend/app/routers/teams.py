@@ -5,7 +5,6 @@ from sqlalchemy.orm import Session
 
 from app.deps.auth import require_clerk_auth
 from app.deps.db import get_db
-from app.models.models import TeamMember
 from app.schemas.team import TeamRead
 
 

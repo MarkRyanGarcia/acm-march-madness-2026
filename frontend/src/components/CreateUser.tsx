@@ -3,7 +3,7 @@ import type React from "react";
 import { useCreateUser } from "@/client/createUser";
 
 type Props = {
-  clerkUserId: string;
+  userId: string;
   defaultUsername: string;
   email: string | null;
 };
@@ -22,13 +22,13 @@ function validateGithubUsername(username: string): string | null {
 }
 
 export const CreateUserForm: React.FC<Props> = ({
-  clerkUserId,
+  userId,
   defaultUsername,
   email,
 }) => {
   const [userName, setUserName] = useState(defaultUsername);
   const [error, setError] = useState<string | null>(null);
-  const createUser = useCreateUser(clerkUserId);
+  const createUser = useCreateUser(userId);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -48,7 +48,7 @@ export const CreateUserForm: React.FC<Props> = ({
     setError(null);
 
     createUser.mutate({
-      clerk_user_id: clerkUserId,
+      id: userId,
       username: userName,
       email,
     });

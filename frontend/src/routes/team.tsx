@@ -13,7 +13,6 @@ export const Route = createFileRoute("/team")({
 
 function TeamPage() {
   const clerkUser = Route.useRouteContext().auth.user!;
-
   const { isLoading, data } = useUser(clerkUser.id);
 
   if (isLoading) return <div>Loading…</div>;
@@ -21,7 +20,7 @@ function TeamPage() {
   if (!data) {
     return (
       <CreateUserForm
-        clerkUserId={clerkUser.id}
+        userId={clerkUser.id}
         defaultUsername={clerkUser.username ?? ""}
         email={clerkUser.primaryEmailAddress?.emailAddress ?? null}
       />

@@ -9,7 +9,7 @@ class TeamCreate(BaseModel):
 
 
 class TeamMemberOut(BaseModel):
-    id: str
+    user_id: str
     username: str
     is_leader: bool
     joined_at: datetime

@@ -4,7 +4,7 @@ export type TeamInput = {
 };
 
 export type TeamMemberResponse = {
-  id: string;
+  user_id: string;
   username: string;
   is_leader: boolean;
   joined_at: string;

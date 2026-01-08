@@ -17,12 +17,14 @@ export function useUserTeam(userId: string | null) {
       inviteCode: teamResponse.invite_code,
       acceptingMembers: teamResponse.accepting_members,
       members: teamResponse.members.map((member) => ({
-        id: member.id,
+        id: member.user_id,
         userName: member.username,
         isLeader: member.is_leader,
         joinedAt: member.joined_at,
       })),
     };
+
+    console.log(team)
 
     return team;
   };

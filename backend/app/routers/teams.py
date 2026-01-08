@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session, joinedload
 from app.db.models import Team, TeamMember
 from app.deps.auth import require_clerk_auth
 from app.deps.db import get_db
-from app.schemas.team import TeamCreate, TeamOut
+from app.schemas.team import TeamCreate, TeamMemberOut, TeamOut
 from app.utils.join import create_invite_code
 
 
@@ -23,6 +23,7 @@ def get_team(
 
     user_id: str = auth.payload.get("sub", "")
     team_member = db.query(TeamMember).filter(TeamMember.user_id == user_id).first()
+
     if not team_member:
         return None
 
@@ -32,7 +33,26 @@ def get_team(
         .filter(Team.id == team_member.team_id)
         .first()
     )
-    return team
+
+    if not team:
+        return None
+
+    # TODO: we could create functions to map model objects to Pydantic schemas
+    return TeamOut(
+        id=team.id,
+        team_name=team.team_name,
+        invite_code=team.invite_code,
+        accepting_members=team.accepting_members,
+        members=[
+            TeamMemberOut(
+                user_id=member.user_id,
+                username=member.user.username,
+                is_leader=member.is_leader,
+                joined_at=member.joined_at,
+            )
+            for member in team.members
+        ],
+    )
 
 
 @router.post("/teams", response_model=TeamOut)

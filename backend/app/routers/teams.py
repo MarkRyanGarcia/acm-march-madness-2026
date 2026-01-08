@@ -1,14 +1,12 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, joinedload
-from clerk_backend_api import RequestState
 
 from app.db.models import Team, TeamMember
 from app.deps.db import get_db
 from app.deps.auth import require_clerk_auth
 from app.schemas.team import TeamCreate, TeamOut
 from app.db.mappers.team import team_to_out
-from app.db.helpers import get_current_user_id
 from app.utils.join import create_invite_code
 import app.db.queries.team as team_queries
 
@@ -18,10 +16,9 @@ router = APIRouter()
 @router.get("/teams/me", response_model=TeamOut | None)
 def get_my_team(
     db: Annotated[Session, Depends(get_db)],
-    auth: Annotated[RequestState, Depends(require_clerk_auth)],
+    auth_id: Annotated[str, Depends(require_clerk_auth)],
 ):
-    user_id = get_current_user_id(auth)
-    team = team_queries.get_team_for_user(db, user_id)
+    team = team_queries.get_team_for_user(db, auth_id)
     return team_to_out(team) if team else None
 
 
@@ -29,9 +26,9 @@ def get_my_team(
 def create_team(
     team_in: TeamCreate,
     db: Annotated[Session, Depends(get_db)],
-    auth: Annotated[RequestState, Depends(require_clerk_auth)],
+    auth_id: Annotated[str, Depends(require_clerk_auth)],
 ):
-    user_id = get_current_user_id(auth)
+    user_id = auth_id
     if team_queries.get_membership(db, user_id):
         raise HTTPException(400, "User already belongs to a team")
 
@@ -60,9 +57,9 @@ def create_team(
 def join_team(
     invite_code: str,
     db: Annotated[Session, Depends(get_db)],
-    auth: Annotated[RequestState, Depends(require_clerk_auth)],
+    auth_id: Annotated[str, Depends(require_clerk_auth)],
 ):
-    user_id = get_current_user_id(auth)
+    user_id = auth_id
     if team_queries.get_membership(db, user_id):
         raise HTTPException(400, "User already belongs to a team")
 
@@ -87,9 +84,9 @@ def join_team(
 @router.post("/teams/leave")
 def leave_team(
     db: Annotated[Session, Depends(get_db)],
-    auth: Annotated[RequestState, Depends(require_clerk_auth)],
+    auth_id: Annotated[str, Depends(require_clerk_auth)],
 ):
-    user_id = get_current_user_id(auth)
+    user_id = auth_id
     member = (
         db.query(TeamMember)
         .options(joinedload(TeamMember.team).joinedload(Team.members))
@@ -120,11 +117,9 @@ def leave_team(
 def delete_team(
     team_id: int,
     db: Annotated[Session, Depends(get_db)],
-    auth: Annotated[RequestState, Depends(require_clerk_auth)],
+    auth_id: Annotated[str, Depends(require_clerk_auth)],
 ):
-    membership = team_queries.get_membership_for_team(
-        db, team_id, get_current_user_id(auth)
-    )
+    membership = team_queries.get_membership_for_team(db, team_id, auth_id)
     if not membership or not membership.is_leader:
         raise HTTPException(403, "Only the leader can delete the team")
 

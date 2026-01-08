@@ -1,5 +1,4 @@
 from typing import Annotated
-from clerk_backend_api import RequestState
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.deps.auth import require_clerk_auth
@@ -14,9 +13,9 @@ router = APIRouter()
 def get_user(
     user_id: str,
     db: Annotated[Session, Depends(get_db)],
-    auth: Annotated[RequestState, Depends(require_clerk_auth)],
+    auth_id: Annotated[str, Depends(require_clerk_auth)],
 ):
-    if not auth.payload or auth.payload.get("sub") != user_id:
+    if auth_id != user_id:
         raise HTTPException(status_code=401, detail="Unauthorized")
 
     return db.query(User).filter(User.id == user_id).first()
@@ -26,9 +25,9 @@ def get_user(
 def create_user(
     user_in: UserCreate,
     db: Annotated[Session, Depends(get_db)],
-    auth: Annotated[RequestState, Depends(require_clerk_auth)],
+    auth_id: Annotated[str, Depends(require_clerk_auth)],
 ):
-    if not auth.payload or auth.payload.get("sub") != user_in.id:
+    if auth_id != user_in.id:
         raise HTTPException(status_code=401, detail="Unauthorized")
 
     existing_user = db.query(User).filter((User.id == user_in.id)).first()

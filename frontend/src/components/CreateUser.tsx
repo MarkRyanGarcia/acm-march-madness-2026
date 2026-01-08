@@ -1,25 +1,13 @@
 import { useState } from "react";
 import type React from "react";
 import { useCreateUser } from "@/client/createUser";
+import { validateUsername } from "@/utils/validateForm";
 
 type Props = {
   userId: string;
   defaultUsername: string;
   email: string | null;
 };
-
-function validateGithubUsername(username: string): string | null {
-  if (username.length === 0) return "Username is required";
-  if (username.length < 3 || username.length > 39)
-    return "Username must be between 3 - 39 characters";
-  if (!/^[a-zA-Z0-9-]+$/.test(username))
-    return "Only letters, numbers, and hyphens are allowed";
-  if (username.startsWith("-") || username.endsWith("-"))
-    return "Username cannot start or end with a hyphen";
-  if (username.includes("--"))
-    return "Username cannot contain consecutive hyphens";
-  return null;
-}
 
 export const CreateUserForm: React.FC<Props> = ({
   userId,
@@ -33,13 +21,13 @@ export const CreateUserForm: React.FC<Props> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setUserName(value);
-    setError(validateGithubUsername(value));
+    setError(validateUsername(value));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const validationError = validateGithubUsername(userName);
+    const validationError = validateUsername(userName);
     if (validationError) {
       setError(validationError);
       return;
@@ -54,7 +42,7 @@ export const CreateUserForm: React.FC<Props> = ({
     });
   };
 
-  const isInvalid = validateGithubUsername(userName) != null;
+  const isInvalid = validateUsername(userName) != null;
 
   return (
     <div className="mt-16 flex items-center justify-center px-4">

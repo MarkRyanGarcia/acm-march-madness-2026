@@ -6,7 +6,9 @@ export function useUserTeam(userId: string | null) {
   const { apiFetch } = useApiClient();
 
   const fetchUserTeam = async (): Promise<Team | null> => {
-    const teamResponse: TeamResponse = await apiFetch(`${API_BACKEND_URL}/teams/me`);
+    const teamResponse: TeamResponse = await apiFetch(
+      `${API_BACKEND_URL}/teams/me`,
+    );
     if (!teamResponse) return null;
 
     const team: Team = {
@@ -14,20 +16,20 @@ export function useUserTeam(userId: string | null) {
       teamName: teamResponse.team_name,
       inviteCode: teamResponse.invite_code,
       acceptingMembers: teamResponse.accepting_members,
-      members: teamResponse.members.map(member => ({
+      members: teamResponse.members.map((member) => ({
         id: member.id,
         userName: member.username,
         isLeader: member.is_leader,
-        joinedAt: member.joined_at
-      }))
-    }
+        joinedAt: member.joined_at,
+      })),
+    };
 
     return team;
-  }
+  };
 
   return useQuery({
-    queryKey: ['team', userId],
+    queryKey: ["team", userId],
     queryFn: fetchUserTeam,
-    enabled: !!userId
-  })
+    enabled: !!userId,
+  });
 }

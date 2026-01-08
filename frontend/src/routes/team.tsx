@@ -2,6 +2,7 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 import { CreateUserForm } from "@/components/CreateUser";
 import { useUser } from "@/client/getUser";
 import { useUserTeam } from "@/client/getUserTeam";
+import { CreateTeamForm } from "@/components/CreateTeam";
 
 export const Route = createFileRoute("/team")({
   beforeLoad: ({ context }) => {
@@ -30,7 +31,7 @@ function TeamPage() {
 
   if (teamQuery.isLoading) return <div>Loading...</div>;
   if (!teamQuery.data) {
-    return <div>You don't have a team bro</div>
+    return <CreateTeamForm userId={clerkUser.id} />;
   }
 
   return <div>Hello "/team"!</div>;

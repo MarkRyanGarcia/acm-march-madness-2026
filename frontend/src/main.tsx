@@ -2,16 +2,12 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { useAuth, useUser } from "@clerk/clerk-react";
-import * as TanStackQueryProvider from "./integrations/tanstack-query/root-provider.tsx";
 
-// Import the generated route tree
-import { routeTree } from "./routeTree.gen";
-
+import AppClerkProvider from "@/providers/clerk";
+import * as TanStackQueryProvider from "@/providers/react-query";
+import { routeTree } from "@/routeTree.gen";
+import reportWebVitals from "@/reportWebVitals.ts";
 import "./styles.css";
-import reportWebVitals from "./reportWebVitals.ts";
-import AppClerkProvider from "./integrations/clerk/provider.tsx";
-
-// Create a new router instance
 
 const TanStackQueryProviderContext = TanStackQueryProvider.getContext();
 const router = createRouter({

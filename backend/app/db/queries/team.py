@@ -43,7 +43,10 @@ def get_membership_for_team(
     return db.query(TeamMember).filter_by(team_id=team_id, user_id=user_id).first()
 
 
-def get_membership_with_team(db: Session, user_id: str):
-    db.query(TeamMember).options(
-        joinedload(TeamMember.team).joinedload(Team.members)
-    ).filter(TeamMember.user_id == user_id).first()
+def get_membership_with_team(db: Session, user_id: str) -> TeamMember | None:
+    return (
+        db.query(TeamMember)
+        .options(joinedload(TeamMember.team).joinedload(Team.members))
+        .filter(TeamMember.user_id == user_id)
+        .first()
+    )

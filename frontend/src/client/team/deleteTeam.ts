@@ -10,7 +10,7 @@ export function useDeleteTeam(clerkUserId: string, teamId: number) {
       apiFetch(`${API_BACKEND_URL}/teams/${teamId}`, {
         method: "DELETE",
       }),
-    onSuccess: (createdUser) =>
-      queryClient.setQueryData(["team", clerkUserId], createdUser),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["userTeam", clerkUserId] })
   });
 }

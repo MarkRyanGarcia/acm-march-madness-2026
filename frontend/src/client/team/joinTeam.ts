@@ -15,7 +15,7 @@ export function useJoinTeam(clerkUserId: string) {
         method: "POST",
         body: JSON.stringify(input),
       }),
-    onSuccess: (createdUser) =>
-      queryClient.setQueryData(["team", clerkUserId], createdUser),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["userTeam", clerkUserId] })
   });
 }

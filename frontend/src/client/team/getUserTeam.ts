@@ -28,8 +28,7 @@ export function useUserTeam(userId: string | null) {
   };
 
   return useQuery({
-    queryKey: ["team", userId],
+    queryKey: ["userTeam", userId],
     queryFn: fetchUserTeam,
-    enabled: !!userId,
   });
 }

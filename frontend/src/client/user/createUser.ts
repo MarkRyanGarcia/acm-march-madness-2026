@@ -12,7 +12,7 @@ export function useCreateUser(clerkUserId: string) {
         method: "POST",
         body: JSON.stringify(input),
       }),
-    onSuccess: (createdUser) =>
-      queryClient.setQueryData(["user", clerkUserId], createdUser),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["user", clerkUserId] })
   });
 }

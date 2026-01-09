@@ -10,7 +10,7 @@ export function useLeaveTeam(clerkUserId: string) {
       apiFetch(`${API_BACKEND_URL}/teams/leave`, {
         method: "POST",
       }),
-    onSuccess: (createdUser) =>
-      queryClient.setQueryData(["team", clerkUserId], createdUser),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["userTeam", clerkUserId] })
   });
 }

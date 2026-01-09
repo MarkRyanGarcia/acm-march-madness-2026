@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { API_BACKEND_URL, useApiClient } from "./apiClient";
 import type { UserInput, UserResponse } from "@/types/user";
+import { API_BACKEND_URL, useApiClient } from "@/client/apiClient";
 
 export function useCreateUser(clerkUserId: string) {
   const { apiFetch } = useApiClient();

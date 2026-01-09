@@ -1,14 +1,17 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { API_BACKEND_URL, useApiClient } from "./apiClient";
-import type { TeamInput, TeamResponse } from "@/types/team";
+import { API_BACKEND_URL, useApiClient } from "@/client/apiClient";
 
-export function useCreateTeam(clerkUserId: string) {
+type JoinTeamInput = {
+  invite_code: string;
+};
+
+export function useJoinTeam(clerkUserId: string) {
   const { apiFetch } = useApiClient();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (input: TeamInput): Promise<TeamResponse> =>
-      apiFetch<TeamResponse>(`${API_BACKEND_URL}/teams`, {
+    mutationFn: async (input: JoinTeamInput) =>
+      apiFetch(`${API_BACKEND_URL}/teams/join`, {
         method: "POST",
         body: JSON.stringify(input),
       }),

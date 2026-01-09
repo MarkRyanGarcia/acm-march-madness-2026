@@ -32,24 +32,17 @@ def create_team(
     if team_queries.get_membership(db, user_id):
         raise HTTPException(400, "User already belongs to a team")
 
-    with db.begin():
-        team = Team(
-            team_name=team_in.team_name,
-            invite_code=create_invite_code(),
-            accepting_members=team_in.accepting_members,
-        )
-        db.add(team)
-        db.flush()
-
-        db.add(
-            TeamMember(
-                team_id=team.id,
-                user_id=user_id,
-                is_leader=True,
-            )
-        )
-
+    team = Team(
+        team_name=team_in.team_name,
+        invite_code=create_invite_code(),
+        accepting_members=team_in.accepting_members,
+    )
+    db.add(team)
+    db.flush()
+    db.add(TeamMember(team_id=team.id, user_id=user_id, is_leader=True))
+    db.commit()
     db.refresh(team)
+
     return team_to_out(team)
 
 
@@ -70,14 +63,9 @@ def join_team(
     if not team.accepting_members:
         raise HTTPException(403, "Team is not accepting members")
 
-    with db.begin():
-        db.add(
-            TeamMember(
-                team_id=team.id,
-                user_id=user_id,
-                is_leader=False,
-            )
-        )
+    db.add(TeamMember(team_id=team.id, user_id=user_id, is_leader=False))
+    db.commit()
+
     return {"detail": "Joined team successfully"}
 
 
@@ -87,28 +75,21 @@ def leave_team(
     auth_id: Annotated[str, Depends(require_clerk_auth)],
 ):
     user_id = auth_id
-    member = (
-        db.query(TeamMember)
-        .options(joinedload(TeamMember.team).joinedload(Team.members))
-        .filter(TeamMember.user_id == user_id)
-        .first()
-    )
+    member = team_queries.get_membership_with_team(db, user_id)
     if not member:
         raise HTTPException(400, "User is not in a team")
 
-    team = member.team
-    was_leader = member.is_leader
+    team, was_leader = member.team, member.is_leader
 
-    with db.begin():
-        db.delete(member)
-        db.flush()
+    db.delete(member)
+    db.flush()
 
-        remaining = sorted(team.members, key=lambda m: m.joined_at)
-
-        if not remaining:
-            db.delete(team)
-        elif was_leader:
-            remaining[0].is_leader = True
+    remaining = team_queries.get_team_members(db, team.id)
+    if not remaining:
+        db.delete(team)
+    elif was_leader:
+        remaining[0].is_leader = True
+    db.commit()
 
     return {"detail": "Left team successfully"}
 
@@ -127,7 +108,7 @@ def delete_team(
     if not team:
         raise HTTPException(404, "Team not found")
 
-    with db.begin():
-        db.delete(team)
+    db.delete(team)
+    db.commit()
 
     return {"detail": "Team deleted"}

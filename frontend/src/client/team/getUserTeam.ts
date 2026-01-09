@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { API_BACKEND_URL, useApiClient } from "./apiClient";
 import type { Team, TeamResponse } from "@/types/team";
+import { API_BACKEND_URL, useApiClient } from "@/client/apiClient";
 
 export function useUserTeam(userId: string | null) {
   const { apiFetch } = useApiClient();
@@ -23,8 +23,6 @@ export function useUserTeam(userId: string | null) {
         joinedAt: member.joined_at,
       })),
     };
-
-    console.log(team)
 
     return team;
   };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useCreateTeam } from "@/client/createTeam";
+import { useCreateTeam } from "@/client/team/createTeam";
 import { validateTeamName } from "@/utils/validateForm";
 
 type Props = {
@@ -39,7 +39,9 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
         onSubmit={handleSubmit}
         className="w-full max-w-md rounded-2xl text-white bg-sky-500 p-8 shadow-lg"
       >
-        <h2 className="text-2xl font-semibold text-center">Let's Make You a Team!</h2>
+        <h2 className="text-2xl font-semibold text-center">
+          Let's Make You a Team!
+        </h2>
 
         <p className="mt-2 text-sm text-center">
           Choose your team name. It will be displayed in the leaderboard.
@@ -56,7 +58,9 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
                        text-slate-800 placeholder-slate-700 outline-none"
             placeholder="acmRocks"
           />
-          {teamNameError && <p className="mt-1 text-sm text-pink-600">{teamNameError}</p>}
+          {teamNameError && (
+            <p className="mt-1 text-sm text-pink-600">{teamNameError}</p>
+          )}
         </div>
 
         {createTeam.isError && (
@@ -108,7 +112,6 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
         >
           Join Team
         </button>
-
       </form>
     </div>
   );

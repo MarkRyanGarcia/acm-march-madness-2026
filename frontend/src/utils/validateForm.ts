@@ -22,6 +22,6 @@ export function validateTeamName(teamName: string): string | null {
   if (teamName.length < 3 || teamName.length > 20)
     return "Team name must be between 3 - 20 characters";
   if (!/^[a-zA-Z-0-9]+$/.test(teamName))
-    return "Only letters and numbers are allowed"
-  return null
+    return "Only letters and numbers are allowed";
+  return null;
 }

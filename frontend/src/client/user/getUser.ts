@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { API_BACKEND_URL, useApiClient } from "./apiClient";
 import type { User, UserResponse } from "@/types/user";
+import { API_BACKEND_URL, useApiClient } from "@/client/apiClient";
 
 export function useUser(userId: string) {
   const { apiFetch } = useApiClient();

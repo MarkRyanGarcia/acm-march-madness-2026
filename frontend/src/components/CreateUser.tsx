@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type React from "react";
-import { useCreateUser } from "@/client/createUser";
+import { useCreateUser } from "@/client/user/createUser";
 import { validateUsername } from "@/utils/validateForm";
 
 type Props = {

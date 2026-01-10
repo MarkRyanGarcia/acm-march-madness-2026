@@ -1,5 +1,5 @@
 from app.db.models import Team
-from app.schemas.team import TeamOut, TeamMemberOut
+from app.schemas import TeamOut, TeamMemberOut
 
 
 def team_to_out(team: Team) -> TeamOut:

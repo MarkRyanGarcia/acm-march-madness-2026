@@ -11,11 +11,14 @@ export function useJoinTeam(clerkUserId: string) {
 
   return useMutation({
     mutationFn: async (input: JoinTeamInput) =>
-      apiFetch(`${API_BACKEND_URL}/teams/join?invite_code=${input.invite_code}`, {
-        method: "POST",
-        body: JSON.stringify(input),
-      }),
+      apiFetch(
+        `${API_BACKEND_URL}/teams/join?invite_code=${input.invite_code}`,
+        {
+          method: "POST",
+          body: JSON.stringify(input),
+        },
+      ),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["userTeam", clerkUserId] })
+      queryClient.invalidateQueries({ queryKey: ["userTeam", clerkUserId] }),
   });
 }

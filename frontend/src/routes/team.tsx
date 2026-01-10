@@ -33,7 +33,7 @@ const TeamView: React.FC<{ team: Team; userId: string }> = ({
 
   const handleDelete = () => {
     deleteTeam.mutate();
-  }
+  };
 
   return (
     <div>

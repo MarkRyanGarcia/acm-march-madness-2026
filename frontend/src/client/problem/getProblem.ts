@@ -6,9 +6,10 @@ export function useProblem(day: string) {
 
   const fetchProblem = async (): Promise<string> => {
     const problemResponse: string = await apiFetch(
-      `${API_BACKEND_URL}/problems/${day}`, { auth: false }
+      `${API_BACKEND_URL}/problems/${day}`,
+      { auth: false },
     );
-    return problemResponse
+    return problemResponse;
   };
 
   return useQuery({

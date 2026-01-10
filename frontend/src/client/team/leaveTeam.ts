@@ -11,6 +11,6 @@ export function useLeaveTeam(clerkUserId: string) {
         method: "POST",
       }),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["userTeam", clerkUserId] })
+      queryClient.invalidateQueries({ queryKey: ["userTeam", clerkUserId] }),
   });
 }

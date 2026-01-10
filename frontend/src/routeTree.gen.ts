@@ -10,19 +10,15 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeamRouteImport } from './routes/team'
-import { Route as ProblemsRouteImport } from './routes/problems'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProblemsIndexRouteImport } from './routes/problems/index'
+import { Route as ProblemsDayRouteImport } from './routes/problems/$day'
 import { Route as SigninSsoCallbackIndexRouteImport } from './routes/signin/sso-callback/index'
 
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
   path: '/team',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProblemsRoute = ProblemsRouteImport.update({
-  id: '/problems',
-  path: '/problems',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LeaderboardRoute = LeaderboardRouteImport.update({
@@ -35,6 +31,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProblemsIndexRoute = ProblemsIndexRouteImport.update({
+  id: '/problems/',
+  path: '/problems/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProblemsDayRoute = ProblemsDayRouteImport.update({
+  id: '/problems/$day',
+  path: '/problems/$day',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SigninSsoCallbackIndexRoute = SigninSsoCallbackIndexRouteImport.update({
   id: '/signin/sso-callback/',
   path: '/signin/sso-callback/',
@@ -44,23 +50,26 @@ const SigninSsoCallbackIndexRoute = SigninSsoCallbackIndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/leaderboard': typeof LeaderboardRoute
-  '/problems': typeof ProblemsRoute
   '/team': typeof TeamRoute
+  '/problems/$day': typeof ProblemsDayRoute
+  '/problems': typeof ProblemsIndexRoute
   '/signin/sso-callback': typeof SigninSsoCallbackIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/leaderboard': typeof LeaderboardRoute
-  '/problems': typeof ProblemsRoute
   '/team': typeof TeamRoute
+  '/problems/$day': typeof ProblemsDayRoute
+  '/problems': typeof ProblemsIndexRoute
   '/signin/sso-callback': typeof SigninSsoCallbackIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/leaderboard': typeof LeaderboardRoute
-  '/problems': typeof ProblemsRoute
   '/team': typeof TeamRoute
+  '/problems/$day': typeof ProblemsDayRoute
+  '/problems/': typeof ProblemsIndexRoute
   '/signin/sso-callback/': typeof SigninSsoCallbackIndexRoute
 }
 export interface FileRouteTypes {
@@ -68,25 +77,34 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/leaderboard'
-    | '/problems'
     | '/team'
+    | '/problems/$day'
+    | '/problems'
     | '/signin/sso-callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/leaderboard' | '/problems' | '/team' | '/signin/sso-callback'
+  to:
+    | '/'
+    | '/leaderboard'
+    | '/team'
+    | '/problems/$day'
+    | '/problems'
+    | '/signin/sso-callback'
   id:
     | '__root__'
     | '/'
     | '/leaderboard'
-    | '/problems'
     | '/team'
+    | '/problems/$day'
+    | '/problems/'
     | '/signin/sso-callback/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LeaderboardRoute: typeof LeaderboardRoute
-  ProblemsRoute: typeof ProblemsRoute
   TeamRoute: typeof TeamRoute
+  ProblemsDayRoute: typeof ProblemsDayRoute
+  ProblemsIndexRoute: typeof ProblemsIndexRoute
   SigninSsoCallbackIndexRoute: typeof SigninSsoCallbackIndexRoute
 }
 
@@ -97,13 +115,6 @@ declare module '@tanstack/react-router' {
       path: '/team'
       fullPath: '/team'
       preLoaderRoute: typeof TeamRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/problems': {
-      id: '/problems'
-      path: '/problems'
-      fullPath: '/problems'
-      preLoaderRoute: typeof ProblemsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/leaderboard': {
@@ -120,6 +131,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/problems/': {
+      id: '/problems/'
+      path: '/problems'
+      fullPath: '/problems'
+      preLoaderRoute: typeof ProblemsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/problems/$day': {
+      id: '/problems/$day'
+      path: '/problems/$day'
+      fullPath: '/problems/$day'
+      preLoaderRoute: typeof ProblemsDayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/signin/sso-callback/': {
       id: '/signin/sso-callback/'
       path: '/signin/sso-callback'
@@ -133,8 +158,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LeaderboardRoute: LeaderboardRoute,
-  ProblemsRoute: ProblemsRoute,
   TeamRoute: TeamRoute,
+  ProblemsDayRoute: ProblemsDayRoute,
+  ProblemsIndexRoute: ProblemsIndexRoute,
   SigninSsoCallbackIndexRoute: SigninSsoCallbackIndexRoute,
 }
 export const routeTree = rootRouteImport

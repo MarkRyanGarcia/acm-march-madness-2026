@@ -1,6 +1,6 @@
 from typing import List, Optional
 from pydantic import BaseModel
-from app.schemas import TeamMemberOut
+from app.schemas.team_member import TeamMemberOut
 
 
 class TeamCreate(BaseModel):
@@ -13,7 +13,7 @@ class TeamOut(BaseModel):
     team_name: str
     invite_code: str
     accepting_members: bool
-    members: List[TeamMemberOut]
+    members: List["TeamMemberOut"]
 
     class Config:
         form_attributes = True

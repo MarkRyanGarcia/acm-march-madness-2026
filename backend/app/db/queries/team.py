@@ -1,6 +1,8 @@
 from typing import List
 from sqlalchemy.orm import Session, joinedload
-from app.db.models import Team, TeamMember
+
+from app.db.models import Team
+from app.db.models import TeamMember
 
 
 def get_team_for_user(db: Session, user_id: str) -> Team | None:

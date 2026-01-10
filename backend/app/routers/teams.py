@@ -1,14 +1,15 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import Session
 
-from app.db.models import Team, TeamMember
+from app.db.models import TeamMember
 from app.deps.db import get_db
 from app.deps.auth import require_clerk_auth
 from app.schemas.team import TeamCreate, TeamOut
 from app.db.mappers.team import team_to_out
 from app.utils.join import create_invite_code
 import app.db.queries.team as team_queries
+from app.db.models import Team
 
 router = APIRouter()
 

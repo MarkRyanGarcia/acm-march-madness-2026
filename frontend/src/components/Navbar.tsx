@@ -9,7 +9,7 @@ export const Navbar: React.FC = () => {
   const handleSignIn = () => {
     signIn?.authenticateWithRedirect({
       strategy: "oauth_github",
-      redirectUrl: "/",
+      redirectUrl: "/signin/sso-callback",
       redirectUrlComplete: "/team",
     });
   };

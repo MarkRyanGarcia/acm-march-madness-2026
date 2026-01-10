@@ -25,3 +25,14 @@ export function validateTeamName(teamName: string): string | null {
     return "Only letters and numbers are allowed";
   return null;
 }
+
+/**
+ * Validates a `joinCode`.
+ */
+export function validateJoinCode(joinCode: string): string | null {
+  if (joinCode.length === 0) return "Join code is required";
+  if (joinCode.length !== 8) return "Join code must be 8 characters";
+  if (!/^[A-Z0-9]+$/.test(joinCode))
+    return "Only uppercase letters and numbers are allowed";
+  return null;
+}

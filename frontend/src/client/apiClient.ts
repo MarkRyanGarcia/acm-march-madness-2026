@@ -22,11 +22,7 @@ export async function apiFetchWithToken<T>(
   };
 
   if (auth) {
-    if (import.meta.env.VITE_ENV === "production") {
-      headers.Authorization = `Bearer ${token}`;
-    } else {
-      headers.Authorization = `Dev ${import.meta.env.VITE_DEV_USER_ID || "user_dev_default"}`;
-    }
+    headers.Authorization = `Bearer ${token}`;
   }
 
   if (init?.body && typeof init.body === "string" && !headers["Content-Type"])

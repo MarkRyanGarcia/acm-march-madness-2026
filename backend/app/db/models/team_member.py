@@ -9,8 +9,9 @@ from sqlalchemy import (
 )
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy.sql import false, true
+from sqlalchemy.sql import false
 from app.db.models import Base
+
 
 class TeamMember(Base):
     __tablename__ = "team_members"

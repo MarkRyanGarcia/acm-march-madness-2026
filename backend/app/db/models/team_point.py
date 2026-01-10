@@ -9,8 +9,8 @@ from sqlalchemy import (
 )
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy.sql import false, true
 from app.db.models import Base
+
 
 class TeamPoint(Base):
     __tablename__ = "team_points"

@@ -4,6 +4,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import true
 from app.db.models import Base
 
+
 class Team(Base):
     __tablename__ = "teams"
 

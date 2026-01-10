@@ -1,21 +1,11 @@
-from datetime import datetime
 from typing import List, Optional
 from pydantic import BaseModel
+from app.schemas import TeamMemberOut
 
 
 class TeamCreate(BaseModel):
     team_name: str
     accepting_members: Optional[bool] = True
-
-
-class TeamMemberOut(BaseModel):
-    user_id: str
-    username: str
-    is_leader: bool
-    joined_at: datetime
-
-    class Config:
-        form_attributes = True
 
 
 class TeamOut(BaseModel):

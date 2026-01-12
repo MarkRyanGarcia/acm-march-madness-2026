@@ -13,6 +13,6 @@ export function useCreateUser(clerkUserId: string) {
         body: JSON.stringify(input),
       }),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["user", clerkUserId] })
+      queryClient.invalidateQueries({ queryKey: ["user", clerkUserId] }),
   });
 }

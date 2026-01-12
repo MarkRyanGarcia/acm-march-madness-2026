@@ -34,7 +34,7 @@ export const Route = createRootRouteWithContext<AppRouterContext>()({
           {
             name: "Tanstack Query",
             render: <ReactQueryDevtoolsPanel />,
-          }
+          },
         ]}
       />
     </>

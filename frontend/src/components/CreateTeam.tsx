@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useCreateTeam } from "@/client/team/createTeam";
-import { validateTeamName, validateJoinCode } from "@/utils/validateForm";
+import { validateJoinCode, validateTeamName } from "@/utils/validateForm";
 import { useJoinTeam } from "@/client/team/joinTeam";
 
 type Props = {
@@ -45,16 +45,14 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
 
     setJoinCodeError(null);
     joinTeam.mutate({ invite_code: joinCode });
-  }
+  };
 
   const isInvalid = validateTeamName(teamName) != null;
 
   return (
     <div className="mt-16 flex items-center justify-center px-4">
       <div className="w-full max-w-md rounded-2xl text-white bg-sky-500 p-8 shadow-lg">
-        <form
-          onSubmit={handleTeamNameSubmit}
-        >
+        <form onSubmit={handleTeamNameSubmit}>
           <h2 className="text-2xl font-semibold text-center">
             Let's Make You a Team!
           </h2>
@@ -141,6 +139,6 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
           </button>
         </form>
       </div>
-    </div >
+    </div>
   );
 };

@@ -13,6 +13,6 @@ export function useCreateTeam(clerkUserId: string) {
         body: JSON.stringify(input),
       }),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["userTeam", clerkUserId] })
+      queryClient.invalidateQueries({ queryKey: ["userTeam", clerkUserId] }),
   });
 }

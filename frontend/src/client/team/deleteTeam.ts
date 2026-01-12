@@ -11,6 +11,6 @@ export function useDeleteTeam(clerkUserId: string, teamId: number) {
         method: "DELETE",
       }),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["userTeam", clerkUserId] })
+      queryClient.invalidateQueries({ queryKey: ["userTeam", clerkUserId] }),
   });
 }

@@ -30,7 +30,7 @@ export const Navbar: React.FC = () => {
         {isLoaded && isSignedIn ? (
           <>
             <Link to="/team">My Team</Link>
-            <button onClick={() => signOut}>Sign Out</button>
+            <button onClick={() => signOut()}>Sign Out</button>
           </>
         ) : (
           <button onClick={handleSignIn}>Sign In</button>

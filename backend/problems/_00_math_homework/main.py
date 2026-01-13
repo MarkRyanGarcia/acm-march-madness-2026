@@ -1,5 +1,5 @@
 from typing import List
-from problems.problem_base import Problem, main
+from problems.base import Problem, main
 
 
 class MathHomework(Problem):

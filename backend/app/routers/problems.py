@@ -1,6 +1,6 @@
-import os
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from starlette.responses import FileResponse
+from problems.event import PROBLEMS
 
 
 router = APIRouter()
@@ -8,8 +8,8 @@ router = APIRouter()
 
 @router.get("/problems/{day}")
 def get_problem(day: int):
-    input_file_path = os.path.join("problems", "00-math-homework", "README.md")
+    problem = PROBLEMS.get(day)
+    if not problem:
+        raise HTTPException(404, "Invalid problem day, must be between 0 - 5")
 
-    return FileResponse(
-        path=input_file_path, filename=f"0{day}README.md", media_type="text/markdown"
-    )
+    return FileResponse(path=problem.readme_path, media_type="text/markdown")

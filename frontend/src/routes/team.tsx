@@ -6,6 +6,7 @@ import { useUserTeam } from "@/client/team/getUserTeam";
 import { CreateTeamForm } from "@/components/CreateTeam";
 import { useLeaveTeam } from "@/client/team/leaveTeam";
 import { useDeleteTeam } from "@/client/team/deleteTeam";
+import { useToggleAcceptingMembers } from "@/client/team/toggleAccepting";
 
 export const Route = createFileRoute("/team")({
   beforeLoad: ({ context }) => {
@@ -22,6 +23,7 @@ const TeamView: React.FC<{ team: Team; userId: string }> = ({
 }) => {
   const leaveTeam = useLeaveTeam(userId);
   const deleteTeam = useDeleteTeam(userId, team.id);
+  const toggleAcceptingMembers = useToggleAcceptingMembers(userId, team.id);
 
   const isLeader = team.members.find(
     (member) => userId === member.id,
@@ -33,6 +35,10 @@ const TeamView: React.FC<{ team: Team; userId: string }> = ({
 
   const handleDelete = () => {
     deleteTeam.mutate();
+  };
+
+  const handleToggleAcceptingMembers = () => {
+    toggleAcceptingMembers.mutate();
   };
 
   return (
@@ -53,7 +59,14 @@ const TeamView: React.FC<{ team: Team; userId: string }> = ({
         ))}
       </div>
       <button onClick={handleLeave}>Leave team</button>
-      {isLeader && <button onClick={handleDelete}>Delete Team 😈</button>}
+      {isLeader && (
+        <div>
+          <button onClick={handleDelete}>Delete Team 😈</button>
+          <button onClick={handleToggleAcceptingMembers}>
+            {team.acceptingMembers ? "Restrict members" : "Accept members"}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

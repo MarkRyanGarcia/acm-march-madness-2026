@@ -64,6 +64,9 @@ def join_team(
     if not team.accepting_members:
         raise HTTPException(403, "Team is not accepting members")
 
+    if len(team.members) == 4:  # TODO: Put this as a constant somewhere
+        raise HTTPException(403, "Team is already full")
+
     db.add(TeamMember(team_id=team.id, user_id=user_id, is_leader=False))
     db.commit()
 
@@ -113,3 +116,26 @@ def delete_team(
     db.commit()
 
     return {"detail": "Team deleted"}
+
+
+@router.patch("/teams/{team_id}/toggle-accepting")
+def toggle_accepting_members(
+    team_id: int,
+    db: Annotated[Session, Depends(get_db)],
+    auth_id: Annotated[str, Depends(require_clerk_auth)],
+):
+    membership = team_queries.get_membership_for_team(db, team_id, auth_id)
+    if not membership or not membership.is_leader:
+        raise HTTPException(403, "Only the leader can update team settings")
+
+    team = db.query(Team).filter_by(id=team_id).first()
+    if not team:
+        raise HTTPException(404, "Team not found")
+
+    team.accepting_members = not team.accepting_members
+    db.commit()
+    db.refresh(team)
+
+    return {
+        "detail": f"Successfully updated team settings: {'Now accepting members' if team.accepting_members else 'No longer accepting members'}"
+    }

@@ -1,12 +1,13 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import PlainTextResponse
 from sqlalchemy.orm import Session
-from starlette.responses import FileResponse
+from app.deps.auth import require_clerk_auth
 from app.deps.db import get_db
 from app.schemas.problem import ProblemOut
 from app.utils.problem import split_problem_parts
 from problems.event import PROBLEMS
-
+import app.db.queries.team as team_queries
 
 router = APIRouter()
 
@@ -28,4 +29,27 @@ def get_problem(day: int, _: Annotated[Session, Depends(get_db)]):
         part2="",
         part1_answer=None,
         part2_answer=None,
+    )
+
+
+@router.get("/problems/{day}/input", response_class=PlainTextResponse)
+def get_problem_input(
+    day: int,
+    auth_id: Annotated[str, Depends(require_clerk_auth)],
+    db: Annotated[Session, Depends(get_db)],
+):
+    team = team_queries.get_team_for_user(db, auth_id)
+    if not team:
+        raise HTTPException(404, "User does not belong to a team")
+
+    problem_entry = PROBLEMS.get(day)
+    if not problem_entry:
+        raise HTTPException(404, "Invalid problem day, must be between 0 - 5")
+
+    seed = team.id  # TODO: Change this with a more adequate seed
+    problem = problem_entry.problem_class(seed=seed)
+
+    return PlainTextResponse(
+        content=problem.generate_input(),
+        headers={"Content-Disposition": f'inline; filename="day-{day}-input.txt"'},
     )

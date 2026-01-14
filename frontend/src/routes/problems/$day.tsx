@@ -48,10 +48,15 @@ function RouteComponent() {
         ) : (
           <>
             <div>
-              To being,{" "}
-              <button className="underline underline-offset-2">
+              To begin,{" "}
+              <a
+                href="http://localhost:8000/problems/0/input"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2"
+              >
                 get your puzzle input
-              </button>
+              </a>
               .
             </div>
             <div className="flex gap-2 items-center">

@@ -8,3 +8,8 @@ class ProblemOut(BaseModel):
 
     part1_answer: Optional[int]
     part2_answer: Optional[int]
+
+
+class ProblemInputOut(BaseModel):
+    day: int
+    problem_input: str

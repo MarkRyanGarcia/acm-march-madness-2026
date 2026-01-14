@@ -63,7 +63,7 @@ export function useApiClient() {
       return apiFetchWithToken<T>(input, "", init);
     }
 
-    const token = await getToken();
+    const token = await getToken({ skipCache: true });
     if (!token) {
       throw new Error("No auth token found");
     }

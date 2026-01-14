@@ -5,16 +5,15 @@ from sqlalchemy.orm import Session
 from app.deps.auth import require_clerk_auth
 from app.deps.db import get_db
 from app.schemas.problem import ProblemOut
-from app.utils.problem import split_problem_parts
+from app.utils.problem import get_seed, split_problem_parts
 from problems.event import PROBLEMS
 import app.db.queries.team as team_queries
 
 router = APIRouter()
 
 
-# Need to send this as part 1 and part 2, separately
 @router.get("/problems/{day}", response_model=ProblemOut)
-def get_problem(day: int, _: Annotated[Session, Depends(get_db)]):
+def get_problem(day: int):
     problem = PROBLEMS.get(day)
     if not problem:
         raise HTTPException(404, "Invalid problem day, must be between 0 - 5")
@@ -22,7 +21,7 @@ def get_problem(day: int, _: Annotated[Session, Depends(get_db)]):
     with open(problem.readme_path) as file:
         content = file.read()
 
-    part1, part2 = split_problem_parts(content)
+    part1, _ = split_problem_parts(content)
 
     return ProblemOut(
         part1=part1,
@@ -46,8 +45,7 @@ def get_problem_input(
     if not problem_entry:
         raise HTTPException(404, "Invalid problem day, must be between 0 - 5")
 
-    seed = team.id  # TODO: Change this with a more adequate seed
-    problem = problem_entry.problem_class(seed=seed)
+    problem = problem_entry.problem_class(seed=get_seed(team.id))
 
     return PlainTextResponse(
         content=problem.generate_input(),

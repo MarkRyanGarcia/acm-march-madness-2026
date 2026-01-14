@@ -11,3 +11,10 @@ def split_problem_parts(content: str) -> Tuple[str, str]:
         raise ValueError("Content does not contain '## Part Two' heading")
 
     return parts[0], parts[1]
+
+
+def get_seed(id: int) -> int:
+    """
+    Why? Because why not ;)
+    """
+    return id ^ 0x5F3759DF

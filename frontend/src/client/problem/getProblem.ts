@@ -15,6 +15,5 @@ export function useProblem(day: string) {
   return useQuery({
     queryKey: ["problem", day],
     queryFn: fetchProblem,
-    staleTime: Infinity
   });
 }

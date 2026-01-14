@@ -35,7 +35,33 @@ function RouteComponent() {
   return (
     <main className="p-8">
       <article className="max-w-6xl mx-auto bg-sky-500 text-slate-200 p-8 my-8 rounded-lg text-lg flex flex-col gap-8 font-[Fira_Code]">
-        <MarkdownHooks components={components}>{problem}</MarkdownHooks>
+        <MarkdownHooks components={components}>{problem!.part1}</MarkdownHooks>
+        {problem?.part1Answer ? (
+          <>
+            {!problem.part2Answer && (
+              <p className="text-yellow-300 text-shadow-yellow-300 text-shadow-xs">
+                You got the first part correct! This awards you one golden egg.
+              </p>
+            )}
+            <p>Your puzzle answer was: {problem.part1Answer}</p>
+          </>
+        ) : (
+          <>
+            <div>
+              To being,{" "}
+              <button className="underline underline-offset-2">
+                get your puzzle input
+              </button>
+              .
+            </div>
+            <div className="flex gap-2 items-center">
+              Answer:
+              <input type="text" className="bg-sky-600 rounded-sm" />
+              <button className="font-bold">[Submit]</button>
+            </div>
+          </>
+        )}
+        <MarkdownHooks components={components}>{problem!.part2}</MarkdownHooks>
       </article>
     </main>
   );

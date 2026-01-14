@@ -1,12 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { API_BACKEND_URL, useApiClient } from "@/client/apiClient";
+import { API_BACKEND_URL, apiFetch } from "@/client/client";
 
 type JoinTeamInput = {
   invite_code: string;
 };
 
 export function useJoinTeam(clerkUserId: string) {
-  const { apiFetch } = useApiClient();
   const queryClient = useQueryClient();
 
   return useMutation({

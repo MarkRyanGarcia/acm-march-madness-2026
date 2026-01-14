@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { API_BACKEND_URL, useApiClient } from "@/client/apiClient";
+import { API_BACKEND_URL, apiFetch } from "@/client/client";
 
 export function useLeaveTeam(clerkUserId: string) {
-  const { apiFetch } = useApiClient();
   const queryClient = useQueryClient();
 
   return useMutation({

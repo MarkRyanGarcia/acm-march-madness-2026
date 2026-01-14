@@ -1,10 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import type { User, UserResponse } from "@/types/user";
-import { API_BACKEND_URL, useApiClient } from "@/client/apiClient";
+import { API_BACKEND_URL, apiFetch } from "@/client/client";
 
 export function useUser(userId: string) {
-  const { apiFetch } = useApiClient();
-
   const fetchUser = async (): Promise<User | null> => {
     const userResponse: UserResponse = await apiFetch(
       `${API_BACKEND_URL}/users/${userId}`,

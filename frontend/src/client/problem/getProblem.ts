@@ -1,14 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import type { Problem, ProblemResponse } from "@/types/problem";
-import { API_BACKEND_URL, useApiClient } from "@/client/apiClient";
+import { API_BACKEND_URL, apiFetch } from "@/client/client";
 
 export function useProblem(day: string) {
-  const { apiFetch } = useApiClient();
-
   const fetchProblem = async (): Promise<Problem> => {
     const problemResponse: ProblemResponse = await apiFetch(
       `${API_BACKEND_URL}/problems/${day}`,
-      { auth: false },
     );
 
     const problem: Problem = {

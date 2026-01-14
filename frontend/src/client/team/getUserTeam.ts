@@ -1,10 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import type { Team, TeamResponse } from "@/types/team";
-import { API_BACKEND_URL, useApiClient } from "@/client/apiClient";
+import { API_BACKEND_URL, apiFetch } from "@/client/client";
 
 export function useUserTeam(userId: string | null) {
-  const { apiFetch } = useApiClient();
-
   const fetchUserTeam = async (): Promise<Team | null> => {
     const teamResponse: TeamResponse = await apiFetch(
       `${API_BACKEND_URL}/teams/me`,

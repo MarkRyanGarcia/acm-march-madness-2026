@@ -27,7 +27,6 @@ class Problem(ABC):
     def part2_sln(self) -> int:
         pass
 
-    @abstractmethod
     def check_answer(self, part: int, answer: int) -> bool:
         """
         Check if the provided answer is correct for the given part.

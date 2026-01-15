@@ -6,7 +6,7 @@ from app.deps.auth import require_clerk_auth
 from app.deps.db import get_db
 from app.schemas.problem import ProblemOut, ProblemSubmitAttempt
 from app.utils.problem import get_seed, split_problem_parts
-from backend.app.db.models.team_submit_attempt import TeamSubmitAttempt
+from app.db.models.team_submit_attempt import TeamSubmitAttempt
 from problems.event import PROBLEMS
 import app.db.queries.team as team_queries
 

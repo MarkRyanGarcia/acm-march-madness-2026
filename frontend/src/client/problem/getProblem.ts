@@ -23,3 +23,13 @@ export function useProblem(day: string) {
     queryFn: fetchProblem,
   });
 }
+
+export function submitAnswer(day: number, answer: any): Promise<{ correct: boolean; message: string }> {
+  return apiFetch(`${API_BACKEND_URL}/problems/${day}/submit`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ answer }),
+  });
+}

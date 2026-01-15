@@ -1,7 +1,8 @@
 import { MarkdownHooks } from "react-markdown";
 import { createFileRoute } from "@tanstack/react-router";
 import type { Components } from "react-markdown";
-import { useProblem } from "@/client/problem/getProblem";
+import { submitAnswer, useProblem } from "@/client/problem/getProblem";
+import { useState } from "react";
 
 export const Route = createFileRoute("/problems/$day")({
   component: RouteComponent,
@@ -10,6 +11,17 @@ export const Route = createFileRoute("/problems/$day")({
 function RouteComponent() {
   const { day } = Route.useParams();
   const { isLoading, data: problem } = useProblem(day);
+  const [ answer, setAnswer ] = useState("");
+
+  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAnswer(e.target.value);
+  };
+
+  const handleSubmitPart1 = () => {
+    console.log(`Submitting answer for day ${day}: ${answer}`);
+
+    submitAnswer(Number(day), { part: 1, answer: Number(answer) })
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -61,8 +73,8 @@ function RouteComponent() {
             </div>
             <div className="flex gap-2 items-center">
               Answer:
-              <input type="text" className="bg-sky-600 rounded-sm" />
-              <button className="font-bold">[Submit]</button>
+              <input type="text" value={answer} className="bg-sky-600 rounded-sm" onChange={handleChangeInput} />
+              <button className="font-bold" onClick={handleSubmitPart1}>[Submit]</button>
             </div>
           </>
         )}

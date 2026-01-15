@@ -27,6 +27,18 @@ class Problem(ABC):
     def part2_sln(self) -> int:
         pass
 
+    @abstractmethod
+    def check_answer(self, part: int, answer: int) -> bool:
+        """
+        Check if the provided answer is correct for the given part.
+        """
+        if part == 1:
+            return answer == self.part1_sln()
+        elif part == 2:
+            return answer == self.part2_sln()
+        else:
+            raise ValueError("Invalid part number, must be 1 or 2")
+
 
 def main(ProblemClass: Type[Problem]) -> None:
     parser = argparse.ArgumentParser(description="Generate input and answers")

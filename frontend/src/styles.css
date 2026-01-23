@@ -13,7 +13,9 @@
   --grass-400: oklch(0.6885 0.102 145.92);
   --sky-200: oklch(0.9204 0.0581 184.13);
   --blue-200: oklch(0.8666 0.0487 246.48);
+  --blue-300: oklch(0.7282 0.0856 263.22);
   --pink-200: oklch(0.8436 0.0672 0.89);
+  --pink-300: oklch(0.7871 0.1302 0.89);
 
   font-family: "Fredoka", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -31,6 +33,7 @@
   --color-grass-400: var(--grass-400);
   --color-sky-200: var(--sky-200);
   --color-blue-200: var(--blue-200);
+  --color-blue-300: var(--blue-300);
   --color-pink-200: var(--pink-200);
 }
 

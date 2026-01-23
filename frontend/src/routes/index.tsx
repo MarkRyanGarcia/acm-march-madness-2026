@@ -9,11 +9,11 @@ export const Route = createFileRoute("/")({
 const Hero: React.FC = () => {
   return (
     <div className="max-w-max mx-auto px-4 mt-12 font-[DynaPuff]">
-      <h1 className="font-extrabold text-center [-webkit-text-stroke:3px_var(--pink-200)]">
-        <span className="block text-green-200 text-5xl md:text-8xl">
+      <h1 className="font-extrabold text-center">
+        <span className="block text-blue-300 text-5xl md:text-8xl [-webkit-text-stroke:3px_var(--pink-200)]">
           March Madness
         </span>
-        <span className="text-green-300 text-7xl md:text-9xl">2026</span>
+        <span className="text-pink-300 text-7xl md:text-9xl">2026</span>
       </h1>
     </div>
   );

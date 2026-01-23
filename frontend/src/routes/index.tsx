@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { FaGithub } from "react-icons/fa";
 import type React from "react";
 
 export const Route = createFileRoute("/")({
@@ -7,14 +8,12 @@ export const Route = createFileRoute("/")({
 
 const Hero: React.FC = () => {
   return (
-    <div className="max-w-max mx-auto mt-12">
-      <h1
-        className="text-white font-extrabold text-center
-        [-webkit-text-stroke:1.5px_rgb(88,108,140)]
-        [text-shadow:-0px_6px_2px_rgb(var(--color-pink))]"
-      >
-        <span className="block text-8xl">March Madness</span>
-        <span className="text-green-200 text-9xl">2026</span>
+    <div className="max-w-max mx-auto px-4 mt-12 font-[DynaPuff]">
+      <h1 className="font-extrabold text-center [-webkit-text-stroke:3px_var(--pink-200)]">
+        <span className="block text-green-200 text-5xl md:text-8xl">
+          March Madness
+        </span>
+        <span className="text-green-300 text-7xl md:text-9xl">2026</span>
       </h1>
     </div>
   );
@@ -22,16 +21,29 @@ const Hero: React.FC = () => {
 
 function LandingPage() {
   return (
-    <main className="max-w-7xl mx-auto grid items-center justify-center gap-16">
-      <Hero />
-      <p className="text-center text-white font-bold [-webkit-text-stroke:0.7px_black] text-xl">
-        A 5-day coding challenge event hosted by ACM at California State
-        University, Fullerton! Collaborate in teams and put your problem-solving
-        skills to the test to see if you shall become the best!
-      </p>
-      <button className="py-2 px-6 rounded-xl bg-white max-w-max">
-        Sign In With GitHub
-      </button>
-    </main>
+    <div>
+      <main className="max-w-5xl mx-auto grid items-center justify-center gap-8 md:gap-16">
+        <Hero />
+        <p className="px-8 text-center text-grass-400 font-[Fredoka] font-bold md:text-2xl">
+          A 5-day coding challenge event hosted by ACM at California State
+          University, Fullerton! Collaborate in teams and put your
+          problem-solving skills to the test to see if you shall become the
+          best!
+        </p>
+        <div className="flex items-center justify-center">
+          <button className="flex items-center gap-2 py-2 px-6 rounded-xl bg-white max-w-max font-semibold text-xl">
+            Sign In With GitHub <FaGithub />
+          </button>
+        </div>
+      </main>
+      <div className="relative -z-10">
+        <img src="/grass2.svg" className="w-full absolute md:-top-24" />
+        <img src="/grass1.svg" className="w-full absolute md:-top-24" />
+        <img
+          src="/capybara.svg"
+          className="absolute right-12 md:right-24 md:-top-24 xl:-top-32 w-16 md:w-24"
+        />
+      </div>
+    </div>
   );
 }

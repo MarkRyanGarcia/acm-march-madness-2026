@@ -6,6 +6,7 @@ from app.deps.auth import require_clerk_auth
 from app.deps.db import get_db
 from app.schemas.problem import ProblemOut, ProblemSubmitAttempt
 from app.utils.problem import get_seed, split_problem_parts
+from app.db.models.team_point import TeamPoint
 from app.db.models.team_submit_attempt import TeamSubmitAttempt
 from problems.event import PROBLEMS
 import app.db.queries.team as team_queries
@@ -61,17 +62,33 @@ def submit_answer(
     auth_id: Annotated[str, Depends(require_clerk_auth)],
     db: Annotated[Session, Depends(get_db)],
 ):
+    if auth_id == "":
+        raise HTTPException(401, "Unauthorized. Sign in to submit your answer.")
+
     team = team_queries.get_team_for_user(db, auth_id)
     if not team:
         raise HTTPException(404, "User does not belong to a team")
 
     problem_entry = PROBLEMS.get(day)
     if not problem_entry:
-        raise HTTPException(404, "Invalid problem day, must be between 0 - 5")
+        raise HTTPException(400, "Invalid problem day, must be between 0 - 5")
+
+    part = attempt.part
+    if part != 1 and part != 2:
+        raise HTTPException(400, f"Invalid part submission: {attempt.part}")
 
     problem = problem_entry.problem_class(seed=get_seed(team.id))
-    correct = problem.check_answer(attempt.part, attempt.answer)
-    
+    correct = problem.check_answer(part, attempt.answer)
+
+    if correct:
+        points = TeamPoint(
+            team_id=team.id,
+            points=problem_entry.points_per_part,
+            reason=f"Solved Day {day} Part {part} correctly",
+        )
+        db.add(points)
+        db.flush()
+
     team_submit_attempt = TeamSubmitAttempt(
         team_id=team.id,
         problem_id=str(day),
@@ -80,6 +97,6 @@ def submit_answer(
     )
     db.add(team_submit_attempt)
     db.commit()
-    db.refresh(team_submit_attempt)
-    
+
     return {"correct": correct}
+

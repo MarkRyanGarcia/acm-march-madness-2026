@@ -9,6 +9,7 @@ class ProblemEntry:
     day: int
     problem_class: Type[Problem]
     readme_path: str
+    points_per_part: int
 
 
 PROBLEMS: dict[int, ProblemEntry] = {
@@ -16,5 +17,6 @@ PROBLEMS: dict[int, ProblemEntry] = {
         day=0,
         problem_class=MathHomework,
         readme_path="problems/_00_math_homework/README.md",
+        points_per_part=0,
     )
 }

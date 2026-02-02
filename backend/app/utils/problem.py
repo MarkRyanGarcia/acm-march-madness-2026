@@ -18,3 +18,7 @@ def get_seed(id: int) -> int:
     Why? Because why not ;)
     """
     return id ^ 0x5F3759DF
+
+
+def problem_id(day: int, part: int) -> str:
+    return f"{day} + /part + {part}"

@@ -8,7 +8,6 @@ clerk = Clerk(bearer_auth=CLERK_SECRET_KEY)
 
 def require_clerk_auth(request: Request) -> str:
     auth_state = clerk.authenticate_request(request, AuthenticateRequestOptions())
-    print(auth_state)
     if not auth_state.is_signed_in:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

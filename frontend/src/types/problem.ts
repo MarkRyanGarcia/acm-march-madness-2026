@@ -11,3 +11,8 @@ export type Problem = {
   part1Answer: number | null;
   part2Answer: number | null;
 };
+
+export type ProblemSubmitInput = {
+  part: number;
+  answer: number;
+};

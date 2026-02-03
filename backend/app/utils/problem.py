@@ -21,4 +21,4 @@ def get_seed(id: int) -> int:
 
 
 def problem_id(day: int, part: int) -> str:
-    return f"{day} + /part + {part}"
+    return f"day{day}/part{part}"

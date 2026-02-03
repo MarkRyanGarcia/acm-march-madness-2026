@@ -44,16 +44,16 @@ def get_problem(
     if not team:
         return default_response
 
-    # Query if they solved part1 and part2
     correct_answers = problem_queries.get_correct_answers(db, team.id, day)
-
-    print(correct_answers)
+    # Assuming that users can only submit if they haven't solved it yet
+    solved_part1 = len(correct_answers) > 0
+    solved_part2 = len(correct_answers) == 2
 
     return ProblemOut(
         part1=part1,
-        part2="",
-        part1_answer=None,
-        part2_answer=None,
+        part2=part2 if solved_part1 else "",
+        part1_answer=correct_answers[0].answer if solved_part1 else None,
+        part2_answer=correct_answers[1].answer if solved_part2 else None,
     )
 
 
@@ -101,6 +101,15 @@ def submit_answer(
     if part != 1 and part != 2:
         raise HTTPException(400, f"Invalid part submission: {attempt.part}")
 
+    correct_count = problem_queries.get_correct_count(db, team.id, day)
+
+    if correct_count == 2:
+        raise HTTPException(400, f"Day {day} already solved")
+    if part == 1 and correct_count == 1:
+        raise HTTPException(400, f"Day {day} part 1 already solved")
+    if part == 2 and correct_count == 0:
+        raise HTTPException(400, f"Submit part 1 first before attempting part 2")
+
     problem = problem_entry.problem_class(seed=get_seed(team.id))
     correct = problem.check_answer(part, attempt.answer)
 
@@ -115,7 +124,7 @@ def submit_answer(
 
     team_submit_attempt = TeamSubmitAttempt(
         team_id=team.id,
-        problem_id=str(day),
+        problem_id=problem_id(day, part),
         answer=attempt.answer,
         correct=correct,
         submitted_by_user_id=auth_id,

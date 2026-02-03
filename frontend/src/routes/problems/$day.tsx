@@ -96,7 +96,48 @@ function RouteComponent() {
           </>
         )}
         {problem.part2 !== "" && (
-          <MarkdownHooks components={components}>{problem.part2}</MarkdownHooks>
+          <>
+            <MarkdownHooks components={components}>
+              {problem.part2}
+            </MarkdownHooks>
+            {problem.part2Answer ? (
+              <p className="text-yellow-300 text-shadow-yellow-300 text-shadow-xs">
+                Both parts of the puzzle are complete! You obtained two eggs for
+                it.
+              </p>
+            ) : (
+              <>
+                <div>
+                  Even though it hasn't changed, you can still{" "}
+                  <a
+                    href="http://localhost:8000/problems/0/input"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline underline-offset-2"
+                  >
+                    get your puzzle input
+                  </a>
+                  .
+                </div>
+                <div className="flex gap-2 items-center">
+                  Answer:
+                  <input
+                    type="text"
+                    value={answer}
+                    className="bg-sky-600 rounded-sm"
+                    onChange={handleChangeInput}
+                  />
+                  <button
+                    className="font-bold bg-sky-600 px-2 rounded-md"
+                    disabled={submitProblem.isPending}
+                    onClick={handleSubmit}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </>
+            )}
+          </>
         )}
       </article>
     </main>

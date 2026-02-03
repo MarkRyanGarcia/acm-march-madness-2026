@@ -9,6 +9,9 @@ export function useCreateTeam(clerkUserId: string) {
     mutationFn: async (input: TeamInput): Promise<TeamResponse> =>
       apiFetch<TeamResponse>(`${API_BACKEND_URL}/teams`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(input),
       }),
     onSuccess: () =>

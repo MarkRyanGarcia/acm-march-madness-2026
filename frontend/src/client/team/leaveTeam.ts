@@ -7,7 +7,7 @@ export function useLeaveTeam(clerkUserId: string) {
   return useMutation({
     mutationFn: async () =>
       apiFetch(`${API_BACKEND_URL}/teams/leave`, {
-        method: "POST",
+        method: "PATCH",
       }),
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: ["userTeam", clerkUserId] }),

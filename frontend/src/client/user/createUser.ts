@@ -9,6 +9,9 @@ export function useCreateUser(clerkUserId: string) {
     mutationFn: async (input: UserInput): Promise<UserResponse> =>
       apiFetch<UserResponse>(`${API_BACKEND_URL}/users`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(input),
       }),
     onSuccess: () =>

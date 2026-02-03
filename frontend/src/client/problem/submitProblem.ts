@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import type {
   ProblemSubmissionInput,
@@ -7,7 +7,6 @@ import type {
 import { API_BACKEND_URL, apiFetch } from "@/client/client";
 
 export function useSubmitProblem(day: string) {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   return useMutation({
@@ -22,8 +21,6 @@ export function useSubmitProblem(day: string) {
         body: JSON.stringify({ part: input.part, answer: input.answer }),
       }),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["problem", day] });
-
       navigate({
         to: "/problems/$day/submission",
         params: { day },

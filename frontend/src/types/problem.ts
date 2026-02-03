@@ -12,7 +12,11 @@ export type Problem = {
   part2Answer: number | null;
 };
 
-export type ProblemSubmitInput = {
+export type ProblemSubmissionInput = {
   part: number;
   answer: string;
+};
+
+export type ProblemSubmissionResponse = {
+  correct: boolean;
 };

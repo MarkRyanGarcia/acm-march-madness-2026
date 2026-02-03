@@ -79,7 +79,7 @@ def get_problem_input(
     )
 
 
-@router.post("/problems/{day}/submit", status_code=status.HTTP_301_MOVED_PERMANENTLY)
+@router.post("/problems/{day}/submit")
 def submit_answer(
     day: int,
     attempt: ProblemSubmitAttempt,

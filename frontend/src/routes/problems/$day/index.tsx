@@ -5,7 +5,7 @@ import type { Components } from "react-markdown";
 import { useProblem } from "@/client/problem/getProblem";
 import { useSubmitProblem } from "@/client/problem/submitProblem";
 
-export const Route = createFileRoute("/problems/$day")({
+export const Route = createFileRoute("/problems/$day/")({
   component: RouteComponent,
 });
 

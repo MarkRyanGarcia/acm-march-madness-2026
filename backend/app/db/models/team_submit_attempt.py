@@ -1,5 +1,6 @@
 from datetime import datetime
 from sqlalchemy import (
+    BigInteger,
     Boolean,
     DateTime,
     ForeignKey,
@@ -20,10 +21,10 @@ class TeamSubmitAttempt(Base):
     submitted_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now(), primary_key=True
     )
+    answer: Mapped[int] = mapped_column(BigInteger, nullable=False)
     correct: Mapped[bool] = mapped_column(Boolean, nullable=False)
     submitted_by_user_id: Mapped[str] = mapped_column(
         String, ForeignKey("users.id"), nullable=False
     )
 
     submitter = relationship("User")
-

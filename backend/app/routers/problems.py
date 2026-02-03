@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import PlainTextResponse
 from sqlalchemy.orm import Session
 from app.deps.auth import get_optional_auth_id, require_clerk_auth
@@ -79,7 +79,7 @@ def get_problem_input(
     )
 
 
-@router.post("/problems/{day}/submit")
+@router.post("/problems/{day}/submit", status_code=status.HTTP_301_MOVED_PERMANENTLY)
 def submit_answer(
     day: int,
     attempt: ProblemSubmitAttempt,
@@ -110,8 +110,14 @@ def submit_answer(
     if part == 2 and correct_count == 0:
         raise HTTPException(400, f"Submit part 1 first before attempting part 2")
 
+    answer = 0
+    try:
+        answer = int(attempt.answer)
+    except:
+        pass
+
     problem = problem_entry.problem_class(seed=get_seed(team.id))
-    correct = problem.check_answer(part, attempt.answer)
+    correct = problem.check_answer(part, answer)
 
     if correct:
         points = TeamPoint(
@@ -125,7 +131,7 @@ def submit_answer(
     team_submit_attempt = TeamSubmitAttempt(
         team_id=team.id,
         problem_id=problem_id(day, part),
-        answer=attempt.answer,
+        answer=answer,
         correct=correct,
         submitted_by_user_id=auth_id,
     )

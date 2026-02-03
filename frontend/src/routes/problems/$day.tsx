@@ -29,7 +29,7 @@ function RouteComponent() {
   const handleSubmit = () => {
     submitProblem.mutate({
       part: problem.part2 !== "" ? 2 : 1,
-      answer: Number(answer),
+      answer: answer,
     });
   };
 

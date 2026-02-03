@@ -17,4 +17,5 @@ class ProblemInputOut(BaseModel):
 
 class ProblemSubmitAttempt(BaseModel):
     part: int
-    answer: int
+    answer: str
+

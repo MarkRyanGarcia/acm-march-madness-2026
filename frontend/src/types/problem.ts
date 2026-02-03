@@ -14,5 +14,5 @@ export type Problem = {
 
 export type ProblemSubmitInput = {
   part: number;
-  answer: number;
+  answer: string;
 };

@@ -1,10 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import type {
+  ProblemSubmission,
   ProblemSubmissionInput,
   ProblemSubmissionResponse,
 } from "@/types/problem";
 import { API_BACKEND_URL, apiFetch } from "@/client/client";
+import { SUBMIT_REDIRECT_KEY } from "@/constants/localStorage";
 
 export function useSubmitProblem(day: string) {
   const navigate = useNavigate();
@@ -12,7 +14,7 @@ export function useSubmitProblem(day: string) {
   return useMutation({
     mutationFn: async (
       input: ProblemSubmissionInput,
-    ): Promise<ProblemSubmissionResponse> => {
+    ): Promise<ProblemSubmission> => {
       const res = await apiFetch<ProblemSubmissionResponse>(
         `${API_BACKEND_URL}/problems/${day}/submit`,
         {
@@ -23,17 +25,20 @@ export function useSubmitProblem(day: string) {
           body: JSON.stringify({ part: input.part, answer: input.answer }),
         },
       );
+      const submissionData = res.data;
 
-      return res.data;
+      const problemSubmission: ProblemSubmission = {
+        correct: submissionData.correct ?? false,
+        error: submissionData.error,
+        cooldownUntil: submissionData.cooldown_until,
+        remainingCooldownSeconds: submissionData.remaining_cooldown_seconds,
+      };
+
+      return problemSubmission;
     },
     onSuccess: (data) => {
-      console.log(data);
-
-      navigate({
-        to: "/problems/$day/submission",
-        params: { day },
-        search: { correct: data.correct },
-      });
+      localStorage.setItem(SUBMIT_REDIRECT_KEY, JSON.stringify(data));
+      navigate({ to: "/problems/$day/submission", params: { day } });
     },
   });
 }

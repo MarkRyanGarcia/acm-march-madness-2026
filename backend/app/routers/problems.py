@@ -124,14 +124,12 @@ def submit_answer(
         cooldown_until = get_submission_cooldown(attempts, last_submitted)
         remaining = get_remaining_cooldown_seconds(cooldown_until)
         if remaining != 0.0:
-            raise HTTPException(
-                status_code=429,
-                detail={
-                    "error": "cooldown_active",
-                    "remaining_cooldown": int(remaining),
-                    "cooldown_until": cooldown_until.isoformat(),
-                },
-            )
+            return {
+                "correct": None,
+                "error": True,
+                "cooldown_until": cooldown_until.isoformat(),
+                "remaining_cooldown_seconds": int(remaining),
+            }
 
     answer = 0
     try:
@@ -168,6 +166,7 @@ def submit_answer(
 
     return {
         "correct": correct,
+        "error": False,
         "cooldown_until": cooldown_until.isoformat() if not correct else None,
-        "remaining_cooldown": int(remaining) if not correct else 0,
+        "remaining_cooldown_seconds": int(remaining) if not correct else 0,
     }

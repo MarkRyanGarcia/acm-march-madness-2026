@@ -1,25 +1,28 @@
 export const API_BACKEND_URL = import.meta.env.VITE_API_BACKEND_URL;
 
+type ApiResult<T> = { ok: boolean; status: number; data: T };
+
 export async function apiFetch<T>(
   input: RequestInfo | URL,
   init?: RequestInit,
-): Promise<T> {
+): Promise<ApiResult<T>> {
   const res = await fetch(input, { ...init, credentials: "include" });
 
   const text = await res.text();
   const ct = res.headers.get("Content-Type") ?? "";
 
-  if (!res.ok) {
-    throw new Error(`Request failed: ${res.status} - ${text}`);
-  }
-
+  let parsed: unknown = text;
   if (ct.includes("application/json")) {
     try {
-      return JSON.parse(text);
+      parsed = JSON.parse(text);
     } catch {
-      return text as T;
+      parsed = text;
     }
   }
 
-  return text as T;
+  return {
+    ok: true,
+    status: res.status,
+    data: parsed as T,
+  };
 }

@@ -6,14 +6,17 @@ export function useCreateTeam(clerkUserId: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (input: TeamInput): Promise<TeamResponse> =>
-      apiFetch<TeamResponse>(`${API_BACKEND_URL}/teams`, {
+    mutationFn: async (input: TeamInput): Promise<TeamResponse> => {
+      const res = await apiFetch<TeamResponse>(`${API_BACKEND_URL}/teams`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(input),
-      }),
+      });
+
+      return res.data;
+    },
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: ["userTeam", clerkUserId] }),
   });

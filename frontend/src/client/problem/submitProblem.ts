@@ -12,15 +12,23 @@ export function useSubmitProblem(day: string) {
   return useMutation({
     mutationFn: async (
       input: ProblemSubmissionInput,
-    ): Promise<ProblemSubmissionResponse> =>
-      await apiFetch(`${API_BACKEND_URL}/problems/${day}/submit`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    ): Promise<ProblemSubmissionResponse> => {
+      const res = await apiFetch<ProblemSubmissionResponse>(
+        `${API_BACKEND_URL}/problems/${day}/submit`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ part: input.part, answer: input.answer }),
         },
-        body: JSON.stringify({ part: input.part, answer: input.answer }),
-      }),
+      );
+
+      return res.data;
+    },
     onSuccess: (data) => {
+      console.log(data);
+
       navigate({
         to: "/problems/$day/submission",
         params: { day },

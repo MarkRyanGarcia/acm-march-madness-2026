@@ -18,5 +18,13 @@ export type ProblemSubmissionInput = {
 };
 
 export type ProblemSubmissionResponse = {
+  correct?: boolean;
+  error?: string;
+  cooldown_until: string;
+  remaining_cooldown: number;
+};
+
+export type ProblemSubmission = {
   correct: boolean;
+  error: string | null;
 };

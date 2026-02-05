@@ -4,9 +4,8 @@ import { API_BACKEND_URL, apiFetch } from "@/client/client";
 
 export function useUserTeam(userId: string | null) {
   const fetchUserTeam = async (): Promise<Team | null> => {
-    const teamResponse: TeamResponse = await apiFetch(
-      `${API_BACKEND_URL}/teams/me`,
-    );
+    const res = await apiFetch<TeamResponse>(`${API_BACKEND_URL}/teams/me`);
+    const teamResponse = res.data;
     if (!teamResponse) return null;
 
     const team: Team = {

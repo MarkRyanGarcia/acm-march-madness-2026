@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 import re
 from typing import Tuple
 
@@ -22,3 +23,14 @@ def get_seed(id: int) -> int:
 
 def problem_id(day: int, part: int) -> str:
     return f"day{day}/part{part}"
+
+
+def get_submission_cooldown(attempts: int, last_submitted: datetime) -> datetime:
+    cooldown_base = timedelta(seconds=30)
+    cooldown_max = timedelta(minutes=5)
+
+    duration = cooldown_base
+    if attempts >= 2:
+        duration *= attempts
+
+    return last_submitted + min(duration, cooldown_max)

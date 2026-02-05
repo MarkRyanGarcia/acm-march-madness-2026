@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import PlainTextResponse
@@ -5,7 +6,12 @@ from sqlalchemy.orm import Session
 from app.deps.auth import get_optional_auth_id, require_clerk_auth
 from app.deps.db import get_db
 from app.schemas.problem import ProblemOut, ProblemSubmitAttempt
-from app.utils.problem import get_seed, problem_id, split_problem_parts
+from app.utils.problem import (
+    get_seed,
+    get_submission_cooldown,
+    problem_id,
+    split_problem_parts,
+)
 from app.db.models.team_point import TeamPoint
 from app.db.models.team_submit_attempt import TeamSubmitAttempt
 from problems.event import PROBLEMS
@@ -110,6 +116,25 @@ def submit_answer(
     if part == 2 and correct_count == 0:
         raise HTTPException(400, f"Submit part 1 first before attempting part 2")
 
+    attempts = problem_queries.get_attempts_for_part(db, team.id, day, part)
+    last_submitted = problem_queries.get_last_attempt_time(db, team.id, day, part)
+
+    if last_submitted:
+        if last_submitted.tzinfo is None:
+            last_submitted = last_submitted.replace(tzinfo=timezone.utc)
+        cooldown_until = get_submission_cooldown(attempts, last_submitted)
+        now = datetime.now(timezone.utc)
+        if now < cooldown_until:
+            remaining = (cooldown_until - now).total_seconds()
+            raise HTTPException(
+                status_code=429,
+                detail={
+                    "error": "cooldown_active",
+                    "retry_after_seconds": int(remaining),
+                    "cooldown_until": cooldown_until.isoformat(),
+                },
+            )
+
     answer = 0
     try:
         answer = int(attempt.answer)
@@ -137,5 +162,13 @@ def submit_answer(
     )
     db.add(team_submit_attempt)
     db.commit()
+    db.refresh(team_submit_attempt)
 
-    return {"correct": correct}
+    cooldown_until = get_submission_cooldown(
+        attempts + 1, team_submit_attempt.submitted_at
+    )
+
+    return {
+        "correct": correct,
+        "cooldown_until": cooldown_until.isoformat() if not correct else None,
+    }

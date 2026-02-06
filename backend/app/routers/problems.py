@@ -31,6 +31,19 @@ def get_problem(
     problem = PROBLEMS.get(day)
     if not problem:
         raise HTTPException(404, "Invalid problem day, must be between 0 - 5")
+    if (
+        problem.release_time
+        and (now := datetime.now(timezone.utc)) < problem.release_time
+    ):
+        remaining = (problem.release_time - now).total_seconds()
+        raise HTTPException(
+            404,
+            detail={
+                "message": "Problem has not been released yet",
+                "remaining_seconds": int(remaining),
+                "release_time": problem.release_time.isoformat(),
+            },
+        )
 
     with open(problem.readme_path) as file:
         content = file.read()

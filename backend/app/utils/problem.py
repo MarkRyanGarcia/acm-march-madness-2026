@@ -43,6 +43,27 @@ def get_submission_cooldown(attempts: int, last_submitted: datetime) -> datetime
     return last_submitted + min(duration, cooldown_max)
 
 
-def get_remaining_cooldown_seconds(cooldown_until: datetime) -> float:
-    now = datetime.now(timezone.utc)
-    return max((cooldown_until - now).total_seconds(), 0.0)
+def get_remaining_cooldown_seconds(
+    cooldown_until: datetime, submitted_at: datetime
+) -> float:
+    return max((cooldown_until - submitted_at).total_seconds(), 0.0)
+
+
+def calculate_submission_score_h(max_points: int, h: float) -> float:
+    if h <= 0.0:
+        return float(max_points)
+    if h >= 24.0:
+        return float(max_points) / 2.0
+
+    return ((max_points) / 1152) * (h - 24.0) ** 2 + max_points / 2.0
+
+
+def calculate_submission_score(
+    max_points: int, released_at: datetime, submitted_at: datetime
+) -> float:
+    """
+    Calculates the score based on when the problem was released and when the
+    user submitted the answer for the problem.
+    """
+    seconds = (submitted_at - released_at).total_seconds()
+    return calculate_submission_score_h(max_points, seconds / 3600)

@@ -7,6 +7,7 @@ from app.deps.auth import get_optional_auth_id, require_clerk_auth
 from app.deps.db import get_db
 from app.schemas.problem import ProblemOut, ProblemSubmitAttempt
 from app.utils.problem import (
+    calculate_submission_score,
     get_remaining_cooldown_seconds,
     get_seed,
     get_submission_cooldown,
@@ -132,10 +133,11 @@ def submit_answer(
 
     attempts = problem_queries.get_attempts_for_part(db, team.id, day, part)
     last_submitted = problem_queries.get_last_attempt_time(db, team.id, day, part)
+    submitted_at = datetime.now(timezone.utc)
 
     if last_submitted:
         cooldown_until = get_submission_cooldown(attempts, last_submitted)
-        remaining = get_remaining_cooldown_seconds(cooldown_until)
+        remaining = get_remaining_cooldown_seconds(cooldown_until, submitted_at)
         if remaining != 0.0:
             return {
                 "correct": None,
@@ -154,12 +156,21 @@ def submit_answer(
     correct = problem.check_answer(part, answer)
 
     if correct:
-        points = TeamPoint(
+        points_per_part = problem_entry.points_per_part
+        release_time = problem_entry.release_time
+        if release_time is None:
+            release_time = datetime(1970, 1, 1, tzinfo=timezone.utc)
+        points = calculate_submission_score(
+            points_per_part,
+            release_time,
+            submitted_at,
+        )
+        team_points = TeamPoint(
             team_id=team.id,
-            points=problem_entry.points_per_part,
+            points=points,
             reason=f"Solved Day {day} Part {part} correctly",
         )
-        db.add(points)
+        db.add(team_points)
         db.flush()
 
     team_submit_attempt = TeamSubmitAttempt(
@@ -175,7 +186,7 @@ def submit_answer(
 
     last_submitted = team_submit_attempt.submitted_at
     cooldown_until = get_submission_cooldown(attempts + 1, last_submitted)
-    remaining = get_remaining_cooldown_seconds(cooldown_until)
+    remaining = get_remaining_cooldown_seconds(cooldown_until, submitted_at)
 
     return {
         "correct": correct,

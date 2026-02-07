@@ -32,7 +32,7 @@ PROBLEMS: dict[int, ProblemEntry] = {
         day=0,
         problem_class=MathHomework,
         readme_path="problems/_00_math_homework/README.md",
-        points_per_part=100,
-        release_time=get_release_time(2026, 2, 5, 17, 0, 0),
+        points_per_part=0,
+        release_time=None,
     )
 }

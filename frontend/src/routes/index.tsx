@@ -60,7 +60,11 @@ function LandingPage() {
                 <div className="-z-10">
                     <img
                         src="/cloud1.svg"
-                        className="absolute right-40 top-10 md:top-10 w-55 md:w-120 lg:w-150"
+                        className="absolute right-0 sm:right-40 top-10 md:top-10 w-55 md:w-120 lg:w-150"
+                    />
+                    <img
+                        src="/cloud2.svg"
+                        className="absolute left-5 md:left-10 top-30 md:top-35 w-35 md:w-60 lg:w-80"
                     />
                     <img
                         src="/hibiscus1.svg"

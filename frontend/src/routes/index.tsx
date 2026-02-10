@@ -59,6 +59,10 @@ function LandingPage() {
 
                 <div className="-z-10">
                     <img
+                        src="/cloud1.svg"
+                        className="absolute right-40 top-10 md:top-10 w-55 md:w-120 lg:w-150"
+                    />
+                    <img
                         src="/hibiscus1.svg"
                         className="absolute right-0 top-0 md:top-10 w-24 sm:w-32 md:w-40 lg:w-48"
                     />

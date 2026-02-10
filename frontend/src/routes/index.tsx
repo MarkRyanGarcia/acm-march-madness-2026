@@ -12,7 +12,7 @@ const Hero: React.FC = () => {
     const sizeClasses = "text-5xl md:text-8xl tracking-wider";
 
     return (
-        <div className="max-w-max mx-auto px-4 mt-12 font-[Fredoka]">
+        <div className="max-w-max mx-auto px-4 mt-12 md:mt-50 font-[Fredoka]">
             <h1 className="font-extrabold text-center">
                 <StrokedText text="MARCH MADNESS" className={sizeClasses} />
                 <span className="block mt-2">
@@ -55,6 +55,17 @@ function LandingPage() {
                     >
                         Sign In With GitHub <FaGithub />
                     </button>
+                </div>
+
+                <div className="-z-10">
+                    <img
+                        src="/hibiscus1.svg"
+                        className="absolute right-0 top-0 md:top-10 w-24 sm:w-32 md:w-40 lg:w-48"
+                    />
+                    <img
+                        src="/orchid1.svg"
+                        className="absolute left-0 top-50 md:top-85 w-24 sm:w-32 md:w-40 lg:w-48"
+                    />
                 </div>
             </main>
 

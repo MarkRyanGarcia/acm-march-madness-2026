@@ -2,11 +2,11 @@ import type React from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { FaGithub } from "react-icons/fa";
 import { StrokedText } from "@/components/StrokedText";
+import { useSignIn } from "@clerk/clerk-react";
 
 export const Route = createFileRoute("/")({
     component: LandingPage,
 });
-
 
 const Hero: React.FC = () => {
     const sizeClasses = "text-5xl md:text-8xl tracking-wider";
@@ -14,10 +14,7 @@ const Hero: React.FC = () => {
     return (
         <div className="max-w-max mx-auto px-4 mt-12 font-[Fredoka]">
             <h1 className="font-extrabold text-center">
-                <StrokedText
-                    text="MARCH MADNESS"
-                    className={sizeClasses}
-                />
+                <StrokedText text="MARCH MADNESS" className={sizeClasses} />
                 <span className="block mt-2">
                     <StrokedText text="2026" className="text-5xl md:text-8xl" />
                 </span>
@@ -27,22 +24,40 @@ const Hero: React.FC = () => {
 };
 
 function LandingPage() {
+    const { signIn, isLoaded } = useSignIn();
+
+    const handleSignIn = () => {
+        if (!isLoaded) return;
+
+        signIn?.authenticateWithRedirect({
+            strategy: "oauth_github",
+            redirectUrl: "/signin/sso-callback",
+            redirectUrlComplete: "/team",
+        });
+    };
+
     return (
         <div>
             <main className="max-w-5xl mx-auto grid items-center justify-center gap-8 md:gap-16">
                 <Hero />
+
                 <p className="px-8 text-center text-grass-400 font-[Fredoka] font-bold md:text-2xl">
                     A 5-day coding challenge event hosted by ACM at California State
                     University, Fullerton! Collaborate in teams and put your
                     problem-solving skills to the test to see if you shall become the
                     best!
                 </p>
+
                 <div className="flex items-center justify-center">
-                    <button className="flex items-center gap-2 py-2 px-6 rounded-xl bg-white max-w-max font-semibold text-xl">
+                    <button
+                        onClick={handleSignIn}
+                        className="flex items-center gap-2 py-2 px-6 rounded-xl bg-white max-w-max font-semibold text-xl"
+                    >
                         Sign In With GitHub <FaGithub />
                     </button>
                 </div>
             </main>
+
             <div className="relative -z-10">
                 <img src="/grass2.svg" className="w-full absolute md:-top-24" />
                 <img src="/grass1.svg" className="w-full absolute md:-top-24" />

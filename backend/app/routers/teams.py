@@ -47,7 +47,7 @@ def create_team(
     return team_to_out(team)
 
 
-@router.post("/teams/join")
+@router.patch("/teams/join")
 def join_team(
     invite_code: str,
     db: Annotated[Session, Depends(get_db)],
@@ -73,7 +73,7 @@ def join_team(
     return {"detail": "Joined team successfully"}
 
 
-@router.post("/teams/leave")
+@router.patch("/teams/leave")
 def leave_team(
     db: Annotated[Session, Depends(get_db)],
     auth_id: Annotated[str, Depends(require_clerk_auth)],
@@ -98,26 +98,6 @@ def leave_team(
     return {"detail": "Left team successfully"}
 
 
-@router.delete("/teams/{team_id}")
-def delete_team(
-    team_id: int,
-    db: Annotated[Session, Depends(get_db)],
-    auth_id: Annotated[str, Depends(require_clerk_auth)],
-):
-    membership = team_queries.get_membership_for_team(db, team_id, auth_id)
-    if not membership or not membership.is_leader:
-        raise HTTPException(403, "Only the leader can delete the team")
-
-    team = db.query(Team).filter_by(id=team_id).first()
-    if not team:
-        raise HTTPException(404, "Team not found")
-
-    db.delete(team)
-    db.commit()
-
-    return {"detail": "Team deleted"}
-
-
 @router.patch("/teams/{team_id}/toggle-accepting")
 def toggle_accepting_members(
     team_id: int,
@@ -137,5 +117,26 @@ def toggle_accepting_members(
     db.refresh(team)
 
     return {
-        "detail": f"Successfully updated team settings: {'Now accepting members' if team.accepting_members else 'No longer accepting members'}"
+        "detail": f"Successfully updated team settings",
+        "accepting_members": team.accepting_members,
     }
+
+
+@router.delete("/teams/{team_id}")
+def delete_team(
+    team_id: int,
+    db: Annotated[Session, Depends(get_db)],
+    auth_id: Annotated[str, Depends(require_clerk_auth)],
+):
+    membership = team_queries.get_membership_for_team(db, team_id, auth_id)
+    if not membership or not membership.is_leader:
+        raise HTTPException(403, "Only the leader can delete the team")
+
+    team = db.query(Team).filter_by(id=team_id).first()
+    if not team:
+        raise HTTPException(404, "Team not found")
+
+    db.delete(team)
+    db.commit()
+
+    return {"detail": "Team deleted"}

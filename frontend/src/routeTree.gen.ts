@@ -13,8 +13,9 @@ import { Route as TeamRouteImport } from './routes/team'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProblemsIndexRouteImport } from './routes/problems/index'
-import { Route as ProblemsDayRouteImport } from './routes/problems/$day'
 import { Route as SigninSsoCallbackIndexRouteImport } from './routes/signin/sso-callback/index'
+import { Route as ProblemsDayIndexRouteImport } from './routes/problems/$day/index'
+import { Route as ProblemsDaySubmissionRouteImport } from './routes/problems/$day/submission'
 
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
@@ -36,14 +37,19 @@ const ProblemsIndexRoute = ProblemsIndexRouteImport.update({
   path: '/problems/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProblemsDayRoute = ProblemsDayRouteImport.update({
-  id: '/problems/$day',
-  path: '/problems/$day',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SigninSsoCallbackIndexRoute = SigninSsoCallbackIndexRouteImport.update({
   id: '/signin/sso-callback/',
   path: '/signin/sso-callback/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProblemsDayIndexRoute = ProblemsDayIndexRouteImport.update({
+  id: '/problems/$day/',
+  path: '/problems/$day/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProblemsDaySubmissionRoute = ProblemsDaySubmissionRouteImport.update({
+  id: '/problems/$day/submission',
+  path: '/problems/$day/submission',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -51,16 +57,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/leaderboard': typeof LeaderboardRoute
   '/team': typeof TeamRoute
-  '/problems/$day': typeof ProblemsDayRoute
   '/problems': typeof ProblemsIndexRoute
+  '/problems/$day/submission': typeof ProblemsDaySubmissionRoute
+  '/problems/$day': typeof ProblemsDayIndexRoute
   '/signin/sso-callback': typeof SigninSsoCallbackIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/leaderboard': typeof LeaderboardRoute
   '/team': typeof TeamRoute
-  '/problems/$day': typeof ProblemsDayRoute
   '/problems': typeof ProblemsIndexRoute
+  '/problems/$day/submission': typeof ProblemsDaySubmissionRoute
+  '/problems/$day': typeof ProblemsDayIndexRoute
   '/signin/sso-callback': typeof SigninSsoCallbackIndexRoute
 }
 export interface FileRoutesById {
@@ -68,8 +76,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/leaderboard': typeof LeaderboardRoute
   '/team': typeof TeamRoute
-  '/problems/$day': typeof ProblemsDayRoute
   '/problems/': typeof ProblemsIndexRoute
+  '/problems/$day/submission': typeof ProblemsDaySubmissionRoute
+  '/problems/$day/': typeof ProblemsDayIndexRoute
   '/signin/sso-callback/': typeof SigninSsoCallbackIndexRoute
 }
 export interface FileRouteTypes {
@@ -78,24 +87,27 @@ export interface FileRouteTypes {
     | '/'
     | '/leaderboard'
     | '/team'
-    | '/problems/$day'
     | '/problems'
+    | '/problems/$day/submission'
+    | '/problems/$day'
     | '/signin/sso-callback'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/leaderboard'
     | '/team'
-    | '/problems/$day'
     | '/problems'
+    | '/problems/$day/submission'
+    | '/problems/$day'
     | '/signin/sso-callback'
   id:
     | '__root__'
     | '/'
     | '/leaderboard'
     | '/team'
-    | '/problems/$day'
     | '/problems/'
+    | '/problems/$day/submission'
+    | '/problems/$day/'
     | '/signin/sso-callback/'
   fileRoutesById: FileRoutesById
 }
@@ -103,8 +115,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LeaderboardRoute: typeof LeaderboardRoute
   TeamRoute: typeof TeamRoute
-  ProblemsDayRoute: typeof ProblemsDayRoute
   ProblemsIndexRoute: typeof ProblemsIndexRoute
+  ProblemsDaySubmissionRoute: typeof ProblemsDaySubmissionRoute
+  ProblemsDayIndexRoute: typeof ProblemsDayIndexRoute
   SigninSsoCallbackIndexRoute: typeof SigninSsoCallbackIndexRoute
 }
 
@@ -138,18 +151,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProblemsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/problems/$day': {
-      id: '/problems/$day'
-      path: '/problems/$day'
-      fullPath: '/problems/$day'
-      preLoaderRoute: typeof ProblemsDayRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/signin/sso-callback/': {
       id: '/signin/sso-callback/'
       path: '/signin/sso-callback'
       fullPath: '/signin/sso-callback'
       preLoaderRoute: typeof SigninSsoCallbackIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/problems/$day/': {
+      id: '/problems/$day/'
+      path: '/problems/$day'
+      fullPath: '/problems/$day'
+      preLoaderRoute: typeof ProblemsDayIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/problems/$day/submission': {
+      id: '/problems/$day/submission'
+      path: '/problems/$day/submission'
+      fullPath: '/problems/$day/submission'
+      preLoaderRoute: typeof ProblemsDaySubmissionRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -159,8 +179,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LeaderboardRoute: LeaderboardRoute,
   TeamRoute: TeamRoute,
-  ProblemsDayRoute: ProblemsDayRoute,
   ProblemsIndexRoute: ProblemsIndexRoute,
+  ProblemsDaySubmissionRoute: ProblemsDaySubmissionRoute,
+  ProblemsDayIndexRoute: ProblemsDayIndexRoute,
   SigninSsoCallbackIndexRoute: SigninSsoCallbackIndexRoute,
 }
 export const routeTree = rootRouteImport

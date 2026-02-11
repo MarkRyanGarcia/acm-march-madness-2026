@@ -6,9 +6,7 @@ export function useDeleteTeam(clerkUserId: string, teamId: number) {
 
   return useMutation({
     mutationFn: async () =>
-      apiFetch(`${API_BACKEND_URL}/teams/${teamId}`, {
-        method: "DELETE",
-      }),
+      apiFetch(`${API_BACKEND_URL}/teams/${teamId}`, { method: "DELETE" }),
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: ["userTeam", clerkUserId] }),
   });

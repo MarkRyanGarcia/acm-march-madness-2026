@@ -13,3 +13,9 @@ class ProblemOut(BaseModel):
 class ProblemInputOut(BaseModel):
     day: int
     problem_input: str
+
+
+class ProblemSubmitAttempt(BaseModel):
+    part: int
+    answer: str
+

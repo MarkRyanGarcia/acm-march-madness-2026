@@ -11,3 +11,22 @@ export type Problem = {
   part1Answer: number | null;
   part2Answer: number | null;
 };
+
+export type ProblemSubmissionInput = {
+  part: number;
+  answer: string;
+};
+
+export type ProblemSubmissionResponse = {
+  correct: boolean | null;
+  error: boolean;
+  cooldown_until: string;
+  remaining_cooldown_seconds: number;
+};
+
+export type ProblemSubmission = {
+  correct: boolean;
+  error: boolean;
+  cooldownUntil: string;
+  remainingCooldownSeconds: number;
+};

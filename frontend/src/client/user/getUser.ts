@@ -4,10 +4,12 @@ import { API_BACKEND_URL, apiFetch } from "@/client/client";
 
 export function useUser(userId: string) {
   const fetchUser = async (): Promise<User | null> => {
-    const userResponse: UserResponse = await apiFetch(
+    const res = await apiFetch<UserResponse>(
       `${API_BACKEND_URL}/users/${userId}`,
     );
+    const userResponse = res.data;
     if (!userResponse) return null;
+
     return {
       id: userResponse.id,
       userName: userResponse.username,

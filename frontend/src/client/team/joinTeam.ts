@@ -13,7 +13,10 @@ export function useJoinTeam(clerkUserId: string) {
       apiFetch(
         `${API_BACKEND_URL}/teams/join?invite_code=${input.invite_code}`,
         {
-          method: "POST",
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify(input),
         },
       ),

@@ -4,9 +4,10 @@ import { API_BACKEND_URL, apiFetch } from "@/client/client";
 
 export function useProblem(day: string) {
   const fetchProblem = async (): Promise<Problem> => {
-    const problemResponse: ProblemResponse = await apiFetch(
+    const res = await apiFetch<ProblemResponse>(
       `${API_BACKEND_URL}/problems/${day}`,
     );
+    const problemResponse = res.data;
 
     const problem: Problem = {
       part1: problemResponse.part1,

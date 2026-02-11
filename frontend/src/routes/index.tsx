@@ -77,7 +77,7 @@ function LandingPage() {
                     />
                     <img
                         src="/orchid1.svg"
-                        className="absolute left-0 top-35 md:top-85 w-24 sm:w-32 md:w-40 lg:w-48"
+                        className="absolute left-0 top-48 md:top-85 w-24 sm:w-32 md:w-40 lg:w-48"
                     />
                 </div>
             </main>

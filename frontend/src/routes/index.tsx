@@ -2,7 +2,7 @@ import type React from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { FaGithub } from "react-icons/fa";
 import { StrokedText } from "@/components/StrokedText";
-import { useSignIn } from "@clerk/clerk-react";
+import { useSignIn, useUser } from "@clerk/clerk-react";
 
 export const Route = createFileRoute("/")({
     component: LandingPage,
@@ -24,10 +24,11 @@ const Hero: React.FC = () => {
 };
 
 function LandingPage() {
-    const { signIn, isLoaded } = useSignIn();
+    const { signIn, isLoaded: signInLoaded } = useSignIn();
+    const { isSignedIn, isLoaded: userLoaded } = useUser();
 
     const handleSignIn = () => {
-        if (!isLoaded) return;
+        if (!signInLoaded) return;
 
         signIn?.authenticateWithRedirect({
             strategy: "oauth_github",
@@ -49,12 +50,14 @@ function LandingPage() {
                 </p>
 
                 <div className="flex items-center justify-center">
-                    <button
-                        onClick={handleSignIn}
-                        className="flex items-center gap-2 py-2 px-6 rounded-xl bg-white max-w-max font-semibold text-xl"
-                    >
-                        Sign In With GitHub <FaGithub />
-                    </button>
+                    {userLoaded && !isSignedIn && (
+                        <button
+                            onClick={handleSignIn}
+                            className="flex items-center gap-2 py-2 px-6 rounded-xl bg-white max-w-max font-semibold text-xl"
+                        >
+                            Sign In With GitHub <FaGithub />
+                        </button>
+                    )}
                 </div>
 
                 <div className="-z-10">

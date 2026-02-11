@@ -106,11 +106,11 @@ function LandingPage() {
                     <FAQ />
                 <img
                     src="/fence.svg"
-                    className="absolute mt-80 w-120 pointer-events-none"
+                    className="absolute mt-170 w-55 sm:mt-160 sm:w-70 md:mt-100 md:w-100 lg:mt-80 lg:w-120 pointer-events-none"
                 />
                 <img
                     src="/fence.svg"
-                    className="absolute right-0 mt-80 w-120 scale-x-[-1] pointer-events-none"
+                    className="absolute right-0 mt-170 w-55 sm:mt-160 sm:w-70 md:mt-100 md:w-100 lg:mt-80 lg:w-120 scale-x-[-1] pointer-events-none"
                 />
             </div>
             <Footer />

@@ -86,7 +86,7 @@ function LandingPage() {
                 <img src="/grass1.svg" className="w-full absolute md:-top-24" />
                 <img
                     src="/capybara.svg"
-                    className="absolute right-12 md:right-24 md:-top-24 xl:-top-32 w-16 md:w-24"
+                    className="absolute right-25 lg:right-40 top-20 sm:top-20 md:top-10 lg:top-15 w-32 sm:w-50 md:w-80 lg:w-100"
                 />
                 <img
                     src="/orange_flower.svg"

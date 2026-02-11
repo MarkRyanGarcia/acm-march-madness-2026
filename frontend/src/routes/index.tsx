@@ -76,20 +76,24 @@ function LandingPage() {
                     />
                     <img
                         src="/orchid1.svg"
-                        className="absolute left-0 top-50 md:top-85 w-24 sm:w-32 md:w-40 lg:w-48"
+                        className="absolute left-0 top-35 md:top-85 w-24 sm:w-32 md:w-40 lg:w-48"
                     />
                 </div>
             </main>
 
-            <div className="relative -z-10 mb-25 sm:mb-60">
+            <div className="relative z-10 mb-25 sm:mb-60">
                 <img src="/grass2.svg" className="w-full absolute md:-top-24" />
                 <img src="/grass1.svg" className="w-full absolute md:-top-24" />
                 <img
                     src="/capybara.svg"
                     className="absolute right-12 md:right-24 md:-top-24 xl:-top-32 w-16 md:w-24"
                 />
+                <img
+                    src="/orange_flower.svg"
+                    className="absolute left-0 top-0 md:-top-25 w-22 sm:w-50 md:w-67 lg:w-90"
+                />
             </div>
-            <div className="relative h-screen bg-grass-100 -mb-10">
+            <div className="relative h-[200vh] bg-grass-100 -mb-10">
                     
             </div>
             <Footer />

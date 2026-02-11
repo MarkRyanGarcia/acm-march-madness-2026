@@ -92,6 +92,14 @@ function LandingPage() {
                     src="/orange_flower.svg"
                     className="absolute left-0 top-0 md:-top-25 w-22 sm:w-50 md:w-67 lg:w-90"
                 />
+                <img
+                    src="/particle1.svg"
+                    className="absolute lg:left-80 lg:top-100 lg:w-15"
+                />
+                <img
+                    src="/particle2.svg"
+                    className="absolute lg:left-95 lg:top-115 lg:w-5"
+                />
             </div>
             <div className="relative h-[200vh] bg-grass-100 -mb-10">
                     

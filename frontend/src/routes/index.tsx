@@ -102,8 +102,16 @@ function LandingPage() {
                     className="absolute left-24 top-34 w-1 sm:left-52 sm:top-67 sm:w-2 md:left-75 md:top-70 md:w-3 lg:left-95 lg:top-115 lg:w-4"
                 />
             </div>
-            <div className="relative h-[200vh] bg-grass-100 -mb-10 pt-120 w-full">
+            <div className="relative h-[240vh] bg-grass-100 -mb-10 pt-120 w-full">
                     <FAQ />
+                <img
+                    src="/fence.svg"
+                    className="absolute mt-80 w-120"
+                />
+                <img
+                    src="/fence.svg"
+                    className="absolute right-0 mt-80 w-120 scale-x-[-1]"
+                />
             </div>
             <Footer />
             

@@ -62,7 +62,7 @@ function LandingPage() {
                     )}
                 </div>
 
-                <div className="-z-10">
+                <div className="-z-10 pointer-events-none">
                     <img
                         src="/cloud1.svg"
                         className="absolute right-0 sm:right-40 top-10 md:top-10 w-55 md:w-120 lg:w-150"
@@ -82,7 +82,7 @@ function LandingPage() {
                 </div>
             </main>
 
-            <div className="relative z-10 mb-25 sm:mb-60">
+            <div className="relative z-10 mb-25 sm:mb-60 pointer-events-none">
                 <img src="/grass2.svg" className="w-full absolute md:-top-24" />
                 <img src="/grass1.svg" className="w-full absolute md:-top-24" />
                 <img
@@ -106,11 +106,11 @@ function LandingPage() {
                     <FAQ />
                 <img
                     src="/fence.svg"
-                    className="absolute mt-80 w-120"
+                    className="absolute mt-80 w-120 pointer-events-none"
                 />
                 <img
                     src="/fence.svg"
-                    className="absolute right-0 mt-80 w-120 scale-x-[-1]"
+                    className="absolute right-0 mt-80 w-120 scale-x-[-1] pointer-events-none"
                 />
             </div>
             <Footer />

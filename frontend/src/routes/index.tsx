@@ -80,7 +80,7 @@ function LandingPage() {
                 </div>
             </main>
 
-            <div className="relative -z-10">
+            <div className="relative -z-10 mb-25 sm:mb-60">
                 <img src="/grass2.svg" className="w-full absolute md:-top-24" />
                 <img src="/grass1.svg" className="w-full absolute md:-top-24" />
                 <img
@@ -88,6 +88,10 @@ function LandingPage() {
                     className="absolute right-12 md:right-24 md:-top-24 xl:-top-32 w-16 md:w-24"
                 />
             </div>
+            <div className="relative h-screen bg-grass-100">
+
+            </div>
+            
         </div>
     );
 }

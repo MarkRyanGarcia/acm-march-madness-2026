@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { FaGithub } from "react-icons/fa";
 import { StrokedText } from "@/components/StrokedText";
 import { useSignIn, useUser } from "@clerk/clerk-react";
+import { Footer } from "@/components/Footer";
 
 export const Route = createFileRoute("/")({
     component: LandingPage,
@@ -88,9 +89,10 @@ function LandingPage() {
                     className="absolute right-12 md:right-24 md:-top-24 xl:-top-32 w-16 md:w-24"
                 />
             </div>
-            <div className="relative h-screen bg-grass-100">
-
+            <div className="relative h-screen bg-grass-100 -mb-10">
+                    
             </div>
+            <Footer />
             
         </div>
     );

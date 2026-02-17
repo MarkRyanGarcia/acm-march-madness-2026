@@ -1,24 +1,54 @@
-@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Outfit:wght@100..900&family=DynaPuff:wght@400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Fredoka:wght@300..700&family=DynaPuff:wght@400..700&display=swap");
 @import "tailwindcss";
 
 :root {
-  --ff-primary: "DynaPuff";
-  --ff-secondary: "Outfit";
-  --ff-code: "Fira Code";
+  --background-100: oklch(0.9852 0.0192 90.54);
+  --background-200: oklch(0.9746 0.0292 87.54);
+  --background-300: oklch(0.9404 0.0652 85.83);
+  --foreground: oklch(0 0 0);
 
-  --sky: rgb(164, 227, 255);
-  --grass: rgb(37, 179, 92);
-  --pink: rgb(255, 158, 227);
+  --grass-100: oklch(0.911 0.0942 145.63); /* #BAF3BC */
+  --grass-200: oklch(0.9011 0.107 146.12); /* #B0F2B4 */
+  --grass-300: oklch(0.8429 0.1722 146.12);
+  --grass-400: oklch(0.6885 0.102 145.92); /* #70AC74 */
+  --sky-200: oklch(0.9204 0.0581 184.13);
+  --blue-200: oklch(0.8666 0.0487 246.48);
+  --blue-300: oklch(0.7282 0.0856 263.22);
+  --pink-200: oklch(0.8436 0.0672 0.89);
+  --pink-300: oklch(0.7871 0.1302 0.89);
 
-  font-family: var(--ff-primary);
+  font-family: "Fredoka", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 @theme inline {
-  --color-sky: var(--sky);
-  --color-grass: var(--grass);
-  --color-pink: var(--pink);
+  --color-background-100: var(--background-100);
+  --color-background-200: var(--background-200);
+  --color-background-300: var(--background-300);
+  --color-foreground: var(--foreground);
+  --color-grass-100: var(--grass-100);
+  --color-grass-200: var(--grass-200);
+  --color-grass-300: var(--grass-300);
+  --color-grass-400: var(--grass-400);
+  --color-sky-200: var(--sky-200);
+  --color-blue-200: var(--blue-200);
+  --color-blue-300: var(--blue-300);
+  --color-pink-200: var(--pink-200);
+}
+
+body {
+  background-image: url("/background.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: var(--background-100);
+  color: var(--grass-400);
+}
+
+code {
+  font-family: "Fira Code";
 }
 
 @layer base {
@@ -26,16 +56,4 @@
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
-
-  body {
-    @apply bg-sky m-0;
-  }
-}
-
-body {
-  margin: 0;
-}
-
-code {
-  font-family: var(--ff-code);
 }

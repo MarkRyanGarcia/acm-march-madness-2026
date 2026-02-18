@@ -17,7 +17,7 @@ function RouteComponent() {
                 <StrokedText text="GARDEN OF GREATNESS" className={sizeClasses} />
             </h1>
 
-            <div className="max-w-5xl mx-auto bg-[#F8EACB]/85 backdrop-blur-sm outline-[#FFE9B8] outline-4 md:outline-15 rounded-3xl md:rounded-4xl overflow-hidden relative z-20">
+            <div className="max-w-5xl mx-auto bg-[#F8EACB]/35 backdrop-blur-xs outline-[#FFE9B8]/90 outline-4 md:outline-15 rounded-3xl md:rounded-4xl overflow-hidden relative z-20">
 
                 <div className="grid grid-cols-2 px-4 md:px-8 py-4 md:py-6 text-grass-400 font-bold text-xl md:text-3xl">
                     <h3 className="text-left">Team</h3>

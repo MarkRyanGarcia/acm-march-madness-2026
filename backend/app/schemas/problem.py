@@ -1,5 +1,12 @@
+from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel
+
+
+class ProblemListOut(BaseModel):
+    day: int
+    released: bool
+    release_time: Optional[datetime]
 
 
 class ProblemOut(BaseModel):
@@ -18,4 +25,3 @@ class ProblemInputOut(BaseModel):
 class ProblemSubmitAttempt(BaseModel):
     part: int
     answer: str
-

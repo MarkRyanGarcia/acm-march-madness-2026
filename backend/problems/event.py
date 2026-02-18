@@ -8,7 +8,6 @@ from zoneinfo import ZoneInfo
 
 @dataclass(frozen=True)
 class ProblemEntry:
-    day: int
     problem_class: Type[Problem]
     readme_path: str
     points_per_part: int
@@ -29,10 +28,39 @@ def get_release_time(
 
 PROBLEMS: dict[int, ProblemEntry] = {
     0: ProblemEntry(
-        day=0,
         problem_class=MathHomework,
         readme_path="problems/_00_math_homework/README.md",
         points_per_part=0,
         release_time=None,
-    )
+    ),
+    1: ProblemEntry(
+        problem_class=MathHomework,
+        readme_path="problems/_00_math_homework/README.md",
+        points_per_part=100,
+        release_time=get_release_time(2026, 3, 2, 12, 0, 0),
+    ),
+    2: ProblemEntry(
+        problem_class=MathHomework,
+        readme_path="problems/_00_math_homework/README.md",
+        points_per_part=100,
+        release_time=get_release_time(2026, 3, 3, 12, 0, 0),
+    ),
+    3: ProblemEntry(
+        problem_class=MathHomework,
+        readme_path="problems/_00_math_homework/README.md",
+        points_per_part=100,
+        release_time=get_release_time(2026, 3, 4, 12, 0, 0),
+    ),
+    4: ProblemEntry(
+        problem_class=MathHomework,
+        readme_path="problems/_00_math_homework/README.md",
+        points_per_part=100,
+        release_time=get_release_time(2026, 3, 5, 12, 0, 0),
+    ),
+    5: ProblemEntry(
+        problem_class=MathHomework,
+        readme_path="problems/_00_math_homework/README.md",
+        points_per_part=100,
+        release_time=get_release_time(2026, 3, 6, 12, 0, 0),
+    ),
 }

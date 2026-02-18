@@ -1,11 +1,11 @@
 from datetime import datetime, timezone
-from typing import Annotated
+from typing import Annotated, List
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import PlainTextResponse
 from sqlalchemy.orm import Session
 from app.deps.auth import get_optional_auth_id, require_clerk_auth
 from app.deps.db import get_db
-from app.schemas.problem import ProblemOut, ProblemSubmitAttempt
+from app.schemas.problem import ProblemListOut, ProblemOut, ProblemSubmitAttempt
 from app.utils.problem import (
     calculate_submission_score,
     get_remaining_cooldown_seconds,
@@ -21,6 +21,19 @@ import app.db.queries.problem as problem_queries
 import app.db.queries.team as team_queries
 
 router = APIRouter()
+
+
+@router.get("/problems", response_model=List[ProblemListOut])
+def get_problems():
+    now = datetime.now(timezone.utc)
+    return [
+        ProblemListOut(
+            day=day,
+            released=not problem.release_time or now >= problem.release_time,
+            release_time=problem.release_time,
+        )
+        for day, problem in PROBLEMS.items()
+    ]
 
 
 @router.get("/problems/{day}", response_model=ProblemOut)

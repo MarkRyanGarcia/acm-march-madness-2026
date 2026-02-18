@@ -16,6 +16,7 @@
   --blue-300: oklch(0.7282 0.0856 263.22);
   --pink-200: oklch(0.8436 0.0672 0.89);
   --pink-300: oklch(0.7871 0.1302 0.89);
+  --gold-100: oklch(0.8122 0.1456 78.68); /* #F4B542 */
 
   font-family: "Fredoka", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -35,6 +36,7 @@
   --color-blue-200: var(--blue-200);
   --color-blue-300: var(--blue-300);
   --color-pink-200: var(--pink-200);
+  --color-gold-100: var(--gold-100);
 }
 
 body {

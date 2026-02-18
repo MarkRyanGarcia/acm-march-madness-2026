@@ -1,12 +1,65 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { StrokedText } from "@/components/StrokedText";
+import { useProblemList } from "@/client/problem/getProblemList";
 
 export const Route = createFileRoute("/problems/")({
   component: RouteComponent,
 });
 
+function calculateTimeLeft(nextRelease: Date) {
+  const now = new Date().getTime();
+  const target = nextRelease.getTime();
+  const diff = target - now;
+
+  if (diff <= 0) {
+    return { hours: 0, minutes: 0, seconds: 0 };
+  }
+
+  return {
+    hours: Math.floor(diff / (1000 * 60 * 60)),
+    minutes: Math.floor((diff / (1000 * 60)) % 60),
+    seconds: Math.floor((diff / 1000) % 60),
+  };
+}
+
 function RouteComponent() {
-  const problems = ["Day 0", "Day 1", "Day 2", "Day 3", "Day 4", "Day 5"];
+  const queryClient = useQueryClient();
+  const problemListQuery = useProblemList();
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(new Date()));
+
+  useEffect(() => {
+    const nextRelease = problemListQuery.data?.nextRelease;
+    if (!nextRelease) return;
+
+    setTimeLeft(calculateTimeLeft(nextRelease));
+
+    const interval = setInterval(() => {
+      const updated = calculateTimeLeft(nextRelease);
+      setTimeLeft(updated);
+
+      console.log(updated);
+
+      if (
+        updated.hours === 0 &&
+        updated.minutes === 0 &&
+        updated.seconds === 0
+      ) {
+        queryClient.invalidateQueries({ queryKey: ["problemList"] });
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [problemListQuery.data]);
+
+  if (problemListQuery.isLoading) return <div>Loading...</div>;
+  if (!problemListQuery.data) return null;
+
+  const { problemList } = problemListQuery.data;
+
+  const pad = (num: number) => String(num).padStart(2, "0");
 
   return (
     <div className="relative p-4 max-w-4xl mx-auto grid justify-center gap-8 mt-8 md:mt-12 font-[Fredoka]">
@@ -28,20 +81,21 @@ function RouteComponent() {
       <div className="relative rounded-xl w-full mx-auto grid gap-4 items-center px-6 md:px-12 py-6 bg-background-300 border-4 border-background-200">
         <h2 className="text-3xl text-center font-bold">Daily Challenges</h2>
         <div className="w-full grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4">
-          {problems.map((problem, i) => (
+          {problemList.map((problem) => (
             <Link
-              key={problem}
+              key={"problem-link-" + problem.day}
               to="/problems/$day"
-              params={{ day: "0" }}
-              disabled={i > 2}
-              className={`rounded-xl border-white border-4 text-white font-bold text-center p-2 sm:p-4 text-xl transition ${i > 2 ? "bg-gray-500" : "bg-grass-400 hover:bg-gold-100"}`}
+              params={{ day: problem.day.toString() }}
+              disabled={!problem.released}
+              className={`rounded-xl border-white border-4 text-white font-bold text-center p-2 sm:p-4 text-xl transition ${!problem.released ? "bg-gray-500" : "bg-grass-400 hover:bg-gold-100"}`}
             >
-              {problem}
+              Day {problem.day}
             </Link>
           ))}
         </div>
         <div className="font-medium text-center">
-          Next Challenge Releases in: 14h 23m 50s
+          Next challenge releases in {pad(timeLeft.hours)}hrs{" "}
+          {pad(timeLeft.minutes)}mins {pad(timeLeft.seconds)}secs!
         </div>
         <div className="absolute -bottom-6 right-1/4 sm:right-1/6 w-8 h-8 rounded-lg bg-background-300 [clip-path:polygon(100%_0,100%_100%,0_0)]" />
         <img

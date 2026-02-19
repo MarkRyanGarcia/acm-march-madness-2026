@@ -1,0 +1,22 @@
+{
+    "rewrites": [
+      {
+        "source": "/((?!api|_next|assets|favicon.ico).*)",
+        "destination": "/"
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/(.*)",
+        "has": [{ "type": "host", "value": "markgarcia.dev" }],
+        "destination": "https://markgarcia.dev/$1",
+        "permanent": true
+      },
+      {
+        "source": "/(.*)",
+        "has": [{ "type": "host", "value": "acmcsuf.com" }],
+        "destination": "https://acmcsuf.com/$1",
+        "permanent": true
+      }
+    ]
+  }

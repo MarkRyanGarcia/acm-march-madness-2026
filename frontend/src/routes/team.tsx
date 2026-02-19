@@ -63,14 +63,14 @@ const TeamView: React.FC<{ team: Team; userId: string }> = ({
           </p>
         </div>
 
-        <div className="z-20 w-full max-w-5xl mx-auto rounded-2xl bg-background-300 border-4 border-background-100 p-8 flex flex-col gap-6">
+        <div className="z-20 w-full max-w-5xl mx-auto rounded-2xl bg-background-200 border-6 md:border-12 border-background-300 p-8 flex flex-col gap-6">
           <div className="flex flex-col gap-3">
             <h3 className="text-xl md:text-2xl font-bold">Team Members</h3>
             <div className="flex flex-col gap-2">
               {team.members.map((member) => (
                 <div
                   key={member.id}
-                  className="flex flex-wrap items-center gap-2 text-base md:text-lg bg-background-200 rounded-lg px-4 py-2"
+                  className="flex flex-wrap items-center gap-2 text-base md:text-lg bg-background-100 rounded-lg px-4 py-2"
                 >
                   <span className="font-semibold">{member.userName}</span>
                   {member.isLeader && <>👑</>}

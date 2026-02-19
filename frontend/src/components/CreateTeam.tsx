@@ -62,7 +62,7 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
             Create or join a team!
           </p>
         </div>
-        <div className="z-20 w-full max-w-5xl rounded-2xl bg-background-300 border-4 border-background-100 p-8">
+        <div className="z-20 w-full max-w-5xl mx-auto rounded-2xl bg-background-200 border-6 md:border-12 border-background-300 p-8 flex flex-col gap-6">
           <p className="mt-2 md:text-lg font-medium text-center">
             If you are creating a team, you will be the team leader. You will be
             able to invite others to your team using the team code. - To create
@@ -79,7 +79,7 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
                 <input
                   value={teamName}
                   onChange={handleTeamNameChange}
-                  className="mt-1 w-full bg-background-500 rounded-xl border-4 border-white px-3 py-2 outline-none"
+                  className="mt-1 w-full bg-background-300 rounded-xl border-4 border-white px-3 py-2 outline-none"
                   placeholder="acmRocks"
                 />
                 {teamNameError && (
@@ -128,7 +128,7 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
                 <input
                   value={joinCode}
                   onChange={(e) => setJoinCode(e.target.value)}
-                  className="mt-1 w-full bg-background-500 rounded-xl border-4 border-white px-3 py-2 outline-none"
+                  className="mt-1 w-full bg-background-300 rounded-xl border-4 border-white px-3 py-2 outline-none"
                   placeholder="ACMM2026"
                 />
                 {joinCodeError && (

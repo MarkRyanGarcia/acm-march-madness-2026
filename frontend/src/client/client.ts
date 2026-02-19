@@ -1,4 +1,4 @@
-export const API_BACKEND_URL = 'http://localhost:8000';
+export const API_BACKEND_URL = 'https://acm-march-madness-2026-api.markgarcia.dev';
 
 type ApiResult<T> = { ok: boolean; status: number; data: T };
 

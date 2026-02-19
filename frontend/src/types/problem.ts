@@ -10,6 +10,8 @@ export type Problems = {
 };
 
 export type ProblemResponse = {
+  is_signed_in: boolean;
+  can_submit: boolean;
   part1: string;
   part2: string;
   part1_answer: number | null;
@@ -17,6 +19,8 @@ export type ProblemResponse = {
 };
 
 export type Problem = {
+  signedIn: boolean;
+  canSubmit: boolean;
   part1: string;
   part2: string;
   part1Answer: number | null;

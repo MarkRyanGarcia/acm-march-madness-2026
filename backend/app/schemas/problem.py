@@ -10,9 +10,11 @@ class ProblemListOut(BaseModel):
 
 
 class ProblemOut(BaseModel):
+    is_signed_in: bool
+    can_submit: bool
+
     part1: str
     part2: str
-
     part1_answer: Optional[int]
     part2_answer: Optional[int]
 

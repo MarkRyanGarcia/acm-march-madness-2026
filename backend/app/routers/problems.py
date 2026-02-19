@@ -65,6 +65,8 @@ def get_problem(
     part1, part2 = split_problem_parts(content)
 
     default_response = ProblemOut(
+        is_signed_in=auth_id is not None,
+        can_submit=False,
         part1=part1,
         part2="",
         part1_answer=None,
@@ -84,6 +86,8 @@ def get_problem(
     solved_part2 = len(correct_answers) == 2
 
     return ProblemOut(
+        is_signed_in=True,
+        can_submit=True,
         part1=part1,
         part2=part2 if solved_part1 else "",
         part1_answer=correct_answers[0].answer if solved_part1 else None,

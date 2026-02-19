@@ -1,6 +1,6 @@
 import { ClerkProvider } from "@clerk/clerk-react";
 
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+const PUBLISHABLE_KEY = "pk_test_ZHJpdmluZy1tYXJ0aW4tOTEuY2xlcmsuYWNjb3VudHMuZGV2JA";
 if (!PUBLISHABLE_KEY) {
   throw new Error("Add your Clerk Publishable Key to the .env.local file");
 }

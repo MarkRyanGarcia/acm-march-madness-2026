@@ -113,18 +113,20 @@ function RouteComponent() {
           </>
         ) : (
           <>
-            <div>
-              To begin,{" "}
-              <a
-                href={`http://localhost:8000/problems/${day}/input`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline underline-offset-2"
-              >
-                get your puzzle input
-              </a>
-              .
-            </div>
+            {problem.canSubmit && (
+              <div>
+                To begin,{" "}
+                <a
+                  href={`http://localhost:8000/problems/${day}/input`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2"
+                >
+                  get your puzzle input
+                </a>
+                .
+              </div>
+            )}
 
             <SubmissionSection part={1} />
           </>
@@ -142,18 +144,20 @@ function RouteComponent() {
               </p>
             ) : (
               <>
-                <div>
-                  Even though it hasn't changed, you can still{" "}
-                  <a
-                    href={`http://localhost:8000/problems/${day}/input`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline underline-offset-2"
-                  >
-                    get your puzzle input
-                  </a>
-                  .
-                </div>
+                {problem.canSubmit && (
+                  <div>
+                    Even though it hasn't changed, you can still{" "}
+                    <a
+                      href={`http://localhost:8000/problems/${day}/input`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline underline-offset-2"
+                    >
+                      get your puzzle input
+                    </a>
+                    .
+                  </div>
+                )}
 
                 <SubmissionSection part={2} />
               </>

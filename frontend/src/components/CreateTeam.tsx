@@ -1,8 +1,8 @@
 import { useState } from "react";
+import { StrokedText } from "./StrokedText";
 import { useCreateTeam } from "@/client/team/createTeam";
 import { validateJoinCode, validateTeamName } from "@/utils/validateForm";
 import { useJoinTeam } from "@/client/team/joinTeam";
-import { StrokedText } from "./StrokedText";
 
 type Props = {
   userId: string;
@@ -70,19 +70,16 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
             team code.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row items-stretch gap-8">
-            {/* Create Team */}
             <form
               onSubmit={handleTeamNameSubmit}
               className="flex-1 h-full flex flex-col"
             >
               <div className="text-lg md:text-xl">
-                <label className="block font-medium text-slate-700">
-                  Team name
-                </label>
+                <label className="block font-medium">Team name</label>
                 <input
                   value={teamName}
                   onChange={handleTeamNameChange}
-                  className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 placeholder-slate-700 outline-none"
+                  className="mt-1 w-full bg-background-500 rounded-xl border-4 border-white px-3 py-2 outline-none"
                   placeholder="acmRocks"
                 />
                 {teamNameError && (
@@ -96,7 +93,6 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
                 </p>
               )}
 
-              {/* Push button to bottom so heights feel equal */}
               <div className="mt-auto">
                 <button
                   type="submit"
@@ -108,16 +104,13 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
               </div>
             </form>
 
-            {/* Divider */}
             <div className="flex items-center justify-center self-stretch">
-              {/* Mobile divider */}
               <div className="sm:hidden flex items-center w-full gap-4">
                 <div className="h-px flex-1 bg-grass-400 rounded-full" />
                 <span className="bg-background-300 px-3 font-semibold">OR</span>
                 <div className="h-px flex-1 bg-grass-400 rounded-full" />
               </div>
 
-              {/* Desktop divider */}
               <div className="hidden sm:flex relative items-center justify-center h-full">
                 <div className="absolute h-full w-1 rounded-full bg-grass-400" />
                 <span className="z-10 bg-background-300 px-3 font-semibold">
@@ -126,19 +119,16 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
               </div>
             </div>
 
-            {/* Join Team */}
             <form
               onSubmit={handleJoinCodeSubmit}
               className="flex-1 h-full flex flex-col"
             >
               <div className="text-lg md:text-xl">
-                <label className="block font-medium text-slate-700">
-                  Join code
-                </label>
+                <label className="block font-medium">Join code</label>
                 <input
                   value={joinCode}
                   onChange={(e) => setJoinCode(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 placeholder-slate-700 outline-none"
+                  className="mt-1 w-full bg-background-500 rounded-xl border-4 border-white px-3 py-2 outline-none"
                   placeholder="ACMM2026"
                 />
                 {joinCodeError && (
@@ -153,10 +143,10 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
               <div className="mt-auto">
                 <button
                   type="submit"
-                  disabled={joinCode.length === 0}
+                  disabled={joinCode.length === 0 || joinTeam.isPending}
                   className="mt-6 w-full rounded-xl bg-grass-400 border-4 border-white text-white px-4 py-2.5 font-medium disabled:opacity-70"
                 >
-                  Join Team
+                  {joinTeam.isPending ? "Joining…" : "Join Team"}
                 </button>
               </div>
             </form>

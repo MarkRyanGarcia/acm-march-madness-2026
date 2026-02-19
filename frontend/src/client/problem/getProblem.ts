@@ -10,6 +10,8 @@ export function useProblem(day: string) {
     const problemResponse = res.data;
 
     const problem: Problem = {
+      signedIn: problemResponse.is_signed_in,
+      canSubmit: problemResponse.can_submit,
       part1: problemResponse.part1,
       part2: problemResponse.part2,
       part1Answer: problemResponse.part1_answer,

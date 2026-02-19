@@ -5,6 +5,9 @@
   --background-100: oklch(0.9852 0.0192 90.54);
   --background-200: oklch(0.9746 0.0292 87.54);
   --background-300: oklch(0.9404 0.0652 85.83);
+  --background-500: oklch(0.9151 0.0613 86.42);
+  --background-600: oklch(0.8724 0.0957 86.42);
+  --background-700: oklch(0.6782 0.1056 56.75);
   --foreground: oklch(0 0 0);
 
   --grass-100: oklch(0.911 0.0942 145.63); /* #BAF3BC */
@@ -16,6 +19,9 @@
   --blue-300: oklch(0.7282 0.0856 263.22);
   --pink-200: oklch(0.8436 0.0672 0.89);
   --pink-300: oklch(0.7871 0.1302 0.89);
+  --orange-200: oklch(0.8902 0.0765 64.66);
+  --orange-300: oklch(0.7748 0.1176 45.25);
+  --orange-600: oklch(0.5988 0.145 28.16);
   --gold-100: oklch(0.8122 0.1456 78.68); /* #F4B542 */
 
   font-family: "Fredoka", sans-serif;
@@ -27,6 +33,9 @@
   --color-background-100: var(--background-100);
   --color-background-200: var(--background-200);
   --color-background-300: var(--background-300);
+  --color-background-500: var(--background-500);
+  --color-background-600: var(--background-600);
+  --color-background-700: var(--background-700);
   --color-foreground: var(--foreground);
   --color-grass-100: var(--grass-100);
   --color-grass-200: var(--grass-200);
@@ -36,7 +45,11 @@
   --color-blue-200: var(--blue-200);
   --color-blue-300: var(--blue-300);
   --color-pink-200: var(--pink-200);
+  --color-orange-200: var(--orange-200);
+  --color-orange-300: var(--orange-300);
+  --color-orange-600: var(--orange-600);
   --color-gold-100: var(--gold-100);
+  --color-gold-200: var(--gold-200);
 }
 
 body {

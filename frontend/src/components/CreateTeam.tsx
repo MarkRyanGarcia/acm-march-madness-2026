@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useCreateTeam } from "@/client/team/createTeam";
 import { validateJoinCode, validateTeamName } from "@/utils/validateForm";
 import { useJoinTeam } from "@/client/team/joinTeam";
+import { StrokedText } from "./StrokedText";
 
 type Props = {
   userId: string;
@@ -50,95 +51,134 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
   const isInvalid = validateTeamName(teamName) != null;
 
   return (
-    <div className="mt-16 flex items-center justify-center px-4">
-      <div className="w-full max-w-md rounded-2xl text-white bg-sky-500 p-8 shadow-lg">
-        <form onSubmit={handleTeamNameSubmit}>
-          <h2 className="text-2xl font-semibold text-center">
-            Let's Make You a Team!
-          </h2>
-
-          <p className="mt-2 text-sm text-center">
-            Choose your team name. It will be displayed in the leaderboard.
+    <div className="relative overflow-hidden min-h-screen">
+      <div className="py-16 max-w-4xl mx-auto grid items-center gap-8 px-8 md:px-4">
+        <div className="grid items-center gap-4 md:gap-8">
+          <StrokedText
+            text="Team Creation"
+            className="text-3xl md:text-5xl lg:text-7xl text-center font-extrabold"
+          />
+          <p className="text-xl md:text-3xl font-bold text-center">
+            Create or join a team!
           </p>
-
-          <div className="mt-6">
-            <label className="block text-sm font-medium text-slate-700">
-              Team name
-            </label>
-            <input
-              value={teamName}
-              onChange={handleTeamNameChange}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2
-                       text-slate-800 placeholder-slate-700 outline-none"
-              placeholder="acmRocks"
-            />
-            {teamNameError && (
-              <p className="mt-1 text-sm text-pink-600">{teamNameError}</p>
-            )}
-          </div>
-
-          {createTeam.isError && (
-            <p className="mt-3 text-sm text-pink-600">
-              {createTeam.error.message}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            disabled={isInvalid || createTeam.isPending}
-            className="mt-6 w-full rounded-xl bg-blue-600 px-4 py-2.5
-                     text-white font-medium hover:bg-blue-700
-                     disabled:opacity-70 disabled:cursor-not-allowed"
-          >
-            {createTeam.isPending ? "Joining…" : "Join the Madness!"}
-          </button>
-        </form>
-        <form onSubmit={handleJoinCodeSubmit}>
-          <div className="mt-8 flex items-center gap-4">
-            <hr className="flex-1 border border-white" />
-            <span className="text-sm text-white/80">or</span>
-            <hr className="flex-1 border border-white" />
-          </div>
-
-          <p className="text-sm text-center">
-            Already have a join code? Enter it below.
+        </div>
+        <div className="z-20 w-full max-w-5xl rounded-2xl bg-background-300 border-4 border-background-100 p-8">
+          <p className="mt-2 md:text-lg font-medium text-center">
+            If you are creating a team, you will be the team leader. You will be
+            able to invite others to your team using the team code. - To create
+            a team, put in your wanted team name. - To join a team, put in the
+            team code.
           </p>
+          <div className="mt-6 flex flex-col sm:flex-row items-stretch gap-8">
+            {/* Create Team */}
+            <form
+              onSubmit={handleTeamNameSubmit}
+              className="flex-1 h-full flex flex-col"
+            >
+              <div className="text-lg md:text-xl">
+                <label className="block font-medium text-slate-700">
+                  Team name
+                </label>
+                <input
+                  value={teamName}
+                  onChange={handleTeamNameChange}
+                  className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 placeholder-slate-700 outline-none"
+                  placeholder="acmRocks"
+                />
+                {teamNameError && (
+                  <p className="mt-1 text-sm text-pink-600">{teamNameError}</p>
+                )}
+              </div>
 
-          <div className="mt-4">
-            <label className="block text-sm font-medium text-slate-700">
-              Join code
-            </label>
-            <input
-              value={joinCode}
-              onChange={(e) => setJoinCode(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2
-                     text-slate-800 placeholder-slate-700 outline-none"
-              placeholder="ACMM2026"
-            />
-            {joinCodeError && (
-              <p className="mt-1 text-sm text-pink-600">{joinCodeError}</p>
-            )}
+              {createTeam.isError && (
+                <p className="mt-3 text-sm text-pink-600">
+                  {createTeam.error.message}
+                </p>
+              )}
+
+              {/* Push button to bottom so heights feel equal */}
+              <div className="mt-auto">
+                <button
+                  type="submit"
+                  disabled={isInvalid || createTeam.isPending}
+                  className="mt-6 w-full rounded-xl bg-grass-400 border-4 border-white px-4 py-2.5 text-white font-medium disabled:opacity-70"
+                >
+                  {createTeam.isPending ? "Creating…" : "Create Team"}
+                </button>
+              </div>
+            </form>
+
+            {/* Divider */}
+            <div className="flex items-center justify-center self-stretch">
+              {/* Mobile divider */}
+              <div className="sm:hidden flex items-center w-full gap-4">
+                <div className="h-px flex-1 bg-grass-400 rounded-full" />
+                <span className="bg-background-300 px-3 font-semibold">OR</span>
+                <div className="h-px flex-1 bg-grass-400 rounded-full" />
+              </div>
+
+              {/* Desktop divider */}
+              <div className="hidden sm:flex relative items-center justify-center h-full">
+                <div className="absolute h-full w-1 rounded-full bg-grass-400" />
+                <span className="z-10 bg-background-300 px-3 font-semibold">
+                  OR
+                </span>
+              </div>
+            </div>
+
+            {/* Join Team */}
+            <form
+              onSubmit={handleJoinCodeSubmit}
+              className="flex-1 h-full flex flex-col"
+            >
+              <div className="text-lg md:text-xl">
+                <label className="block font-medium text-slate-700">
+                  Join code
+                </label>
+                <input
+                  value={joinCode}
+                  onChange={(e) => setJoinCode(e.target.value)}
+                  className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-800 placeholder-slate-700 outline-none"
+                  placeholder="ACMM2026"
+                />
+                {joinCodeError && (
+                  <p className="mt-3 text-sm text-pink-600">{joinCodeError}</p>
+                )}
+              </div>
+
+              {joinTeam.isError && (
+                <p className="mt-3 text-pink-600">{joinTeam.error.message}</p>
+              )}
+
+              <div className="mt-auto">
+                <button
+                  type="submit"
+                  disabled={joinCode.length === 0}
+                  className="mt-6 w-full rounded-xl bg-grass-400 border-4 border-white text-white px-4 py-2.5 font-medium disabled:opacity-70"
+                >
+                  Join Team
+                </button>
+              </div>
+            </form>
           </div>
-
-          {joinTeam.isError && (
-            <p className="mt-3 text-sm text-pink-600">
-              {joinTeam.error.message}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            name="intent"
-            value="join"
-            disabled={joinCode.length === 0}
-            className="mt-4 w-full rounded-xl bg-emerald-600 px-4 py-2.5
-                   font-medium hover:bg-emerald-700
-                   disabled:cursor-not-allowed disabled:opacity-70"
-          >
-            Join Team
-          </button>
-        </form>
+        </div>
       </div>
+      <img
+        src="/hills_bg.svg"
+        className="absolute bottom-0 w-full scale-y-50 origin-bottom"
+      />
+      <img
+        src="/blue_capy.svg"
+        className="z-20 w-32 absolute bottom-0 left-0 md:left-32"
+      />
+      <img
+        src="/pink_capy.svg"
+        className="z-20 w-32 absolute bottom-0 left-1/5 md:left-70"
+      />
+      <img
+        src="/capybara2.svg"
+        className="z-20 w-32 absolute bottom-0 right-0 md:right-1/5"
+      />
     </div>
   );
 };

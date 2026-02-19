@@ -55,7 +55,7 @@ export const CreateUserForm: React.FC<Props> = ({
 
         <form
           onSubmit={handleSubmit}
-          className="z-10 w-full rounded-2xl bg-background-200 outline-[#FFE9B8]/90 outline-4 md:outline-15 p-6 md:p-8 shadow-lg"
+          className="z-10 w-full rounded-2xl bg-background-200 outline-[#FFE9B8]/90 outline-4 md:outline-15 p-6 md:p-8"
         >
           <h2 className="text-xl md:text-2xl font-semibold">Register</h2>
           <p className="mt-2 text-lg md:text-center">

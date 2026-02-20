@@ -11,6 +11,7 @@ origins = [
     "http://localhost",
     "http://localhost:3000",
     "https://madness.markgarcia.dev",
+    "https://madness.acmcsuf.com",
 ]
 
 app.add_middleware(

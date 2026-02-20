@@ -2,6 +2,7 @@ import { useState } from "react";
 import type React from "react";
 import { useCreateUser } from "@/client/user/createUser";
 import { validateUsername } from "@/utils/validateForm";
+import { StrokedText } from "./StrokedText";
 
 type Props = {
   userId: string;
@@ -45,47 +46,51 @@ export const CreateUserForm: React.FC<Props> = ({
   const isInvalid = validateUsername(userName) != null;
 
   return (
-    <div className="mt-16 flex items-center justify-center px-4">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md rounded-2xl text-white bg-sky-500 p-8 shadow-lg"
-      >
-        <h2 className="text-2xl font-semibold text-center">Welcome 🌸</h2>
+    <div>
+      <div className="my-16 max-w-xl mx-auto grid gap-8 md:gap-16 items-center px-8 md:px-4">
+        <StrokedText
+          text="WELCOME :D"
+          className="text-3xl md:text-5xl lg:text-7xl text-center font-extrabold"
+        />
 
-        <p className="mt-2 text-sm text-center">
-          We picked your GitHub username for you. You can keep it or make it
-          your own.
-        </p>
-
-        <div className="mt-6">
-          <label className="block text-sm font-medium text-slate-700">
-            Username
-          </label>
-          <input
-            value={userName}
-            onChange={handleChange}
-            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2
-                       text-slate-800 placeholder-slate-400 outline-none"
-          />
-          {error && <p className="mt-1 text-sm text-pink-600">{error}</p>}
-        </div>
-
-        {createUser.isError && (
-          <p className="mt-3 text-sm text-pink-600">
-            {createUser.error.message}
-          </p>
-        )}
-
-        <button
-          type="submit"
-          disabled={isInvalid || createUser.isPending}
-          className="mt-6 w-full rounded-xl bg-blue-600 px-4 py-2.5
-                     text-white font-medium hover:bg-blue-700
-                     disabled:opacity-70 disabled:cursor-not-allowed"
+        <form
+          onSubmit={handleSubmit}
+          className="z-10 w-full rounded-2xl bg-background-200 outline-[#FFE9B8]/90 outline-4 md:outline-15 p-6 md:p-8"
         >
-          {createUser.isPending ? "Joining…" : "Join the Madness!"}
-        </button>
-      </form>
+          <h2 className="text-xl md:text-2xl font-semibold">Register</h2>
+          <p className="mt-2 text-lg md:text-center">
+            You can keep your GitHub username or make another one!
+          </p>
+
+          <div className="mt-6 text-lg md:text-xl">
+            <label className="block font-medium">Username</label>
+            <input
+              value={userName}
+              onChange={handleChange}
+              className="mt-1 w-full rounded-xl font-bold border-white border-4 px-3 py-2 placeholder-slate-400 outline-none"
+            />
+            {error && <p className="mt-1 text-[1rem] text-pink-600">{error}</p>}
+          </div>
+
+          {createUser.isError && (
+            <p className="mt-3 text-lg text-pink-600">
+              {createUser.error.message}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            disabled={isInvalid || createUser.isPending}
+            className="mt-6 w-full rounded-xl bg-grass-400 px-4 py-3 text-white font-medium transition not-disabled:hover:bg-gold-100 disabled:opacity-70 disabled:cursor-default"
+          >
+            {createUser.isPending ? "Joining…" : "Join the Madness!"}
+          </button>
+        </form>
+      </div>
+      <img
+        src="/hills_bg.svg"
+        className="absolute -bottom-1/3 w-full scale-y-40"
+      />
     </div>
   );
 };

@@ -7,6 +7,8 @@ import { CreateTeamForm } from "@/components/CreateTeam";
 import { useLeaveTeam } from "@/client/team/leaveTeam";
 import { useDeleteTeam } from "@/client/team/deleteTeam";
 import { useToggleAcceptingMembers } from "@/client/team/toggleAccepting";
+import { StrokedText } from "@/components/StrokedText";
+import { timeAgo } from "@/utils/date";
 
 export const Route = createFileRoute("/team")({
   beforeLoad: ({ context }) => {
@@ -42,31 +44,90 @@ const TeamView: React.FC<{ team: Team; userId: string }> = ({
   };
 
   return (
-    <div>
-      <h2>{team.teamName}</h2>
-      <div>
-        {team.acceptingMembers
-          ? `New members are welcome! Invite Code: ${team.inviteCode}`
-          : "Not currently accepting members"}
-      </div>
-      <div>
-        {team.members.map((member) => (
-          <div key={member.id}>
-            <span>{member.userName}</span>
-            {member.isLeader && <span> (supreme leader)</span>}
-            <span> joined at {member.joinedAt}</span>
-          </div>
-        ))}
-      </div>
-      <button onClick={handleLeave}>Leave team</button>
-      {isLeader && (
-        <div>
-          <button onClick={handleDelete}>Delete Team 😈</button>
-          <button onClick={handleToggleAcceptingMembers}>
-            {team.acceptingMembers ? "Restrict members" : "Accept members"}
-          </button>
+    <div className="relative overflow-hidden min-h-screen">
+      <div className="py-16 max-w-4xl mx-auto grid items-center gap-8 px-8 md:px-4">
+        <div className="grid gap-4 text-center">
+          <StrokedText
+            text={team.teamName}
+            className="text-3xl md:text-5xl lg:text-6xl font-extrabold"
+          />
+
+          <p className="text-lg md:text-xl font-medium">
+            {team.acceptingMembers ? (
+              <>
+                New members are welcome! Invite Code: <b>{team.inviteCode}</b>
+              </>
+            ) : (
+              "Not currently accepting members."
+            )}
+          </p>
         </div>
-      )}
+
+        <div className="z-20 w-full max-w-5xl mx-auto rounded-2xl bg-background-200 border-6 md:border-12 border-background-300 p-8 flex flex-col gap-6">
+          <div className="flex flex-col gap-3">
+            <h3 className="text-xl md:text-2xl font-bold">Team Members</h3>
+            <div className="flex flex-col gap-2">
+              {team.members.map((member) => (
+                <div
+                  key={member.id}
+                  className="flex flex-wrap items-center gap-2 text-base md:text-lg bg-background-100 rounded-lg px-4 py-2"
+                >
+                  <span className="font-semibold">{member.userName}</span>
+                  {member.isLeader && <>👑</>}
+                  <span className="text-sm opacity-70">
+                    joined {timeAgo(member.joinedAt)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2 sm:flex-row sm:gap-4 justify-between pt-4 border-t border-background-100">
+            <button
+              onClick={handleLeave}
+              className="rounded-xl bg-blue-300 border-4 border-white px-4 py-2.5 text-white font-medium transition hover:opacity-90"
+            >
+              Leave team
+            </button>
+
+            {isLeader && (
+              <div className="flex flex-col gap-2 sm:flex-row sm:gap-4 sm:ml-auto">
+                <button
+                  onClick={handleToggleAcceptingMembers}
+                  className="rounded-xl bg-grass-400 border-4 border-white px-4 py-2.5 text-white font-medium transition hover:opacity-90"
+                >
+                  {team.acceptingMembers
+                    ? "Restrict members"
+                    : "Accept members"}
+                </button>
+
+                <button
+                  onClick={handleDelete}
+                  className="rounded-xl bg-orange-600 border-4 border-white px-4 py-2.5 text-white font-medium transition hover:opacity-90"
+                >
+                  Delete Team
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+      <img
+        src="/hills_bg.svg"
+        className="absolute bottom-0 w-full scale-y-50 origin-bottom"
+      />
+      <img
+        src="/blue_capy.svg"
+        className="z-20 w-32 absolute bottom-0 left-0 md:left-32"
+      />
+      <img
+        src="/pink_capy.svg"
+        className="z-20 w-32 absolute bottom-0 left-1/5 md:left-70"
+      />
+      <img
+        src="/capybara2.svg"
+        className="z-20 w-32 absolute bottom-0 right-0 md:right-1/5"
+      />
     </div>
   );
 };

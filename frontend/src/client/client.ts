@@ -1,4 +1,4 @@
-export const API_BACKEND_URL = 'https://acm-march-madness-2026-api.markgarcia.dev';
+export const API_BACKEND_URL = import.meta.env.VITE_API_BACKEND_URL;
 
 type ApiResult<T> = { ok: boolean; status: number; data: T };
 

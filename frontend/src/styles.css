@@ -72,3 +72,28 @@ code {
     cursor: pointer;
   }
 }
+
+.capybara-track {
+  fill: none;
+  stroke: #604545;
+  stroke-width: 26;
+  opacity: 0.15;
+}
+
+.capybara-indicator {
+  fill: none;
+  stroke: #604545;
+  stroke-width: 30;
+  stroke-linecap: round;
+
+  stroke-dasharray: 200 1424.47705078125;
+
+  animation: capybara-animation 1.5s cubic-bezier(0.785, 0.135, 0.15, 0.86)
+    infinite;
+}
+
+@keyframes capybara-animation {
+  from {
+    stroke-dashoffset: -1624.47705078125;
+  }
+}

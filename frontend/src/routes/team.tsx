@@ -9,6 +9,7 @@ import { useDeleteTeam } from "@/client/team/deleteTeam";
 import { useToggleAcceptingMembers } from "@/client/team/toggleAccepting";
 import { StrokedText } from "@/components/StrokedText";
 import { timeAgo } from "@/utils/date";
+import { LoadingPage } from "@/components/Loading";
 
 export const Route = createFileRoute("/team")({
   beforeLoad: ({ context }) => {
@@ -137,7 +138,7 @@ function TeamPage() {
   const userQuery = useUser(clerkUser.id);
   const teamQuery = useUserTeam(clerkUser.id);
 
-  if (userQuery.isLoading) return <div>Loading…</div>;
+  if (userQuery.isLoading) return <LoadingPage />;
   if (!userQuery.data) {
     return (
       <CreateUserForm
@@ -148,7 +149,7 @@ function TeamPage() {
     );
   }
 
-  if (teamQuery.isLoading) return <div>Loading...</div>;
+  if (teamQuery.isLoading) return <LoadingPage />;
   if (!teamQuery.data) {
     return <CreateTeamForm userId={clerkUser.id} />;
   }

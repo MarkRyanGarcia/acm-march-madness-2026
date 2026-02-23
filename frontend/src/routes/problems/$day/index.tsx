@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { MarkdownHooks } from "react-markdown";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import type { Components } from "react-markdown";
 import { useProblem } from "@/client/problem/getProblem";
 import { useSubmitProblem } from "@/client/problem/submitProblem";
 import { StrokedText } from "@/components/StrokedText";
+import { LoadingPage } from "@/components/Loading";
 
 export const Route = createFileRoute("/problems/$day/")({
   component: RouteComponent,
@@ -16,7 +17,7 @@ function RouteComponent() {
   const submitProblem = useSubmitProblem(day);
   const [answer, setAnswer] = useState("");
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingPage />;
   if (!problem) return null;
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { StrokedText } from "@/components/StrokedText";
 import { useProblemList } from "@/client/problem/getProblemList";
+import { LoadingPage } from "@/components/Loading";
 
 export const Route = createFileRoute("/problems/")({
   component: RouteComponent,
@@ -54,7 +55,7 @@ function RouteComponent() {
     return () => clearInterval(interval);
   }, [problemListQuery.data]);
 
-  if (problemListQuery.isLoading) return <div>Loading...</div>;
+  if (problemListQuery.isLoading) return <LoadingPage />;
   if (!problemListQuery.data) return null;
 
   const { problemList } = problemListQuery.data;

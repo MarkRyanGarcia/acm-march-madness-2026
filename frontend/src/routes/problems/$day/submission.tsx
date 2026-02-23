@@ -4,6 +4,7 @@ import type { ProblemSubmission } from "@/types/problem";
 import { SUBMIT_REDIRECT_KEY } from "@/constants/localStorage";
 import { formatSecondsAsText } from "@/utils/date";
 import { StrokedText } from "@/components/StrokedText";
+import { LoadingPage } from "@/components/Loading";
 
 export const Route = createFileRoute("/problems/$day/submission")({
   beforeLoad: ({ params }) => {
@@ -17,6 +18,7 @@ export const Route = createFileRoute("/problems/$day/submission")({
     return { submission };
   },
   loader: ({ context }) => ({ submission: context.submission }),
+  pendingComponent: LoadingPage,
   component: RouteComponent,
 });
 

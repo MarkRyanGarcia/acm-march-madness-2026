@@ -11,14 +11,14 @@ export const Route = createFileRoute("/")({
 });
 
 const Hero: React.FC = () => {
-  const sizeClasses = "text-5xl md:text-8xl tracking-wider";
+  const sizeClasses = "text-5xl md:text-7xl lg:text-8xl tracking-wider";
 
   return (
-    <div className="max-w-max mx-auto px-4 mt-12 md:mt-50 font-[Fredoka]">
+    <div className="max-w-max mx-auto px-4 mt-12 md:mt-32 font-[Fredoka]">
       <h1 className="font-extrabold text-center">
         <StrokedText text="MARCH MADNESS" className={sizeClasses} />
         <span className="block mt-2">
-          <StrokedText text="2026" className="text-5xl md:text-8xl" />
+          <StrokedText text="2026" className={sizeClasses} />
         </span>
       </h1>
     </div>
@@ -77,7 +77,7 @@ function LandingPage() {
           />
           <img
             src="/orchid1.svg"
-            className="absolute left-0 top-48 md:top-85 w-24 sm:w-32 md:w-40 lg:w-48"
+            className="absolute left-0 top-40 md:top-85 w-24 sm:w-32 md:w-40 lg:w-48"
           />
         </div>
       </main>

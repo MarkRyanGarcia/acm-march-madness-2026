@@ -8,6 +8,7 @@ import * as TanStackQueryProvider from "@/providers/react-query";
 import { routeTree } from "@/routeTree.gen";
 import reportWebVitals from "@/reportWebVitals.ts";
 import "./styles.css";
+import { LoadingPage } from "./components/Loading";
 
 const TanStackQueryProviderContext = TanStackQueryProvider.getContext();
 const router = createRouter({
@@ -38,7 +39,7 @@ function RouterProviderWithAuth() {
   const { isLoaded, isSignedIn, user } = useUser();
   const { getToken } = useAuth();
 
-  if (!isLoaded) return null;
+  if (!isLoaded) return <LoadingPage />;
 
   return (
     <RouterProvider

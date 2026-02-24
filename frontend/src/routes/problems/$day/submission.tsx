@@ -1,10 +1,10 @@
 import { Link, createFileRoute, redirect } from "@tanstack/react-router";
-import { useState } from "react";
 import type { ProblemSubmission } from "@/types/problem";
 import { SUBMIT_REDIRECT_KEY } from "@/constants/localStorage";
 import { formatSecondsAsText } from "@/utils/date";
 import { StrokedText } from "@/components/StrokedText";
 import { LoadingPage } from "@/components/Loading";
+import { Capybara } from "@/components/Capybara";
 
 export const Route = createFileRoute("/problems/$day/submission")({
   beforeLoad: ({ params }) => {
@@ -19,20 +19,10 @@ export const Route = createFileRoute("/problems/$day/submission")({
   },
   loader: ({ context }) => ({ submission: context.submission }),
   pendingComponent: LoadingPage,
-  component: RouteComponent,
+  component: ProblemSubmissionPage,
 });
 
-const Capybara: React.FC<{ correct: boolean }> = ({ correct }) => {
-  const [imgNum, setImgNum] = useState(2);
-  setTimeout(() => setImgNum(3 - imgNum), 750);
-  const src = correct
-    ? `/happy_capybara${imgNum}.svg`
-    : `/sad_capybara${imgNum}.svg`;
-
-  return <img src={src} className="w-32 justify-self-end" />;
-};
-
-function RouteComponent() {
+function ProblemSubmissionPage() {
   const { submission } = Route.useLoaderData();
   const { day } = Route.useParams();
 

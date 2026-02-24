@@ -10,6 +10,7 @@ import { useToggleAcceptingMembers } from "@/client/team/toggleAccepting";
 import { StrokedText } from "@/components/StrokedText";
 import { timeAgo } from "@/utils/date";
 import { LoadingPage } from "@/components/Loading";
+import ErrorPage from "@/components/Error";
 
 export const Route = createFileRoute("/team")({
   beforeLoad: ({ context }) => {
@@ -141,6 +142,8 @@ function TeamPage() {
   const teamQuery = useUserTeam(clerkUser.id);
 
   if (userQuery.isLoading) return <LoadingPage />;
+  if (userQuery.error) return <ErrorPage />;
+
   if (!userQuery.data) {
     return (
       <CreateUserForm
@@ -152,6 +155,8 @@ function TeamPage() {
   }
 
   if (teamQuery.isLoading) return <LoadingPage />;
+  if (teamQuery.error) return <ErrorPage />;
+
   if (!teamQuery.data) {
     return <CreateTeamForm userId={clerkUser.id} />;
   }

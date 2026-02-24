@@ -2,16 +2,18 @@ import { createFileRoute } from "@tanstack/react-router";
 import { StrokedText } from "@/components/StrokedText";
 import { useLeaderboard } from "@/client/leaderboard/getLeaderboard";
 import { LoadingPage } from "@/components/Loading";
+import ErrorPage from "@/components/Error";
 
 export const Route = createFileRoute("/leaderboard")({
-  component: RouteComponent,
+  component: LeaderboardPage,
 });
 
 const sizeClasses = "text-3xl sm:text-5xl md:text-7xl tracking-wider";
 
-function RouteComponent() {
-  const { data: leaderboardData = [], isLoading } = useLeaderboard();
+function LeaderboardPage() {
+  const { data: leaderboardData = [], isLoading, error } = useLeaderboard();
   if (isLoading) return <LoadingPage />;
+  if (error) return <ErrorPage />;
 
   return (
     <div className="w-full mx-auto px-4 mt-8 md:mt-20 font-[Fredoka] relative min-h-screen">

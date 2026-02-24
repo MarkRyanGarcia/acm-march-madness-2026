@@ -4,9 +4,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { StrokedText } from "@/components/StrokedText";
 import { useProblemList } from "@/client/problem/getProblemList";
 import { LoadingPage } from "@/components/Loading";
+import ErrorPage from "@/components/Error";
 
 export const Route = createFileRoute("/problems/")({
-  component: RouteComponent,
+  component: ProblemsPage,
 });
 
 function calculateTimeLeft(nextRelease: Date) {
@@ -25,7 +26,7 @@ function calculateTimeLeft(nextRelease: Date) {
   };
 }
 
-function RouteComponent() {
+function ProblemsPage() {
   const queryClient = useQueryClient();
   const problemListQuery = useProblemList();
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(new Date()));
@@ -56,7 +57,7 @@ function RouteComponent() {
   }, [problemListQuery.data]);
 
   if (problemListQuery.isLoading) return <LoadingPage />;
-  if (!problemListQuery.data) return null;
+  if (problemListQuery.error || !problemListQuery.data) return <ErrorPage />;
 
   const { problemList } = problemListQuery.data;
 

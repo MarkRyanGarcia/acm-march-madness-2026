@@ -3,12 +3,14 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { useAuth, useUser } from "@clerk/clerk-react";
 
+import ErrorPage from "./components/Error";
+import NotFound from "./components/NotFound";
 import AppClerkProvider from "@/providers/clerk";
 import * as TanStackQueryProvider from "@/providers/react-query";
 import { routeTree } from "@/routeTree.gen";
 import reportWebVitals from "@/reportWebVitals.ts";
-import "./styles.css";
 import { LoadingPage } from "@/components/Loading";
+import "./styles.css";
 
 const TanStackQueryProviderContext = TanStackQueryProvider.getContext();
 const router = createRouter({
@@ -22,6 +24,8 @@ const router = createRouter({
       getToken: async () => Promise.resolve(null),
     },
   },
+  defaultErrorComponent: ErrorPage,
+  defaultNotFoundComponent: NotFound,
   defaultPreload: "intent",
   scrollRestoration: true,
   defaultStructuralSharing: true,

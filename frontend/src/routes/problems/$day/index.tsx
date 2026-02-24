@@ -10,7 +10,7 @@ import { LoadingPage } from "@/components/Loading";
 import NotFound from "@/components/NotFound";
 
 export const Route = createFileRoute("/problems/$day/")({
-  component: RouteComponent,
+  component: ProblemPage,
 });
 
 type SubmissionSectionProps = {
@@ -68,7 +68,7 @@ const SubmissionSection: React.FC<SubmissionSectionProps> = ({
         onChange={handleChangeInput}
       />
       <button
-        className="font-bold bg-background-600 px-2 rounded-md"
+        className="font-bold bg-background-600 px-2 rounded-md disabled:opacity-70"
         disabled={submitProblem.isPending}
         onClick={handleSubmit}
       >
@@ -78,12 +78,11 @@ const SubmissionSection: React.FC<SubmissionSectionProps> = ({
   );
 };
 
-function RouteComponent() {
+function ProblemPage() {
   const { day } = Route.useParams();
   const { isLoading, data: problem, error } = useProblem(day);
 
   if (isLoading) return <LoadingPage />;
-
   if (error || !problem) return <NotFound />;
 
   const components: Components = {

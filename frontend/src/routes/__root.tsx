@@ -2,7 +2,6 @@ import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import type { QueryClient } from "@tanstack/react-query";
 import type { GetToken, UserResource } from "@clerk/types";
 import { Navbar } from "@/components/Navbar";
-import NotFound from "@/components/NotFound";
 
 interface AppRouterContext {
   queryClient: QueryClient;
@@ -21,5 +20,4 @@ export const Route = createRootRouteWithContext<AppRouterContext>()({
       <Outlet />
     </>
   ),
-  notFoundComponent: NotFound,
 });

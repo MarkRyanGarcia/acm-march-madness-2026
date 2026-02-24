@@ -5,9 +5,11 @@ import type React from "react";
 import { StrokedText } from "@/components/StrokedText";
 import { Footer } from "@/components/Footer";
 import FAQ from "@/components/FAQ";
+import ErrorPage from "@/components/Error";
 
 export const Route = createFileRoute("/")({
   component: LandingPage,
+  errorComponent: ErrorPage,
 });
 
 const Hero: React.FC = () => {
@@ -77,7 +79,7 @@ function LandingPage() {
           />
           <img
             src="/orchid1.svg"
-            className="absolute left-0 top-40 md:top-85 w-24 sm:w-32 md:w-40 lg:w-48"
+            className="absolute left-0 top-40 md:top-64 w-24 sm:w-32 md:w-40 lg:w-48"
           />
         </div>
       </main>

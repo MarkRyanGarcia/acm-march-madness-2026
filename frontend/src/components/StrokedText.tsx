@@ -35,4 +35,3 @@ export const StrokedText: React.FC<StrokedTextProps> = ({
     </span>
   </span>
 );
-

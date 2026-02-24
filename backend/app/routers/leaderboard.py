@@ -9,7 +9,6 @@ from app.db.models import Team, TeamPoint, TeamSubmitAttempt
 router = APIRouter()
 
 
-
 @router.get("/leaderboard", response_model=list[LeaderboardEntry])
 def get_leaderboard(db: Annotated[Session, Depends(get_db)]):
     # total points per team

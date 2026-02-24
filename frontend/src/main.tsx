@@ -8,7 +8,7 @@ import * as TanStackQueryProvider from "@/providers/react-query";
 import { routeTree } from "@/routeTree.gen";
 import reportWebVitals from "@/reportWebVitals.ts";
 import "./styles.css";
-import { LoadingPage } from "./components/Loading";
+import { LoadingPage } from "@/components/Loading";
 
 const TanStackQueryProviderContext = TanStackQueryProvider.getContext();
 const router = createRouter({

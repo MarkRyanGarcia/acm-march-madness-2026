@@ -10,4 +10,3 @@ class TeamMemberOut(BaseModel):
 
     class Config:
         form_attributes = True
-

@@ -85,13 +85,12 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
                 {teamNameError && (
                   <p className="mt-1 text-sm text-pink-600">{teamNameError}</p>
                 )}
+                {createTeam.isError && (
+                  <p className="mt-1 text-sm text-pink-600">
+                    {createTeam.error.message}
+                  </p>
+                )}
               </div>
-
-              {createTeam.isError && (
-                <p className="mt-3 text-sm text-pink-600">
-                  {createTeam.error.message}
-                </p>
-              )}
 
               <div className="mt-auto">
                 <button
@@ -99,7 +98,7 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
                   disabled={isInvalid || createTeam.isPending}
                   className="mt-6 w-full rounded-xl bg-grass-400 border-4 border-white px-4 py-2.5 text-white font-medium disabled:opacity-70"
                 >
-                  {createTeam.isPending ? "Creating…" : "Create Team"}
+                  {createTeam.isPending ? "Creating..." : "Create Team"}
                 </button>
               </div>
             </form>
@@ -132,13 +131,14 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
                   placeholder="ACMM2026"
                 />
                 {joinCodeError && (
-                  <p className="mt-3 text-sm text-pink-600">{joinCodeError}</p>
+                  <p className="mt-1 text-sm text-pink-600">{joinCodeError}</p>
+                )}
+                {joinTeam.isError && (
+                  <p className="mt-1 text-sm text-pink-600">
+                    {joinTeam.error.message}
+                  </p>
                 )}
               </div>
-
-              {joinTeam.isError && (
-                <p className="mt-3 text-pink-600">{joinTeam.error.message}</p>
-              )}
 
               <div className="mt-auto">
                 <button
@@ -146,7 +146,7 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
                   disabled={joinCode.length === 0 || joinTeam.isPending}
                   className="mt-6 w-full rounded-xl bg-grass-400 border-4 border-white text-white px-4 py-2.5 font-medium disabled:opacity-70"
                 >
-                  {joinTeam.isPending ? "Joining…" : "Join Team"}
+                  {joinTeam.isPending ? "Joining..." : "Join Team"}
                 </button>
               </div>
             </form>

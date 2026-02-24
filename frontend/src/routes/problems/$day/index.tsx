@@ -2,34 +2,89 @@ import { useState } from "react";
 import { MarkdownHooks } from "react-markdown";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import type { Components } from "react-markdown";
+import type { Problem } from "@/types/problem";
 import { useProblem } from "@/client/problem/getProblem";
 import { useSubmitProblem } from "@/client/problem/submitProblem";
 import { StrokedText } from "@/components/StrokedText";
 import { LoadingPage } from "@/components/Loading";
+import NotFound from "@/components/NotFound";
 
 export const Route = createFileRoute("/problems/$day/")({
   component: RouteComponent,
 });
 
-function RouteComponent() {
-  const { day } = Route.useParams();
-  const { isLoading, data: problem } = useProblem(day);
+type SubmissionSectionProps = {
+  day: string;
+  problem: Problem;
+  part: 1 | 2;
+};
+
+const SubmissionSection: React.FC<SubmissionSectionProps> = ({
+  day,
+  problem,
+  part,
+}) => {
   const submitProblem = useSubmitProblem(day);
   const [answer, setAnswer] = useState("");
-
-  if (isLoading) return <LoadingPage />;
-  if (!problem) return null;
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAnswer(e.target.value);
   };
 
-  const handleSubmit = (part: 1 | 2) => {
+  const handleSubmit = () => {
     submitProblem.mutate({
       part,
       answer,
     });
   };
+
+  if (!problem.signedIn) {
+    return (
+      <p className="font-semibold">
+        Sign in to submit your answer for this problem!
+      </p>
+    );
+  }
+
+  if (!problem.canSubmit) {
+    return (
+      <p className="font-semibold">
+        You must create or join a{" "}
+        <Link to="/team" className="underline underline-offset-2">
+          team
+        </Link>{" "}
+        to submit your answer!
+      </p>
+    );
+  }
+
+  return (
+    <div className="flex gap-2 items-center">
+      Answer:
+      <input
+        type="text"
+        value={answer}
+        className="outline-none px-1 bg-background-600 rounded-sm"
+        onChange={handleChangeInput}
+      />
+      <button
+        className="font-bold bg-background-600 px-2 rounded-md"
+        disabled={submitProblem.isPending}
+        onClick={handleSubmit}
+      >
+        Submit
+      </button>
+    </div>
+  );
+};
+
+function RouteComponent() {
+  const { day } = Route.useParams();
+  const { isLoading, data: problem, error } = useProblem(day);
+
+  if (isLoading) return <LoadingPage />;
+
+  if (error || !problem) return <NotFound />;
 
   const components: Components = {
     h1: ({ children }) => (
@@ -55,47 +110,6 @@ function RouteComponent() {
       <code className="bg-background-600 rounded-sm px-1">{children}</code>
     ),
     li: ({ children }) => <li>- {children}</li>,
-  };
-
-  const SubmissionSection = ({ part }: { part: 1 | 2 }) => {
-    if (!problem.signedIn) {
-      return (
-        <p className="font-semibold">
-          Sign in to submit your answer for this problem!
-        </p>
-      );
-    }
-
-    if (!problem.canSubmit) {
-      return (
-        <p className="font-semibold">
-          You must create or join a{" "}
-          <Link to="/team" className="underline underline-offset-2">
-            team
-          </Link>{" "}
-          to submit your answer!
-        </p>
-      );
-    }
-
-    return (
-      <div className="flex gap-2 items-center">
-        Answer:
-        <input
-          type="text"
-          value={answer}
-          className="outline-none px-1 bg-background-600 rounded-sm"
-          onChange={handleChangeInput}
-        />
-        <button
-          className="font-bold bg-background-600 px-2 rounded-md"
-          disabled={submitProblem.isPending}
-          onClick={() => handleSubmit(part)}
-        >
-          Submit
-        </button>
-      </div>
-    );
   };
 
   return (
@@ -129,7 +143,7 @@ function RouteComponent() {
               </div>
             )}
 
-            <SubmissionSection part={1} />
+            <SubmissionSection day={day} part={1} problem={problem} />
           </>
         )}
 
@@ -160,7 +174,7 @@ function RouteComponent() {
                   </div>
                 )}
 
-                <SubmissionSection part={2} />
+                <SubmissionSection day={day} part={2} problem={problem} />
               </>
             )}
           </>

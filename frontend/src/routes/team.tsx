@@ -32,17 +32,14 @@ const TeamView: React.FC<{ team: Team; userId: string }> = ({
     (member) => userId === member.id,
   )?.isLeader;
 
-  const handleLeave = () => {
-    leaveTeam.mutate();
-  };
+  const handleLeave = () => leaveTeam.mutate();
+  const handleDelete = () => deleteTeam.mutate();
+  const handleToggleAcceptingMembers = () => toggleAcceptingMembers.mutate();
 
-  const handleDelete = () => {
-    deleteTeam.mutate();
-  };
-
-  const handleToggleAcceptingMembers = () => {
-    toggleAcceptingMembers.mutate();
-  };
+  const isPending =
+    leaveTeam.isPending ||
+    deleteTeam.isPending ||
+    toggleAcceptingMembers.isPending;
 
   return (
     <div className="relative overflow-hidden min-h-screen">
@@ -86,27 +83,32 @@ const TeamView: React.FC<{ team: Team; userId: string }> = ({
           <div className="flex flex-col gap-2 sm:flex-row sm:gap-4 justify-between pt-4 border-t border-background-100">
             <button
               onClick={handleLeave}
-              className="rounded-xl bg-blue-300 border-4 border-white px-4 py-2.5 text-white font-medium transition hover:opacity-90"
+              disabled={isPending}
+              className="rounded-xl bg-blue-300 border-4 border-white px-4 py-2.5 text-white font-medium transition hover:opacity-90 disabled:opacity-70"
             >
-              Leave team
+              {leaveTeam.isPending ? "Leaving..." : "Leave team"}
             </button>
 
             {isLeader && (
               <div className="flex flex-col gap-2 sm:flex-row sm:gap-4 sm:ml-auto">
                 <button
                   onClick={handleToggleAcceptingMembers}
-                  className="rounded-xl bg-grass-400 border-4 border-white px-4 py-2.5 text-white font-medium transition hover:opacity-90"
+                  disabled={isPending}
+                  className="rounded-xl bg-grass-400 border-4 border-white px-4 py-2.5 text-white font-medium transition hover:opacity-90 disabled:opacity-70"
                 >
-                  {team.acceptingMembers
-                    ? "Restrict members"
-                    : "Accept members"}
+                  {toggleAcceptingMembers.isPending
+                    ? "Saving changes..."
+                    : team.acceptingMembers
+                      ? "Restrict members"
+                      : "Accept members"}
                 </button>
 
                 <button
                   onClick={handleDelete}
-                  className="rounded-xl bg-orange-600 border-4 border-white px-4 py-2.5 text-white font-medium transition hover:opacity-90"
+                  disabled={isPending}
+                  className="rounded-xl bg-orange-600 border-4 border-white px-4 py-2.5 text-white font-medium transition hover:opacity-90 disabled:opacity-70"
                 >
-                  Delete Team
+                  {deleteTeam.isPending ? "Deleting team..." : "Delete team"}
                 </button>
               </div>
             )}

@@ -14,6 +14,9 @@ export function useCreateUser(clerkUserId: string) {
         },
         body: JSON.stringify(input),
       });
+      if (res.status !== 200) {
+        throw new Error("Something went wrong. Please try again later.");
+      }
 
       return res.data;
     },

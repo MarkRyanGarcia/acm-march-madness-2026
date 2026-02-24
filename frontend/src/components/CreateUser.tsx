@@ -83,7 +83,7 @@ export const CreateUserForm: React.FC<Props> = ({
             disabled={isInvalid || createUser.isPending}
             className="mt-6 w-full rounded-xl bg-grass-400 px-4 py-3 text-white font-medium transition not-disabled:hover:bg-gold-100 disabled:opacity-70 disabled:cursor-default"
           >
-            {createUser.isPending ? "Joining…" : "Join the Madness!"}
+            {createUser.isPending ? "Joining..." : "Join the Madness!"}
           </button>
         </form>
       </div>

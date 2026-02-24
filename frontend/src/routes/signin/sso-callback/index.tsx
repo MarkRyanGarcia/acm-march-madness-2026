@@ -12,7 +12,7 @@ export const Route = createFileRoute("/signin/sso-callback/")({
 function SSOCallback() {
   return (
     <>
-      <ClerkLoading>Signing you in…</ClerkLoading>
+      <ClerkLoading>Signing you in...</ClerkLoading>
       <ClerkLoaded>
         <AuthenticateWithRedirectCallback />
       </ClerkLoaded>

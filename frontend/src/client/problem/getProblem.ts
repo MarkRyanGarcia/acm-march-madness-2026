@@ -9,6 +9,10 @@ export function useProblem(day: string) {
     );
     const problemResponse = res.data;
 
+    if (res.status === 404) {
+      throw new Error("Not Found");
+    }
+
     const problem: Problem = {
       signedIn: problemResponse.is_signed_in,
       canSubmit: problemResponse.can_submit,
@@ -24,5 +28,6 @@ export function useProblem(day: string) {
   return useQuery({
     queryKey: ["problem", day],
     queryFn: fetchProblem,
+    retry: false,
   });
 }

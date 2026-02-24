@@ -1,26 +1,28 @@
 import { useQuery } from "@tanstack/react-query";
-import { API_BACKEND_URL, apiFetch } from "@/client/client";
 import type { LeaderboardTeam } from "@/types/leaderboard";
+import { API_BACKEND_URL, apiFetch } from "@/client/client";
 
 export function useLeaderboard() {
-    const fetchLeaderboard = async (): Promise<LeaderboardTeam[]> => {
-        const res = await apiFetch<LeaderboardTeam[]>(
-            `${API_BACKEND_URL}/leaderboard`
-        );
+  const fetchLeaderboard = async (): Promise<Array<LeaderboardTeam>> => {
+    const res = await apiFetch<Array<LeaderboardTeam>>(
+      `${API_BACKEND_URL}/leaderboard`,
+    );
 
-        const data = res.data ?? [];
+    const leaderboardResponse = res.data;
+    return leaderboardResponse.map(
+      (team: LeaderboardTeam) =>
+        ({
+          team_id: team.team_id,
+          team_name: team.team_name,
+          total_points: team.total_points,
+          solved_problems: team.solved_problems ?? [],
+        }) as LeaderboardTeam,
+    );
+  };
 
-        return data.map((team: LeaderboardTeam) => ({
-            team_id: team.team_id,
-            team_name: team.team_name,
-            total_points: team.total_points,
-            solved_problems: team.solved_problems ?? [],
-        } as LeaderboardTeam));
-    };
-
-    return useQuery({
-        queryKey: ["leaderboard"],
-        queryFn: fetchLeaderboard,
-        refetchInterval: 30000,
-    });
+  return useQuery({
+    queryKey: ["leaderboard"],
+    queryFn: fetchLeaderboard,
+    refetchInterval: 30000,
+  });
 }

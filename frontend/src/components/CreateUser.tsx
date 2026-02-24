@@ -1,8 +1,8 @@
 import { useState } from "react";
+import { StrokedText } from "./StrokedText";
 import type React from "react";
 import { useCreateUser } from "@/client/user/createUser";
 import { validateUsername } from "@/utils/validateForm";
-import { StrokedText } from "./StrokedText";
 
 type Props = {
   userId: string;

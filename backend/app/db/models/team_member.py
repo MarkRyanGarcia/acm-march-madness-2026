@@ -16,9 +16,11 @@ from app.db.models import Base
 class TeamMember(Base):
     __tablename__ = "team_members"
 
-    team_id: Mapped[int] = mapped_column(ForeignKey("teams.id"), primary_key=True)
+    team_id: Mapped[int] = mapped_column(
+        ForeignKey("teams.id", ondelete="CASCADE"), primary_key=True
+    )
     user_id: Mapped[str] = mapped_column(
-        String, ForeignKey("users.id"), primary_key=True
+        String, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True
     )
     joined_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()

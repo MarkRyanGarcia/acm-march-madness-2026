@@ -15,7 +15,9 @@ from app.db.models import Base
 class TeamPoint(Base):
     __tablename__ = "team_points"
 
-    team_id: Mapped[int] = mapped_column(ForeignKey("teams.id"), primary_key=True)
+    team_id: Mapped[int] = mapped_column(
+        ForeignKey("teams.id", ondelete="CASCADE"), primary_key=True
+    )
     added_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now(), primary_key=True
     )

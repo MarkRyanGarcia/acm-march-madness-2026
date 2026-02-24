@@ -19,8 +19,20 @@ class Team(Base):
     )
 
     members = relationship(
-        "TeamMember", back_populates="team", cascade="all, delete-orphan"
+        "TeamMember",
+        back_populates="team",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
     )
     points = relationship(
-        "TeamPoint", back_populates="team", cascade="all, delete-orphan"
+        "TeamPoint",
+        back_populates="team",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )
+    submit_attempts = relationship(
+        "TeamSubmitAttempt",
+        back_populates="team",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
     )

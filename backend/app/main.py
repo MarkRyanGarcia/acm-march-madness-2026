@@ -16,7 +16,7 @@ origins = [
  
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://madness.markgarcia.dev", "https://madness.acmcsuf.com"],
     allow_credentials=True,
     SameSite=None,
     Secure=True,

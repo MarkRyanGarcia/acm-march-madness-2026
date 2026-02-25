@@ -41,8 +41,6 @@ function ProblemsPage() {
       const updated = calculateTimeLeft(nextRelease);
       setTimeLeft(updated);
 
-      console.log(updated);
-
       if (
         updated.hours === 0 &&
         updated.minutes === 0 &&

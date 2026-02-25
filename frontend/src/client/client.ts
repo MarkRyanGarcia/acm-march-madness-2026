@@ -4,9 +4,9 @@ type ApiResult<T> = { ok: boolean; status: number; data: T };
 
 export async function apiFetch<T>(
   input: RequestInfo | URL,
-  init?: RequestInit,
+  options?: RequestInit
 ): Promise<ApiResult<T>> {
-  const res = await fetch(input, { ...init, credentials: "include" });
+  const res = await fetch(input, options);
 
   const text = await res.text();
   const ct = res.headers.get("Content-Type") ?? "";
@@ -21,7 +21,7 @@ export async function apiFetch<T>(
   }
 
   return {
-    ok: true,
+    ok: res.ok,
     status: res.status,
     data: parsed as T,
   };

@@ -1,14 +1,27 @@
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@clerk/clerk-react";
 import type { Team, TeamResponse } from "@/types/team";
 import { API_BACKEND_URL, apiFetch } from "@/client/client";
 
 export function useUserTeam(userId: string | null) {
-  const fetchUserTeam = async (): Promise<Team | null> => {
-    const res = await apiFetch<TeamResponse>(`${API_BACKEND_URL}/teams/me`);
-    const teamResponse = res.data;
-    if (!teamResponse) return null;
+  const { getToken } = useAuth();
 
-    const team: Team = {
+  const fetchUserTeam = async (): Promise<Team | null> => {
+    if (!userId) return null;
+
+    const token = await getToken();
+
+    const res = await apiFetch<TeamResponse>(`${API_BACKEND_URL}/teams/me`, {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok || !res.data) return null;
+
+    const teamResponse = res.data;
+
+    return {
       id: teamResponse.id,
       teamName: teamResponse.team_name,
       inviteCode: teamResponse.invite_code,
@@ -20,12 +33,11 @@ export function useUserTeam(userId: string | null) {
         joinedAt: member.joined_at,
       })),
     };
-
-    return team;
   };
 
   return useQuery({
     queryKey: ["userTeam", userId],
     queryFn: fetchUserTeam,
+    enabled: !!userId,
   });
 }

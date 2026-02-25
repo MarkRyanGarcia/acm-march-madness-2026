@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MarkdownHooks } from "react-markdown";
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { useSignIn, useUser } from "@clerk/clerk-react";
 import type { Components } from "react-markdown";
 import type { Problem } from "@/types/problem";
 import { useProblem } from "@/client/problem/getProblem";
@@ -24,6 +25,19 @@ const SubmissionSection: React.FC<SubmissionSectionProps> = ({
   problem,
   part,
 }) => {
+  const { signIn, isLoaded: signInLoaded } = useSignIn();
+  const { isSignedIn } = useUser();
+
+  const handleSignIn = () => {
+    if (!signInLoaded) return;
+
+    signIn.authenticateWithRedirect({
+      strategy: "oauth_github",
+      redirectUrl: "/signin/sso-callback",
+      redirectUrlComplete: "/team",
+    });
+  };
+
   const submitProblem = useSubmitProblem(day);
   const [answer, setAnswer] = useState("");
 
@@ -38,10 +52,13 @@ const SubmissionSection: React.FC<SubmissionSectionProps> = ({
     });
   };
 
-  if (!problem.signedIn) {
+  if (!problem.signedIn || !isSignedIn) {
     return (
       <p className="font-semibold">
-        Sign in to submit your answer for this problem!
+        <button onClick={handleSignIn} className="underline underline-offset-2">
+          Sign in
+        </button>{" "}
+        to submit your answer for this problem!
       </p>
     );
   }

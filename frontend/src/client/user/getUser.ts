@@ -11,11 +11,14 @@ export function useUser(userId: string | null) {
 
     const token = await getToken();
 
-    const res = await apiFetch<UserResponse>(`${API_BACKEND_URL}/users/${userId}`, {
-      headers: {
-        "Authorization": `Bearer ${token}`,
+    const res = await apiFetch<UserResponse>(
+      `${API_BACKEND_URL}/users/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
 
     if (!res.ok || !res.data) return null;
 

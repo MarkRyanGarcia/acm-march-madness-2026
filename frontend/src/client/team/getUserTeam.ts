@@ -13,7 +13,7 @@ export function useUserTeam(userId: string | null) {
 
     const res = await apiFetch<TeamResponse>(`${API_BACKEND_URL}/teams/me`, {
       headers: {
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 

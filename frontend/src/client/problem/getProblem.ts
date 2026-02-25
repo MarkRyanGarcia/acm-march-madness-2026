@@ -11,7 +11,7 @@ export function useProblem(day: string) {
 
     const res = await apiFetch<ProblemResponse>(
       `${API_BACKEND_URL}/problems/${day}`,
-      { headers: { Authorization: `Bearer ${token || ''}` } }
+      { headers: { Authorization: `Bearer ${token || ""}` } },
     );
 
     if (!res.ok) {
@@ -22,7 +22,7 @@ export function useProblem(day: string) {
     const problemResponse = res.data;
 
     return {
-      signedIn: true,
+      signedIn: problemResponse.is_signed_in,
       canSubmit: problemResponse.can_submit,
       part1: problemResponse.part1,
       part2: problemResponse.part2,

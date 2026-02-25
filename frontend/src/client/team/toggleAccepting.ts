@@ -10,12 +10,15 @@ export function useToggleAcceptingMembers(clerkUserId: string, teamId: number) {
     mutationFn: async () => {
       const token = await getToken();
 
-      const res = await apiFetch(`${API_BACKEND_URL}/teams/${teamId}/toggle-accepting`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const res = await apiFetch(
+        `${API_BACKEND_URL}/teams/${teamId}/toggle-accepting`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       if (!res.ok) {
         throw new Error("Failed to toggle accepting members");

@@ -32,7 +32,11 @@ export function useSubmitProblem(day: string) {
       );
 
       if (!res.ok) {
-        throw new Error(typeof res.data?.error === 'string' ? res.data.error : "Failed to submit problem");
+        throw new Error(
+          typeof res.data.error === "string"
+            ? res.data.error
+            : "Failed to submit problem",
+        );
       }
 
       const submissionData = res.data;

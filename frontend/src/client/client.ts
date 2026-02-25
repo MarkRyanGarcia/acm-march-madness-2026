@@ -4,7 +4,7 @@ type ApiResult<T> = { ok: boolean; status: number; data: T };
 
 export async function apiFetch<T>(
   input: RequestInfo | URL,
-  options?: RequestInit
+  options?: RequestInit,
 ): Promise<ApiResult<T>> {
   const res = await fetch(input, options);
 

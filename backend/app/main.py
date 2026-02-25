@@ -16,7 +16,11 @@ origins = [
  
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # TODO: Change this later
+    allow_origins=[
+        "http://localhost:3000",
+        "https://madness.markgarcia.dev",
+        "https://madness.acmcsuf.com",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -62,7 +62,7 @@ const TeamView: React.FC<{ team: Team; userId: string }> = ({
           </p>
         </div>
 
-        <div className="z-20 w-full max-w-5xl mx-auto rounded-2xl bg-background-200 border-6 md:border-12 border-background-300 p-8 flex flex-col gap-6">
+        <div className="z-20 w-full max-w-5xl mx-auto rounded-2xl bg-background-200 border-6 md:border-12 border-background-400 p-8 flex flex-col gap-6">
           <div className="flex flex-col gap-3">
             <h3 className="text-xl md:text-2xl font-bold">Team Members</h3>
             <div className="flex flex-col gap-2">

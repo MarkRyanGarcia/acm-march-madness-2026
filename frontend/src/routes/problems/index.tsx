@@ -78,7 +78,7 @@ function ProblemsPage() {
         problem!
       </p>
 
-      <div className="relative rounded-xl w-full mx-auto grid gap-4 items-center px-6 md:px-12 py-6 bg-background-300 border-4 border-background-200">
+      <div className="relative rounded-xl w-full mx-auto grid gap-4 items-center px-6 md:px-12 py-6 bg-background-200 border-12 border-background-500">
         <h2 className="text-3xl text-center font-bold">Daily Challenges</h2>
         <div className="w-full grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4">
           {problemList.map((problem) => (
@@ -97,7 +97,7 @@ function ProblemsPage() {
           Next challenge releases in {pad(timeLeft.hours)}hrs{" "}
           {pad(timeLeft.minutes)}mins {pad(timeLeft.seconds)}secs!
         </div>
-        <div className="absolute -bottom-6 right-1/4 sm:right-1/6 w-8 h-8 rounded-lg bg-background-300 [clip-path:polygon(100%_0,100%_100%,0_0)]" />
+        <div className="absolute -bottom-8 right-1/4 sm:right-1/6 w-8 h-8 rounded-lg bg-background-500 [clip-path:polygon(100%_0,100%_100%,0_0)]" />
         <img
           src="/capybara.svg"
           className="absolute -bottom-1/2 right-0 w-40"

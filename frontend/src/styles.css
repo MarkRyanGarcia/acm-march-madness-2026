@@ -28,6 +28,9 @@
   font-family: "Fredoka", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  background-color: var(--background-100);
+  color: var(--grass-400);
 }
 
 @theme inline {
@@ -55,13 +58,15 @@
 }
 
 body {
+  background-color: var(--background-100);
+}
+
+.landing-page {
   background-image: url("/background.svg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-color: var(--background-100);
-  color: var(--grass-400);
 }
 
 code {

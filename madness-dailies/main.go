@@ -4,11 +4,13 @@ import (
 	"bytes"
 	"cmp"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"slices"
 	"strconv"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
@@ -29,6 +31,9 @@ type ProblemInfo struct {
 	Description string
 }
 
+// getProblem makes a request to the /problem/:day endpoint and returns the
+// content of the problem as a string. Only Part 1 is available for
+// unauthenticated users.
 func getProblem(apiURL string, day int) (string, error) {
 	resp, err := http.Get(apiURL + "/problems/" + strconv.Itoa(day))
 	if err != nil {
@@ -48,11 +53,21 @@ func getProblem(apiURL string, day int) (string, error) {
 	return problemResponse.Problem, nil
 }
 
+// parseProblem parses the title and description of a problem if successful.
+func parseProblem(problem string) (string, string) {
+	titleLine, _, _ := strings.Cut(problem, "\n\n")
+	title := strings.TrimPrefix(titleLine, "# ")
+	_, description, _ := strings.Cut(problem, "## Part One\n\n")
+	return title, description
+}
+
 type TeamPointsEntry struct {
 	TeamName    string  `json:"team_name"`
 	TotalPoints float64 `json:"total_points"`
 }
 
+// getLeaderboard makes a request to the /leaderboard endpoint and returns the
+// result, sorted based on team points first, and the team name second.
 func getLeaderboard(apiURL string) ([]TeamPointsEntry, error) {
 	resp, err := http.Get(apiURL + "/leaderboard")
 	if err != nil {
@@ -75,6 +90,35 @@ func getLeaderboard(apiURL string) ([]TeamPointsEntry, error) {
 	return leaderboard, nil
 }
 
+// generateLeaderboardString generates a string from the leaderboard data
+// that will be rendered as Markdown in the Discord Embed message
+func generateLeaderboardString(leaderboard []TeamPointsEntry) string {
+	maxTeams, maxWidth := 10, 20
+	for i, t := range leaderboard {
+		if i == maxTeams {
+			break
+		}
+		maxWidth = max(maxWidth, len(t.TeamName))
+	}
+
+	var builder strings.Builder
+	builder.WriteString("### Leaderboard\n```\n")
+
+	medals := []string{"🥇", "🥈", "🥉"}
+	for i, team := range leaderboard {
+		if i == maxTeams { // Only show the top 10 teams
+			break
+		}
+		if i < 3 {
+			builder.WriteString(medals[i] + " ")
+		}
+		fmt.Fprintf(&builder, "%-*s %.2f\n", maxWidth+2, team.TeamName, team.TotalPoints)
+	}
+	builder.WriteString("```\n[Sign in and create/join a team to participate!](<https://madness.acmcsuf.com/>)\n")
+
+	return builder.String()
+}
+
 func main() {
 	err := godotenv.Load()
 	if err != nil {
@@ -92,21 +136,20 @@ func main() {
 		log.Fatalf("Leaderboard request failed: %v", err)
 	}
 
-	log.Println(problem, leaderboard)
+	title, description := parseProblem(problem)
+	leaderboardStr := generateLeaderboardString(leaderboard)
 
 	payload := WebhookPayload{
 		Embeds: []Embed{
 			{
-				Title: "New Daily Challenge",
-				Description: "New March Madness daily challenge dropped bro\n" +
-					"```This is a code block?```",
-				URL:   "https://chom.vercel.app",
-				Color: 0xB0F2B4,
+				Title:       title,
+				Description: description + "---\n" + leaderboardStr,
+				URL:         "https://madness.acmcsuf.com/problems/0",
+				Color:       0xB0F2B4,
 			},
 		},
 	}
 	jsonPayload, _ := json.Marshal(payload)
-	log.Printf("%s\n", jsonPayload)
 
 	req, err := http.NewRequest("POST", webhookURL, bytes.NewBuffer(jsonPayload))
 	if err != nil {
@@ -123,5 +166,5 @@ func main() {
 	}
 	defer resp.Body.Close()
 
-	log.Println("Status:", resp.Status)
+	log.Println("Successfully sent Discord Webhook message")
 }

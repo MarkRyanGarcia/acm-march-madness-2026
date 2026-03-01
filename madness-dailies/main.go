@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"cmp"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -11,6 +12,7 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -23,7 +25,8 @@ type Embed struct {
 }
 
 type WebhookPayload struct {
-	Embeds []Embed `json:"embeds"`
+	Content string  `json:"content"`
+	Embeds  []Embed `json:"embeds"`
 }
 
 type ProblemInfo struct {
@@ -120,6 +123,15 @@ func generateLeaderboardString(leaderboard []TeamPointsEntry) string {
 }
 
 func main() {
+	dayFlag := flag.Int("day", -1, "Override the challenge day (within the range 0 - 5)")
+	reminder := flag.Bool("reminder", false, "Send the reminder message")
+	flag.Parse()
+
+	day := *dayFlag
+	if day == -1 {
+		day = int(time.Now().Weekday())
+	}
+
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Unabled to load .env: %v", err)
@@ -127,28 +139,35 @@ func main() {
 	webhookURL := os.Getenv("WEBHOOK_URL")
 	apiURL := os.Getenv("API_URL")
 
-	problem, err := getProblem(apiURL, 0)
-	if err != nil {
-		log.Fatalf("Problem request failed: %v", err)
-	}
-	leaderboard, err := getLeaderboard(apiURL)
-	if err != nil {
-		log.Fatalf("Leaderboard request failed: %v", err)
-	}
-
-	title, description := parseProblem(problem)
-	leaderboardStr := generateLeaderboardString(leaderboard)
-
 	payload := WebhookPayload{
-		Embeds: []Embed{
-			{
-				Title:       title,
-				Description: description + "---\n" + leaderboardStr,
-				URL:         "https://madness.acmcsuf.com/problems/0",
-				Color:       0xB0F2B4,
-			},
-		},
+		Content: "The new daily challenge will be releasing soon. Please stay tuned!",
 	}
+
+	if !*reminder {
+		problem, err := getProblem(apiURL, day)
+		if err != nil {
+			log.Fatalf("Problem request failed: %v", err)
+		}
+		leaderboard, err := getLeaderboard(apiURL)
+		if err != nil {
+			log.Fatalf("Leaderboard request failed: %v", err)
+		}
+
+		title, description := parseProblem(problem)
+		leaderboardStr := generateLeaderboardString(leaderboard)
+
+		payload = WebhookPayload{
+			Embeds: []Embed{
+				{
+					Title:       title,
+					Description: description + "---\n" + leaderboardStr,
+					URL:         fmt.Sprintf("https://madness.acmcsuf.com/problems/%d", day),
+					Color:       0xB0F2B4,
+				},
+			},
+		}
+	}
+
 	jsonPayload, _ := json.Marshal(payload)
 
 	req, err := http.NewRequest("POST", webhookURL, bytes.NewBuffer(jsonPayload))

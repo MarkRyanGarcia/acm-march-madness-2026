@@ -13,7 +13,7 @@ origins = [
     "https://madness.markgarcia.dev",
     "https://madness.acmcsuf.com",
 ]
- 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[

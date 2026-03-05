@@ -77,6 +77,6 @@ Going back with the previous example, the path that leads to the minimum energy 
 ..#....X.....
 ```
 
-The total energy consumed with this route is `24`, as opposed to the
+The total energy consumed with this route is `23`. This is better compared to the amount of energy spent for the chosen route with the first strategy.
 
 **What is the minimum amount of energy required to reach the top?**

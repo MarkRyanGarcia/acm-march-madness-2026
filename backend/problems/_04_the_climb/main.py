@@ -5,22 +5,17 @@ from problems.base import Problem, main
 
 
 class TheClimb(Problem):
+    ROWS, COLS = 400, 200
     grid: List[List[str]]
-    ROWS: int
-    COLS: int
 
     def __init__(self, seed=0) -> None:
-        super().__init__(seed)
+        super().__init__(seed % 20)
 
-        # TODO: Replace with actual input generation
-        self.grid = [
-            [c for c in line]
-            for line in open("problems/_04_the_climb/sample.txt")
-            .read()
-            .strip()
-            .split("\n")
-        ]
-        self.ROWS, self.COLS = len(self.grid), len(self.grid[0])
+        self.grid = [["."] * self.COLS for _ in range(self.ROWS)]
+        for r in range(self.ROWS):
+            for c in range(self.COLS):
+                if self.rand.random() > 0.875:
+                    self.grid[r][c] = "#"
 
     def generate_input(self) -> str:
         return "\n".join(["".join(line) for line in self.grid])

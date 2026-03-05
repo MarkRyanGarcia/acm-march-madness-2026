@@ -52,4 +52,12 @@ Following this route, you reach the top row in 5 moves.
 
 ## Part Two
 
-The original plan seemed ideal, but there was one crucial factor that you have not taken into account when tracing your climbing route: exhaustion. Previously, you only cared about
+You start climbing, but you quickly realize that you are not built for this.
+
+A few ambitious reaches later, your arms are already burning. Planning the route on paper was easy enough, but actually stretching between distant holds takes serious effort. The original plan seemed ideal, but there was one crucial factor you didn't take into account when tracing your climbing route: exhaustion.
+
+Previously, every move was treated the same. In reality, some reaches are much harder than others. The farther you reach, the more energy it takes. Moving between two holds now costs **energy** equal to their Manhattan distance.
+
+If you move from `(r1, c1)` to `(r2, c2)`, the energy cost is: `|r2 - r1| + |c2 - c1|`. You may still only move to holds within a Manhattan distance of 4, and you may never move downward. Your goal is no longer to minimize the number of moves. Instead, you must minimize the total energy spent reaching any hold in the top row.
+
+**What is the minimum amount of energy required to reach the top?**

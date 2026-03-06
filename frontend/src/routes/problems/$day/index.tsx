@@ -77,7 +77,7 @@ const SubmissionSection: React.FC<SubmissionSectionProps> = ({
     }
 
     return (
-        <div className="flex gap-2 items-center">
+        <div className="flex flex-col sm:flex-row gap-2 items-center">
             Answer:
             <input
                 type="text"

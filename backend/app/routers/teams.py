@@ -64,7 +64,7 @@ def join_team(
     if not team.accepting_members:
         raise HTTPException(403, "Team is not accepting members")
 
-    if len(team.members) == 4:  # TODO: Put this as a constant somewhere
+    if len(team.members) == 3:  # TODO: Put this as a constant somewhere
         raise HTTPException(403, "Team is already full")
 
     db.add(TeamMember(team_id=team.id, user_id=user_id, is_leader=False))

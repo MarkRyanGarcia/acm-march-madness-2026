@@ -205,22 +205,22 @@ function ProblemPage() {
                 />
             </div> */}
             <div className="relative z-0 pointer-events-none">
-                <img src="/grass2.svg" className="w-full absolute bottom-0" />
+                <img src="/grass2.svg" className="w-full absolute bottom-20 sm:bottom-30 md:bottom-38 lg:bottom-45" />
                 <img src="/grass1.svg" className="w-full absolute bottom-0" />
 
             </div>
             <div className="pointer-events-none absolute inset-0 z-1">
                 <img
                     src="/flower_ixora.svg"
-                    className="absolute -left-2.5 top-50 md:top-80 w-16 md:w-35 lg:w-50 opacity-50 md:opacity-100"
+                    className="absolute -left-2.5 top-50 md:top-80 w-35 lg:w-50 opacity-50 md:opacity-100"
                 />
                 <img
                     src="/random_flower.svg"
-                    className="absolute -right-2.5 top-180 md:top-145 w-20 md:w-40 lg:w-48 opacity-50 md:opacity-100"
+                    className="absolute -right-2.5 top-180 md:top-145 w-40 lg:w-48 opacity-50 md:opacity-100"
                 />
                 <img
                     src="/hibiscus1.svg"
-                    className="absolute -left-2.5 top-300 md:top-260 w-20 md:w-40 lg:w-48 -scale-x-100 opacity-50 md:opacity-100"
+                    className="absolute -left-2.5 top-300 md:top-260 w-40 lg:w-48 -scale-x-100 opacity-50 md:opacity-100"
                 />
             </div>
 

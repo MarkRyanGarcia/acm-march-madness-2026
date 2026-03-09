@@ -2,8 +2,8 @@ name: Madness Dailies Webhook
 
 on:
   schedule:
-    # March 9–13 at 2:00 PM PT (21:00 UTC) in 2026
-    - cron: "0 21 9-13 3 *"
+    # March 16–20 at 2:00 PM PT (21:00 UTC) in 2026
+    - cron: "0 21 16-20 3 *"
   workflow_dispatch: # allows manual trigger
 
 jobs:

@@ -53,15 +53,7 @@ Given the list of tuber locations and the positions and directions of the guards
 
 ## Part Two
 
-"Hold on, this puzzles sounds a lot like that [old iPad game](https://robberybob.fandom.com/wiki/Robbery_Bob_Wiki) back in the day," you think to yourself.
-
-"Oh yeah! I almost forgot," it replies. It turns out that the guards can turn their heads around by 45 degrees, so they can switch where they are looking for at any given time. However, because they are **synchronized**, **every other guard** will turn their head around also.
-
-You glance back at the parchment and then at the capybara. "Are the guards… able to turn their heads?"
-
-"Oh yeah! I almost forgot," the capybara replies, slapping his forehead with a paw. "They do that all the time."
-
-It turns out the guards are not limited to the direction shown on the parchment. At any moment, a guard can rotate their head **by 45 degrees** to look in a new direction. However, the guards were trained together, and they always move in perfect unison: whenever one guard rotates their head, every other guard rotates their head by the same amount as well.
+You are about to present your solution when you are suddenly interrupted. "Oh yeah! I almost forgot," the capybara says, slapping his forehead with a paw. "It turns out the guards are not limited to the direction shown on the parchment." At any moment, a guard can rotate their head **by 45 degrees** to look in a new direction. However, the guards were trained together, and they always move in perfect unison: whenever one guard rotates their head, every other guard rotates their head by the same amount as well.
 
 In other words, the guards may all rotate their viewing direction by the same multiple of 45° at the same time. After each rotation, their field of view still consists of the direction they are facing and the two adjacent diagonal directions, and their visibility radius remains **10 tiles**. Because the guards are synchronized, you cannot rotate them independently; you must choose a single rotation that applies to all guards.
 

@@ -4,35 +4,40 @@ from problems.base import Problem, main
 
 
 class RobberyPuzzle(Problem):
+    MAX_X, MAX_Y = 500, 500
+    NUM_TUBERS = 6000
+    NUM_GUARDS = 1500
+
     tubers: List[tuple[int, int]]  # (x, y)
     guards: List[tuple[int, int, int]]  # (x, y, direction)
     DIRS = [(0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1)]
-    SYMBOL_TO_DIR = {"^": 0, ">": 2, "v": 4, "<": 6}
+
+    DIR_TO_SYBOL = {0: "^", 2: ">", 4: "v", 6: "<"}
 
     def __init__(self, seed=0) -> None:
         super().__init__(seed)
 
-        with open("problems/_03_robbery_puzzle/sample.txt") as f:
-            lines = [line.strip() for line in f]
+        coords = [(x, y) for x in range(self.MAX_X) for y in range(self.MAX_Y)]
+        self.rand.shuffle(coords)
 
-        self.tubers, self.guards = [], []
+        self.tubers = coords[: self.NUM_TUBERS]
+        self.guards = []
 
-        parsing_tubers = 1
-        for line in lines:
-            if line == "":
-                parsing_tubers = 0
-                continue
-
-            if parsing_tubers:
-                x, y = map(int, line.split(","))
-                self.tubers.append((x, y))
-            else:
-                coord, symbol = line.split(" ")
-                x, y = map(int, coord.split(","))
-                self.guards.append((x, y, self.SYMBOL_TO_DIR[symbol]))
+        for i in range(self.NUM_TUBERS, self.NUM_TUBERS + self.NUM_GUARDS):
+            x, y = coords[i]
+            self.guards.append((x, y, self.rand.choice([0, 2, 4, 6])))
 
     def generate_input(self) -> str:
-        return ""
+        problem_input = []
+        for x, y in self.tubers:
+            problem_input.append(f"{x},{y}")
+
+        problem_input.append("")
+
+        for x, y, dir in self.guards:
+            problem_input.append(f"{x},{y} {self.DIR_TO_SYBOL[dir]}")
+
+        return "\n".join(problem_input)
 
     def visible_atan(self, gx: int, gy: int, dir: int, tx: int, ty: int) -> bool:
         dx, dy = tx - gx, ty - gy

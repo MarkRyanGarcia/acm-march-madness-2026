@@ -44,7 +44,7 @@ const TeamView: React.FC<{ team: Team; userId: string }> = ({
 
   return (
     <div className="relative overflow-hidden min-h-screen">
-      <div className="py-16 max-w-4xl mx-auto grid items-center gap-8 px-8 md:px-4">
+      <div className="items-center py-16 max-w-4xl mx-auto grid gap-8 px-8 md:px-4">
         <div className="grid gap-4 text-center">
           <StrokedText
             text={team.teamName}

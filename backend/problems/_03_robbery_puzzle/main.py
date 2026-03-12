@@ -68,35 +68,27 @@ class RobberyPuzzle(Problem):
 
         return dot * dot * 2 >= mag_v2 * dist2
 
-    def part1_sln(self) -> int:
+    def find_stealable(self, rot: int) -> int:
         output = 0
-
         for tx, ty in self.tubers:
             guarded = False
             for gx, gy, dir in self.guards:
-                if self.visible_atan(gx, gy, dir, tx, ty):
+                new_dir = (dir + rot) % 8
+                if self.visible_atan(gx, gy, new_dir, tx, ty):
                     guarded = True
                     break
             if not guarded:
                 output += 1
-
         return output
+
+    def part1_sln(self) -> int:
+        return self.find_stealable(0)
 
     def part2_sln(self) -> int:
         output = 0
 
         for rot in range(8):
-            stealable = 0
-            for tx, ty in self.tubers:
-                guarded = False
-                for gx, gy, dir in self.guards:
-                    new_dir = (dir + rot) % 8
-                    if self.visible_atan(gx, gy, new_dir, tx, ty):
-                        guarded = True
-                        break
-                if not guarded:
-                    stealable += 1
-            output = max(output, stealable)
+            output = max(output, self.find_stealable(rot))
 
         return output
 

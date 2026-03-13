@@ -65,9 +65,8 @@ export const CreateTeamForm: React.FC<Props> = ({ userId }) => {
         <div className="z-20 w-full max-w-5xl mx-auto rounded-2xl bg-background-200 md:border-12 border-12 border-background-500 p-6 md:p-8 flex flex-col gap-6">
           <p className="mt-2 md:text-lg font-medium text-center">
             If you are creating a team, you will be the team leader. You will be
-            able to invite others to your team using the team code. - To create
-            a team, put in your wanted team name. - To join a team, put in the
-            team code.
+            able to invite others to your team using the team code. There is a
+            limit of <strong>3</strong> members per team.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row items-stretch gap-8">
             <form

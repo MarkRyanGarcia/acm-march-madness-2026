@@ -12,8 +12,7 @@ export default function FAQ() {
       <div className="z-20 w-full max-w-5xl flex flex-col gap-12">
         <div className="flex items-center justify-between w-full min-h-20 md:min-h-24 outline-white outline-10 md:outline-15 rounded-4xl bg-transparent">
           <p className="w-full p-4 text-sm sm:text-base md:text-lg">
-            chat are we cooking? chat are we cooking? chat are we cooking? chat
-            are we cooking? chat are we cooking?
+            More info coming soon...
           </p>
           <img
             src="/flower_small_pink.svg"
@@ -21,7 +20,7 @@ export default function FAQ() {
           />
         </div>
 
-        <div className="flex items-center justify-between w-full min-h-20 md:min-h-24 outline-white outline-10 md:outline-15 rounded-4xl bg-transparent">
+        {/* <div className="flex items-center justify-between w-full min-h-20 md:min-h-24 outline-white outline-10 md:outline-15 rounded-4xl bg-transparent">
           <p className="w-full p-4 text-sm sm:text-base md:text-lg">
             chat are we cooking? chat are we cooking? chat are we cooking? chat
             are we cooking? chat are we cooking?
@@ -52,7 +51,7 @@ export default function FAQ() {
             src="/flower_small_pink.svg"
             className="w-14 sm:w-18 md:w-22 p-3 shrink-0"
           />
-        </div>
+        </div> */}
       </div>
     </section>
   );

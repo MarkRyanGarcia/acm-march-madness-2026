@@ -10,3 +10,4 @@ DATABASE_URL = os.getenv(
 CLERK_SECRET_KEY = os.getenv("CLERK_SECRET_KEY", "sk-...")
 DEBUG = os.getenv("DEBUG", "true").lower() in ("true", "1", "yes")
 ENV = os.getenv("ENV", "production")
+MAX_TEAM_COUNT = 3

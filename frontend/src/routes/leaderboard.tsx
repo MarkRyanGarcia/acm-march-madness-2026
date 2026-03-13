@@ -13,7 +13,7 @@ const sizeClasses = "text-3xl sm:text-5xl md:text-7xl tracking-wider";
 
 function LeaderboardPage() {
   const clerkUser = Route.useRouteContext().auth.user;
-  const teamQuery = useUserTeam(clerkUser?.id ?? '');
+  const teamQuery = useUserTeam(clerkUser?.id ?? "");
   const { data: leaderboardData = [], isLoading, error } = useLeaderboard();
 
   if (isLoading) return <LoadingPage />;

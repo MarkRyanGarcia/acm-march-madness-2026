@@ -6,12 +6,15 @@ export default function FAQ() {
 
   const faqData = [
     {
-      question: "When does the competition take place?",
-      answer: "Monday, March 16, 2026 to Friday, March 20, 2026.",
+      question:
+        "When does the competition take place and what time do the problems get released each day?",
+      answer:
+        "March Madness runs from Monday, March 16, 2026 to Friday, March 20, 2026, and a new problem is released every day at 2:00 PM PST.",
     },
     {
-      question: "What time do the problems get released?",
-      answer: "A new problem is released every day at 2:00 PM PST.",
+      question: "How are points awarded?",
+      answer:
+        "Points are based on speed. The faster you solve a problem after its 2 PM release, the more points your team will earn.",
     },
     {
       question: "How many people can be on a team?",

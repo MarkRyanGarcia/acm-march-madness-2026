@@ -35,6 +35,7 @@ export type ProblemSubmissionInput = {
 export type ProblemSubmissionResponse = {
   correct: boolean | null;
   error: boolean;
+  part_to_submit: number;
   cooldown_until: string;
   remaining_cooldown_seconds: number;
 };
@@ -42,6 +43,7 @@ export type ProblemSubmissionResponse = {
 export type ProblemSubmission = {
   correct: boolean;
   error: boolean;
+  part: number;
   cooldownUntil: string;
   remainingCooldownSeconds: number;
 };

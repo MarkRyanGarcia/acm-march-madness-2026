@@ -26,22 +26,38 @@ function ProblemSubmissionPage() {
   const { submission } = Route.useLoaderData();
   const { day } = Route.useParams();
 
+  const ProblemLink: React.FC<{ className?: string }> = ({ className }) => (
+    <Link
+      to="/problems/$day"
+      params={{ day }}
+      className={`max-w-max px-4 py-2 bg-background-200 border-4 border-grass-400 rounded-xl text-xl font-medium transition hover:opacity-90 ${className}`}
+    >
+      {submission.correct && submission.part === 1
+        ? "Continue to Part Two"
+        : "Back to the problem page"}
+    </Link>
+  );
+
   return (
-    <div className="px-8 mt-16 max-w-5xl mx-auto grid gap-16">
-      <Link
-        to="/problems/$day"
-        params={{ day }}
-        className="max-w-max px-4 py-2 bg-background-200 border-4 border-grass-400 rounded-xl transition hover:opacity-90"
-      >
-        Back to the problem page
-      </Link>
+    <div className="px-8 mt-20 max-w-3xl mx-auto grid gap-16">
       <div className="grid gap-4">
-        <div className="bg-background-500 p-4 rounded-xl relative text-xl md:text-2xl font-bold">
+        <ProblemLink className="text-[1rem] sm:hidden" />
+        <div className="bg-background-500 p-8 rounded-xl relative text-xl md:text-2xl font-bold">
           {submission.correct ? (
             <>
-              <StrokedText text="That's the correct answer!" /> You are one{" "}
-              <span className="text-gold-100">golden egg</span> closer to
-              finishing your journey!
+              <StrokedText text="That's the correct answer!" />{" "}
+              {submission.part === 1 ? (
+                <>
+                  Return to the problem page and complete part 2 of this puzzle
+                  to obtain the full{" "}
+                  <span className="text-gold-100">golden egg</span>!
+                </>
+              ) : (
+                <>
+                  You are one <span className="text-gold-100">golden egg</span>{" "}
+                  closer to finishing your journey!
+                </>
+              )}
             </>
           ) : (
             <span className="text-orange-300 font-medium">
@@ -55,7 +71,10 @@ function ProblemSubmissionPage() {
           )}
           <div className="absolute -bottom-6 right-32 w-8 h-8 rounded-lg bg-background-500 [clip-path:polygon(100%_0,100%_100%,0_0)]" />
         </div>
-        <Capybara correct={submission.correct} />
+        <div className="flex items-start justify-between flex-row-reverse sm:flex-row">
+          <ProblemLink className="hidden sm:block" />
+          <Capybara correct={submission.correct} />
+        </div>
       </div>
     </div>
   );

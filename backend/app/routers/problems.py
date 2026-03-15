@@ -159,6 +159,7 @@ def submit_answer(
             return {
                 "correct": None,
                 "error": True,
+                "part_to_submit": correct_count + 1,
                 "cooldown_until": cooldown_until.isoformat(),
                 "remaining_cooldown_seconds": int(remaining),
             }
@@ -208,6 +209,7 @@ def submit_answer(
     return {
         "correct": correct,
         "error": False,
+        "part_to_submit": correct_count + 1,
         "cooldown_until": cooldown_until.isoformat() if not correct else None,
         "remaining_cooldown_seconds": int(remaining) if not correct else 0,
     }

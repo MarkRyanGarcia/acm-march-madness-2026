@@ -59,7 +59,7 @@ function LeaderboardPage() {
                   {[...Array(5)].map((_, i) => (
                     <img
                       key={i}
-                      src={getEggIcon(team.solved_problems, i)}
+                      src={getEggIcon(team.solved_problems, i + 1)}
                       className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 object-contain"
                       alt="egg"
                     />

@@ -33,10 +33,10 @@ function LeaderboardPage() {
   return (
     <div className="w-full mx-auto px-4 mt-8 md:mt-20 font-[Fredoka] relative min-h-screen">
       <h1 className="font-extrabold text-center mb-6 md:mb-10">
-        <StrokedText text="GARDEN OF GREATNESS" className={sizeClasses} />
+        <StrokedText text="Leaderboard" className={sizeClasses} />
       </h1>
 
-      <div className="max-w-5xl mx-auto bg-[#F8EACB]/35 backdrop-blur-xs outline-[#FFE9B8]/90 outline-4 md:outline-15 rounded-3xl md:rounded-4xl overflow-hidden relative z-20">
+      <div className="max-w-5xl mx-auto bg-[#F8EACB]/35 backdrop-blur-xs outline-[#FFE9B8]/90 outline-4 md:outline-15 rounded-3xl md:rounded-4xl overflow-hidden relative z-20 mb-5 md:mb-30">
         <div className="grid grid-cols-2 px-4 md:px-8 py-4 md:py-6 text-grass-400 font-bold text-xl md:text-3xl">
           <h3 className="text-left">Points & Eggs</h3>
           <h3 className="text-right">Team</h3>
@@ -52,7 +52,6 @@ function LeaderboardPage() {
                   : "bg-grass-400"
               }`}
             >
-              {/* Left Side: Points + Eggs */}
               <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 overflow-hidden">
                 <span className="shrink-0">{team.total_points.toFixed(2)}</span>
                 <div className="flex gap-0.5 md:gap-1.5 shrink-0">
@@ -67,7 +66,6 @@ function LeaderboardPage() {
                 </div>
               </div>
 
-              {/* Right Side: Team Name */}
               <h3 className="text-right truncate ml-4" title={team.team_name}>
                 {team.team_name}
               </h3>
@@ -76,7 +74,6 @@ function LeaderboardPage() {
         </div>
       </div>
 
-      {/* Background Flowers */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
         <img
           src="/flower_ixora.svg"
@@ -84,11 +81,11 @@ function LeaderboardPage() {
         />
         <img
           src="/random_flower.svg"
-          className="absolute -right-2.5 top-10 md:top-100 w-20 md:w-40 lg:w-48 opacity-50 md:opacity-100"
+          className="absolute -right-2.5 top-100 w-20 md:w-40 lg:w-48 opacity-50 md:opacity-100"
         />
         <img
           src="/hibiscus1.svg"
-          className="absolute -left-2.5 bottom-10 md:top-185 w-20 md:w-40 lg:w-48 -scale-x-100 opacity-50 md:opacity-100"
+          className="absolute -left-2.5 bottom-5 w-20 md:w-40 lg:w-48 -scale-x-100 opacity-50 md:opacity-100"
         />
       </div>
     </div>

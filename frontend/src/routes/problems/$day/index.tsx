@@ -138,8 +138,7 @@ function ProblemPage() {
             <>
               {!problem.part2Answer && (
                 <p className="text-gold-100 text-shadow-gold-100 text-shadow-xs">
-                  You got the first part correct! This awards you one golden
-                  egg.
+                  You got the first part correct! You're halfway to getting a golden egg. Complete part two to obtain the full golden egg!
                 </p>
               )}
               <p>Your puzzle answer was: {problem.part1Answer}</p>
@@ -171,7 +170,7 @@ function ProblemPage() {
 
               {problem.part2Answer ? (
                 <p className="text-gold-100 text-shadow-gold-100 text-shadow-xs">
-                  Both parts of the puzzle are complete! You obtained two eggs.
+                  Both parts of the puzzle are complete! You obtained one golden egg.
                 </p>
               ) : (
                 <>

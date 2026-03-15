@@ -44,6 +44,7 @@ export function useSubmitProblem(day: string) {
       return {
         correct: submissionData.correct ?? false,
         error: submissionData.error,
+        part: submissionData.part_to_submit,
         cooldownUntil: submissionData.cooldown_until,
         remainingCooldownSeconds: submissionData.remaining_cooldown_seconds,
       };

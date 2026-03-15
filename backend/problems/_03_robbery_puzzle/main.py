@@ -4,9 +4,9 @@ from problems.base import Problem, main
 
 
 class RobberyPuzzle(Problem):
-    MAX_X, MAX_Y = 500, 500
-    NUM_TUBERS = 6000
-    NUM_GUARDS = 1500
+    MAX_X, MAX_Y = 300, 300
+    NUM_TUBERS = 4000
+    NUM_GUARDS = 1000
 
     tubers: List[tuple[int, int]]  # (x, y)
     guards: List[tuple[int, int, int]]  # (x, y, direction)
@@ -17,15 +17,77 @@ class RobberyPuzzle(Problem):
     def __init__(self, seed=0) -> None:
         super().__init__(seed)
 
-        coords = [(x, y) for x in range(self.MAX_X) for y in range(self.MAX_Y)]
-        self.rand.shuffle(coords)
+        NUM_CLUSTERS = 30
+        CLUSTER_RADIUS = 10
 
-        self.tubers = coords[: self.NUM_TUBERS]
-        self.guards = []
+        self.tubers, self.guards = [], []
+        used = set()
 
-        for i in range(self.NUM_TUBERS, self.NUM_TUBERS + self.NUM_GUARDS):
-            x, y = coords[i]
-            self.guards.append((x, y, self.rand.choice([0, 2, 4, 6])))
+        tubers_per_cluster = self.NUM_TUBERS // NUM_CLUSTERS
+        guards_per_cluster = self.NUM_GUARDS // NUM_CLUSTERS
+
+        clusters = []
+
+        for _ in range(NUM_CLUSTERS):
+            cx = self.rand.randint(40, self.MAX_X - 40)
+            cy = self.rand.randint(40, self.MAX_Y - 40)
+            clusters.append((cx, cy))
+
+        for cx, cy in clusters:
+            for _ in range(tubers_per_cluster):
+                while True:
+                    x = cx + self.rand.randint(-CLUSTER_RADIUS, CLUSTER_RADIUS)
+                    y = cy + self.rand.randint(-CLUSTER_RADIUS, CLUSTER_RADIUS)
+
+                    if (
+                        0 <= x < self.MAX_X
+                        and 0 <= y < self.MAX_Y
+                        and (x, y) not in used
+                    ):
+                        break
+
+                used.add((x, y))
+                self.tubers.append((x, y))
+
+        for cx, cy in clusters:
+            for _ in range(guards_per_cluster):
+
+                while True:
+                    angle = self.rand.random() * 2 * math.pi
+                    dist = self.rand.randint(15, 20)
+                    gx = cx + int(math.cos(angle) * dist)
+                    gy = cy + int(math.sin(angle) * dist)
+
+                    if (
+                        0 <= gx < self.MAX_X
+                        and 0 <= gy < self.MAX_Y
+                        and (gx, gy) not in used
+                    ):
+                        break
+
+                used.add((gx, gy))
+
+                dx, dy = cx - gx, cy - gy
+
+                best_dir = max(
+                    range(8), key=lambda d: dx * self.DIRS[d][0] + dy * self.DIRS[d][1]
+                )
+
+                init_dir = (((best_dir + 4) % 8) // 2) * 2
+                self.guards.append((gx, gy, init_dir))
+
+        while len(self.guards) < self.NUM_GUARDS:
+
+            gx = self.rand.randint(0, self.MAX_X - 1)
+            gy = self.rand.randint(0, self.MAX_Y - 1)
+
+            if (gx, gy) in used:
+                continue
+
+            used.add((gx, gy))
+
+            dir = self.rand.choice([0, 2, 4, 6])
+            self.guards.append((gx, gy, dir))
 
     def generate_input(self) -> str:
         problem_input = []

@@ -12,7 +12,14 @@ The capybaras give you a list of "Elevation heights" for the riverbed. To make a
 
 You are given a list of riverbed heights. For each position, find the height of the next taller stone to its right.
 
-For example, if the riverbed heights are: `[4, 2, 5, 3]`
+For example, if the riverbed heights are:
+
+```
+4
+2
+5
+3
+```
 
 - At 4, the next taller stone is 5.
 - At 2, the next taller stone is 5.
@@ -32,7 +39,15 @@ The capybaras explain that a stone stays stable by "locking" against the stones 
 
 As soon as you hit a stone to the left that is strictly taller than the current one, the "locking" support stops.
 
-For example, if the riverbed heights are `[10, 4, 5, 90, 120, 80]`:
+For example, if the riverbed heights are:
+```
+10
+4
+5
+90
+120
+80
+```
 
 - 10: It's the first stone. Nothing is behind it. (Span: 1)
 - 4: Since 10 is taller than 4, the support stops immediately. (Span: 1)

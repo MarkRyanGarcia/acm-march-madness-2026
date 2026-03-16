@@ -2,12 +2,15 @@ name: Madness Dailies Webhook
 
 on:
   schedule:
-    # March 16–20 at 2:00 PM PT (21:00 UTC) in 2026
+    # For sending reminders of new problem releases
+    - cron: "0 20 16-20 3 *"
+    # For retrieving problem description and leaderboard data
     - cron: "0 21 16-20 3 *"
-  workflow_dispatch: # allows manual trigger
+  workflow_dispatch:
 
 jobs:
-  send-daily:
+  send-reminder:
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == "0 20 16-20 3 *"
     runs-on: ubuntu-latest
 
     steps:
@@ -19,10 +22,34 @@ jobs:
         with:
           go-version: "1.22"
 
-      - name: Run madness dailies program
+      - name: Send a reminder of new problem release time
         working-directory: madness-dailies
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+          ROLE_ID: ${{ secrets.ROLE_ID }}
+          API_URL: ${{ secrets.API_URL }}
+        run: |
+          go mod download
+          go run . --reminder
+
+  send-daily:
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == "0 21 16-20 3 *"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
+      - name: Send problem description/leaderboard webhook message
+        working-directory: madness-dailies
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+          ROLE_ID: ${{ secrets.ROLE_ID }}
           API_URL: ${{ secrets.API_URL }}
         run: |
           go mod download

@@ -34,6 +34,19 @@ type ProblemInfo struct {
 	Description string
 }
 
+// getDailyTimestamp returns a Unix timestamp representing the current day at
+// 14:00 PM in Pacific Time. Used for the Discord timestamp formatter.
+func getDailyTimestamp() (int64, error) {
+	loc, err := time.LoadLocation("America/Los_Angeles")
+	if err != nil {
+		return 0, err
+	}
+	now := time.Now()
+	pt := time.Date(now.Year(), now.Month(), now.Day(), 14, 0, 0, 0, loc)
+
+	return pt.Unix(), nil
+}
+
 // getProblem makes a request to the /problem/:day endpoint and returns the
 // content of the problem as a string. Only Part 1 is available for
 // unauthenticated users.
@@ -139,9 +152,13 @@ func main() {
 	webhookURL := os.Getenv("WEBHOOK_URL")
 	apiURL := os.Getenv("API_URL")
 
-	payload := WebhookPayload{
-		Content: "The new daily challenge will be releasing soon. Please stay tuned!",
+	ts, err := getDailyTimestamp()
+	if err != nil {
+		log.Fatalf("Error loading location: %v", err)
 	}
+
+	reminderContent := fmt.Sprintf("Howdy! The next March Madness daily challenge will be released in <t:%d:R>. Stay tuned and good luck!", ts)
+	payload := WebhookPayload{Content: reminderContent}
 
 	if !*reminder {
 		problem, err := getProblem(apiURL, day)

@@ -47,7 +47,7 @@ def main(ProblemClass: Type[Problem]) -> None:
     problem = ProblemClass(args.seed)
 
     file_contents = problem.generate_input()
-    print(file_contents)
+    # print(file_contents)
 
-    print("Part 1 Solution:", problem.part1_sln())
-    print("Part 2 Solution:", problem.part2_sln())
+    # print("Part 1 Solution:", problem.part1_sln())
+    # print("Part 2 Solution:", problem.part2_sln())

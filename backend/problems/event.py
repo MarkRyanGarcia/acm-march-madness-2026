@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import Optional, Type
 from problems.base import Problem
 from problems._00_math_homework.main import MathHomework
+from problems._01_the_muddy_arrival.main import MuddyArrival
 from zoneinfo import ZoneInfo
 
 
@@ -34,8 +35,8 @@ PROBLEMS: dict[int, ProblemEntry] = {
         release_time=None,
     ),
     1: ProblemEntry(
-        problem_class=MathHomework,
-        readme_path="problems/_00_math_homework/README.md",
+        problem_class=MuddyArrival,
+        readme_path="problems/_01_the_muddy_arrival/README.md",
         points_per_part=100,
         release_time=get_release_time(2026, 3, 16, 14, 0, 0),
     ),
@@ -53,7 +54,7 @@ PROBLEMS: dict[int, ProblemEntry] = {
     ),
     4: ProblemEntry(
         problem_class=MathHomework,
-        readme_path="problems/_00_math_homework/README.md",
+        readme_path="problems/_04_the_climb/README.md",
         points_per_part=100,
         release_time=get_release_time(2026, 3, 19, 14, 0, 0),
     ),

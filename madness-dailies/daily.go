@@ -125,10 +125,11 @@ func generateLeaderboardString(leaderboard []TeamPointsEntry) string {
 		if i == maxTeams { // Only show the top 10 teams
 			break
 		}
+		fmt.Fprintf(&builder, "%d. %-*s %.2f", i+1, maxWidth+2, team.TeamName, team.TotalPoints)
 		if i < 3 {
-			builder.WriteString(medals[i] + " ")
+			fmt.Fprintf(&builder, "  (%s)", medals[i])
 		}
-		fmt.Fprintf(&builder, "%-*s %.2f\n", maxWidth+2, team.TeamName, team.TotalPoints)
+		builder.WriteString("\n")
 	}
 	builder.WriteString("```\n[Sign in and create/join a team to participate!](<https://madness.acmcsuf.com/>)\n")
 
@@ -150,6 +151,7 @@ func main() {
 		log.Fatalf("Unabled to load .env: %v", err)
 	}
 	webhookURL := os.Getenv("WEBHOOK_URL")
+	roleID := os.Getenv("ROLE_ID")
 	apiURL := os.Getenv("API_URL")
 
 	ts, err := getDailyTimestamp()
@@ -157,7 +159,7 @@ func main() {
 		log.Fatalf("Error loading location: %v", err)
 	}
 
-	reminderContent := fmt.Sprintf("Howdy! The next March Madness daily challenge will be released in <t:%d:R>. Stay tuned and good luck!", ts)
+	reminderContent := fmt.Sprintf("## Howdy <@%s>! 🌸\nThe next [**March Madness 2026**](https://madness.acmcsuf.com/) daily challenge will be released <t:%d:R>. Stay tuned and good luck!", roleID, ts)
 	payload := WebhookPayload{Content: reminderContent}
 
 	if !*reminder {
@@ -174,6 +176,7 @@ func main() {
 		leaderboardStr := generateLeaderboardString(leaderboard)
 
 		payload = WebhookPayload{
+			Content: fmt.Sprintf("## HEY <@%s>! A NEW March Madness daily problem has been released!! 🌸", roleID),
 			Embeds: []Embed{
 				{
 					Title:       title,

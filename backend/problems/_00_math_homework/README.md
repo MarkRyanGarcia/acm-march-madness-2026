@@ -4,7 +4,7 @@
 
 ## Part One
 
-You (the story’s main protagonist) are looking forward to the ACM General Event hosted on Friday, March 6th. Unfortunately, you still have one math assignment due the same day, and you haven’t even started it yet (classic move).
+You (the story’s main protagonist) are looking forward to the ACM General Event hosted on Friday, March 20th. Unfortunately, you still have one math assignment due the same day, and you haven’t even started it yet (classic move).
 
 Luckily, you’re an experienced programmer, so you decide to leverage your problem-solving and coding skills to tackle the homework with ease.
 

@@ -10,7 +10,7 @@ on:
 
 jobs:
   send-reminder:
-    if: github.event_name == 'workflow_dispatch' || github.event.schedule == "0 20 16-20 3 *"
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 20 16-20 3 *'
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +20,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.22"
+          go-version: 1.22
 
       - name: Send a reminder of new problem release time
         working-directory: madness-dailies
@@ -33,7 +33,7 @@ jobs:
           go run . --reminder
 
   send-daily:
-    if: github.event_name == 'workflow_dispatch' || github.event.schedule == "0 21 16-20 3 *"
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 21 16-20 3 *'
     runs-on: ubuntu-latest
 
     steps:
@@ -43,7 +43,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.22"
+          go-version: 1.22
 
       - name: Send problem description/leaderboard webhook message
         working-directory: madness-dailies

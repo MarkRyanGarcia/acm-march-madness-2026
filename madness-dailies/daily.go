@@ -73,8 +73,14 @@ func getProblem(apiURL string, day int) (string, error) {
 func parseProblem(problem string) (string, string) {
 	titleLine, _, _ := strings.Cut(problem, "\n\n")
 	title := strings.TrimPrefix(titleLine, "# ")
+
 	_, description, _ := strings.Cut(problem, "## Part One\n\n")
-	return title, description
+	partialDescription := description
+	if len(partialDescription) > 400 {
+		partialDescription = partialDescription[:400] + "..."
+	}
+
+	return title, partialDescription
 }
 
 type TeamPointsEntry struct {
@@ -159,7 +165,7 @@ func main() {
 		log.Fatalf("Error loading location: %v", err)
 	}
 
-	reminderContent := fmt.Sprintf("## Howdy <@%s>! 🌸\nThe next [**March Madness 2026**](https://madness.acmcsuf.com/) daily challenge will be released <t:%d:R>. Stay tuned and good luck!", roleID, ts)
+	reminderContent := fmt.Sprintf("## Howdy <@&%s>! 🌸\nThe next [**March Madness 2026**](https://madness.acmcsuf.com/) daily challenge will be released <t:%d:R>. Stay tuned and good luck!", roleID, ts)
 	payload := WebhookPayload{Content: reminderContent}
 
 	if !*reminder {
@@ -180,7 +186,7 @@ func main() {
 			Embeds: []Embed{
 				{
 					Title:       title,
-					Description: description + "---\n" + leaderboardStr,
+					Description: description + "\n\n---\n" + leaderboardStr,
 					URL:         fmt.Sprintf("https://madness.acmcsuf.com/problems/%d", day),
 					Color:       0xB0F2B4,
 				},

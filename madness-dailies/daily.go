@@ -165,7 +165,7 @@ func main() {
 		log.Fatalf("Error loading location: %v", err)
 	}
 
-	reminderContent := fmt.Sprintf("## Howdy <@%s>! 🌸\nThe next [**March Madness 2026**](https://madness.acmcsuf.com/) daily challenge will be released <t:%d:R>. Stay tuned and good luck!", roleID, ts)
+	reminderContent := fmt.Sprintf("## Howdy <@&%s>! 🌸\nThe next [**March Madness 2026**](https://madness.acmcsuf.com/) daily challenge will be released <t:%d:R>. Stay tuned and good luck!", roleID, ts)
 	payload := WebhookPayload{Content: reminderContent}
 
 	if !*reminder {

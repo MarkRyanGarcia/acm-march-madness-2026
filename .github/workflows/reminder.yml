@@ -1,0 +1,31 @@
+name: Madness Dailies - Reminder
+
+on:
+  schedule:
+    - cron: "0 20 16-20 3 *"
+  workflow_dispatch:
+
+jobs:
+  send-reminder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.22
+
+      - name: Create .env file from secrets
+        working-directory: madness-dailies
+        run: |
+          echo "WEBHOOK_URL=${{ secrets.WEBHOOK_URL }}" >> .env
+          echo "ROLE_ID=${{ secrets.ROLE_ID }}" >> .env
+          echo "API_URL=${{ secrets.API_URL }}" >> .env
+
+      - name: Send a reminder
+        working-directory: madness-dailies
+        run: |
+          go mod download
+          go run . --reminder

@@ -8,6 +8,10 @@ on:
 jobs:
   send-reminder:
     runs-on: ubuntu-latest
+    # Fix for the Node.js 20 deprecation warning
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -16,6 +20,8 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: 1.22
+          # Fix for the "Dependencies file not found" error
+          cache-dependency-path: madness-dailies/go.sum
 
       - name: Create .env file from secrets
         working-directory: madness-dailies
@@ -24,8 +30,8 @@ jobs:
           echo "ROLE_ID=${{ secrets.ROLE_ID }}" >> .env
           echo "API_URL=${{ secrets.API_URL }}" >> .env
 
-      - name: Send a reminder
+      - name: Run Go Program
         working-directory: madness-dailies
         run: |
           go mod download
-          go run . --reminder
+          go run . --reminder # Remove --reminder for the daily.yml file

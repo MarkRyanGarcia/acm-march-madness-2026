@@ -35,39 +35,40 @@ def get_problems():
         for day, problem in PROBLEMS.items()
     ]
 
-
 @router.get("/problems/{day}", response_model=ProblemOut)
 def get_problem(
     day: int,
     auth_id: Annotated[str | None, Depends(get_optional_auth_id)],
     db: Annotated[Session, Depends(get_db)],
 ):
-    problem = PROBLEMS.get(day)
-    if not problem:
+    problem_entry = PROBLEMS.get(day)
+    if not problem_entry:
         raise HTTPException(404, "Invalid problem day, must be between 0 - 5")
+    
     if (
-        problem.release_time
-        and (now := datetime.now(timezone.utc)) < problem.release_time
+        problem_entry.release_time
+        and (now := datetime.now(timezone.utc)) < problem_entry.release_time
     ):
-        remaining = (problem.release_time - now).total_seconds()
+        remaining = (problem_entry.release_time - now).total_seconds()
         raise HTTPException(
             404,
             detail={
                 "message": "Problem has not been released yet",
                 "remaining_seconds": int(remaining),
-                "release_time": problem.release_time.isoformat(),
+                "release_time": problem_entry.release_time.isoformat(),
             },
         )
 
-    with open(problem.readme_path) as file:
+    with open(problem_entry.readme_path) as file:
         content = file.read()
 
-    part1, part2 = split_problem_parts(content)
+    part1_text, part2_text = split_problem_parts(content)
 
+    # Base response for anonymous users
     default_response = ProblemOut(
         is_signed_in=auth_id is not None,
         can_submit=False,
-        part1=part1,
+        part1=part1_text,
         part2="",
         part1_answer=None,
         part2_answer=None,
@@ -80,18 +81,29 @@ def get_problem(
     if not team:
         return default_response
 
-    correct_answers = problem_queries.get_correct_answers(db, team.id, day)
-    # Assuming that users can only submit if they haven't solved it yet
-    solved_part1 = len(correct_answers) > 0
-    solved_part2 = len(correct_answers) == 2
+    # Fetch all correct attempts for this team and day
+    correct_records = problem_queries.get_correct_answers(db, team.id, day)
+    
+    # FIX: Explicitly find the specific record for each part
+    # This prevents Part 1 and Part 2 from mirroring each other or 
+    # locking the user out based on list order.
+    p1_id = problem_id(day, 1) # This should result in 'dayX/part1'
+    p2_id = problem_id(day, 2) # This should result in 'dayX/part2'
+
+    p1_record = next((a for a in correct_records if a.problem_id == p1_id), None)
+    p2_record = next((a for a in correct_records if a.problem_id == p2_id), None)
+
+    solved_part1 = p1_record is not None
+    solved_part2 = p2_record is not None
 
     return ProblemOut(
         is_signed_in=True,
         can_submit=True,
-        part1=part1,
-        part2=part2 if solved_part1 else "",
-        part1_answer=correct_answers[0].answer if solved_part1 else None,
-        part2_answer=correct_answers[1].answer if solved_part2 else None,
+        part1=part1_text,
+        # Only show Part 2 text if Part 1 is officially solved
+        part2=part2_text if solved_part1 else "",
+        part1_answer=p1_record.answer if solved_part1 else None,
+        part2_answer=p2_record.answer if solved_part2 else None,
     )
 
 

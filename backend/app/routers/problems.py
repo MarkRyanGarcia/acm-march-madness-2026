@@ -136,7 +136,7 @@ def submit_answer(
     auth_id: Annotated[str, Depends(require_clerk_auth)],
     db: Annotated[Session, Depends(get_db)],
 ):
-    if auth_id == "":
+    if not auth_id:
         raise HTTPException(401, "Unauthorized. Sign in to submit your answer.")
 
     team = team_queries.get_team_for_user(db, auth_id)
@@ -148,80 +148,94 @@ def submit_answer(
         raise HTTPException(400, "Invalid problem day, must be between 0 - 5")
 
     part = attempt.part
-    if part != 1 and part != 2:
-        raise HTTPException(400, f"Invalid part submission: {attempt.part}")
+    if part not in [1, 2]:
+        raise HTTPException(400, f"Invalid part submission: {part}")
 
-    correct_count = problem_queries.get_correct_count(db, team.id, day)
+    # 1. FIX: Explicitly check which parts are solved by ID, not by count
+    correct_answers = problem_queries.get_correct_answers(db, team.id, day)
+    
+    p1_id = problem_id(day, 1) # 'day2/part1'
+    p2_id = problem_id(day, 2) # 'day2/part2'
+    
+    solved_p1 = any(a.problem_id == p1_id for a in correct_answers)
+    solved_p2 = any(a.problem_id == p2_id for a in correct_answers)
 
-    if correct_count == 2:
-        raise HTTPException(400, f"Day {day} already solved")
-    if part == 1 and correct_count == 1:
+    # 2. Refined Validation Logic
+    if part == 1 and solved_p1:
         raise HTTPException(400, f"Day {day} part 1 already solved")
-    if part == 2 and correct_count == 0:
-        raise HTTPException(400, f"Submit part 1 first before attempting part 2")
+    
+    if part == 2:
+        if solved_p2:
+            raise HTTPException(400, f"Day {day} part 2 already solved")
+        if not solved_p1:
+            raise HTTPException(400, "Submit part 1 first before attempting part 2")
 
-    attempts = problem_queries.get_attempts_for_part(db, team.id, day, part)
+    # 3. Cooldown Logic
+    attempts_count = problem_queries.get_attempts_for_part(db, team.id, day, part)
     last_submitted = problem_queries.get_last_attempt_time(db, team.id, day, part)
     submitted_at = datetime.now(timezone.utc)
 
     if last_submitted:
-        cooldown_until = get_submission_cooldown(attempts, last_submitted)
+        # If your last_submitted is naive, make it aware for the comparison
+        if last_submitted.tzinfo is None:
+            last_submitted = last_submitted.replace(tzinfo=timezone.utc)
+            
+        cooldown_until = get_submission_cooldown(attempts_count, last_submitted)
         remaining = get_remaining_cooldown_seconds(cooldown_until, submitted_at)
-        if remaining != 0.0:
+        if remaining > 0:
             return {
                 "correct": None,
                 "error": True,
-                "part_to_submit": correct_count + 1,
-                "cooldown_until": cooldown_until.isoformat(),
+                "message": "Cooldown in effect",
                 "remaining_cooldown_seconds": int(remaining),
             }
 
-    answer = 0
+    # 4. Check Answer
     try:
-        answer = int(attempt.answer)
-    except:
-        pass
+        user_ans = int(attempt.answer)
+    except ValueError:
+        user_ans = -1 # Or handle as invalid input
 
-    problem = problem_entry.problem_class(seed=get_seed(team.id))
-    correct = problem.check_answer(part, answer)
+    problem_instance = problem_entry.problem_class(seed=get_seed(team.id))
+    correct = problem_instance.check_answer(part, user_ans)
 
     if correct:
-        points_per_part = problem_entry.points_per_part
+        # Ensure release_time is timezone-aware for the score calculation
         release_time = problem_entry.release_time
         if release_time is None:
             release_time = datetime(1970, 1, 1, tzinfo=timezone.utc)
+        elif release_time.tzinfo is None:
+            release_time = release_time.replace(tzinfo=timezone.utc)
+
         points = calculate_submission_score(
-            points_per_part,
+            problem_entry.points_per_part,
             release_time,
             submitted_at,
         )
-        team_points = TeamPoint(
+        
+        db.add(TeamPoint(
             team_id=team.id,
             points=points,
             reason=f"Solved Day {day} Part {part} correctly",
-        )
-        db.add(team_points)
+            added_at=submitted_at # Ensure this matches the attempt time
+        ))
         db.flush()
 
-    team_submit_attempt = TeamSubmitAttempt(
+    # 5. Record the Attempt
+    new_attempt = TeamSubmitAttempt(
         team_id=team.id,
         problem_id=problem_id(day, part),
-        answer=answer,
+        answer=user_ans,
         correct=correct,
         submitted_by_user_id=auth_id,
+        submitted_at=submitted_at
     )
-    db.add(team_submit_attempt)
+    db.add(new_attempt)
     db.commit()
-    db.refresh(team_submit_attempt)
-
-    last_submitted = team_submit_attempt.submitted_at
-    cooldown_until = get_submission_cooldown(attempts + 1, last_submitted)
-    remaining = get_remaining_cooldown_seconds(cooldown_until, submitted_at)
 
     return {
         "correct": correct,
         "error": False,
-        "part_to_submit": correct_count + 1,
-        "cooldown_until": cooldown_until.isoformat() if not correct else None,
-        "remaining_cooldown_seconds": int(remaining) if not correct else 0,
+        "part_solved": part if correct else None,
+        "next_part": (part + 1) if (correct and part == 1) else part
     }

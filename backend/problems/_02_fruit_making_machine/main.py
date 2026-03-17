@@ -4,7 +4,7 @@ from problems.base import Problem, main
 
 class FruitMachine(Problem):
     INPUT_LEN = 500
-    K = 10
+    K = 50
     M = 100
     numbers: List[int] = []
 

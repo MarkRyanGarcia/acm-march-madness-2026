@@ -182,7 +182,7 @@ func main() {
 		leaderboardStr := generateLeaderboardString(leaderboard)
 
 		payload = WebhookPayload{
-			Content: fmt.Sprintf("## HEY <@%s>! A NEW March Madness daily problem has been released!! 🌸", roleID),
+			Content: fmt.Sprintf("## HEY <@&%s>! A NEW March Madness daily problem has been released!! 🌸", roleID),
 			Embeds: []Embed{
 				{
 					Title:       title,

@@ -2,7 +2,7 @@ name: Madness Dailies - Daily Webhook
 
 on:
   schedule:
-    - cron: "0 21 16-20 3 *"
+    - cron: '0 21 16-20 3 *'
   workflow_dispatch:
 
 jobs:

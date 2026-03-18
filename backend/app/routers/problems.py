@@ -186,7 +186,7 @@ def submit_answer(
             return {
                 "correct": None,
                 "error": True,
-                "message": "Cooldown in effect",
+                "cooldown_until": cooldown_until.isoformat(),
                 "remaining_cooldown_seconds": int(remaining),
             }
 
@@ -237,5 +237,7 @@ def submit_answer(
         "correct": correct,
         "error": False,
         "part_solved": part if correct else None,
+        "cooldown_until": cooldown_until.isoformat() if not correct else None,
+        "remaining_cooldown_seconds": int(remaining) if not correct else 0,
         "next_part": (part + 1) if (correct and part == 1) else part
     }

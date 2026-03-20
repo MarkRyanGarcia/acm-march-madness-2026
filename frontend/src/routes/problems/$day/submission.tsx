@@ -48,9 +48,13 @@ function ProblemSubmissionPage() {
               <StrokedText text="That's the correct answer!" />{" "}
               {submission.part === 1 ? (
                 <>
-                  Return to the problem page and complete part 2 of this puzzle
-                  to obtain the full{" "}
-                  <span className="text-gold-100">golden egg</span>!
+                  Return to the problem page and complete part 2 of this puzzle to obtain
+                  the full <span className="text-gold-100">golden egg</span>!
+                </>
+              ) : day === 5 && submission.part === 2 ? (
+                <>
+                  Thank you for participating in March Madness 2026. You can go back and solve the
+                  remaining problems if you haven't already. We hope you enjoyed the event!
                 </>
               ) : (
                 <>

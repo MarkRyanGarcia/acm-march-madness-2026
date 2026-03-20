@@ -35,6 +35,7 @@ def get_problems():
         for day, problem in PROBLEMS.items()
     ]
 
+
 @router.get("/problems/{day}", response_model=ProblemOut)
 def get_problem(
     day: int,
@@ -44,7 +45,7 @@ def get_problem(
     problem_entry = PROBLEMS.get(day)
     if not problem_entry:
         raise HTTPException(404, "Invalid problem day, must be between 0 - 5")
-    
+
     if (
         problem_entry.release_time
         and (now := datetime.now(timezone.utc)) < problem_entry.release_time
@@ -83,12 +84,12 @@ def get_problem(
 
     # Fetch all correct attempts for this team and day
     correct_records = problem_queries.get_correct_answers(db, team.id, day)
-    
+
     # FIX: Explicitly find the specific record for each part
-    # This prevents Part 1 and Part 2 from mirroring each other or 
+    # This prevents Part 1 and Part 2 from mirroring each other or
     # locking the user out based on list order.
-    p1_id = problem_id(day, 1) # This should result in 'dayX/part1'
-    p2_id = problem_id(day, 2) # This should result in 'dayX/part2'
+    p1_id = problem_id(day, 1)  # This should result in 'dayX/part1'
+    p2_id = problem_id(day, 2)  # This should result in 'dayX/part2'
 
     p1_record = next((a for a in correct_records if a.problem_id == p1_id), None)
     p2_record = next((a for a in correct_records if a.problem_id == p2_id), None)
@@ -153,17 +154,17 @@ def submit_answer(
 
     # 1. FIX: Explicitly check which parts are solved by ID, not by count
     correct_answers = problem_queries.get_correct_answers(db, team.id, day)
-    
-    p1_id = problem_id(day, 1) # 'day2/part1'
-    p2_id = problem_id(day, 2) # 'day2/part2'
-    
+
+    p1_id = problem_id(day, 1)  # 'day2/part1'
+    p2_id = problem_id(day, 2)  # 'day2/part2'
+
     solved_p1 = any(a.problem_id == p1_id for a in correct_answers)
     solved_p2 = any(a.problem_id == p2_id for a in correct_answers)
 
     # 2. Refined Validation Logic
     if part == 1 and solved_p1:
         raise HTTPException(400, f"Day {day} part 1 already solved")
-    
+
     if part == 2:
         if solved_p2:
             raise HTTPException(400, f"Day {day} part 2 already solved")
@@ -179,7 +180,7 @@ def submit_answer(
         # If your last_submitted is naive, make it aware for the comparison
         if last_submitted.tzinfo is None:
             last_submitted = last_submitted.replace(tzinfo=timezone.utc)
-            
+
         cooldown_until = get_submission_cooldown(attempts_count, last_submitted)
         remaining = get_remaining_cooldown_seconds(cooldown_until, submitted_at)
         if remaining > 0:
@@ -194,7 +195,7 @@ def submit_answer(
     try:
         user_ans = int(attempt.answer)
     except ValueError:
-        user_ans = -1 # Or handle as invalid input
+        user_ans = -1  # Or handle as invalid input
 
     problem_instance = problem_entry.problem_class(seed=get_seed(team.id))
     correct = problem_instance.check_answer(part, user_ans)
@@ -212,13 +213,15 @@ def submit_answer(
             release_time,
             submitted_at,
         )
-        
-        db.add(TeamPoint(
-            team_id=team.id,
-            points=points,
-            reason=f"Solved Day {day} Part {part} correctly",
-            added_at=submitted_at # Ensure this matches the attempt time
-        ))
+
+        db.add(
+            TeamPoint(
+                team_id=team.id,
+                points=points,
+                reason=f"Solved Day {day} Part {part} correctly",
+                added_at=submitted_at,  # Ensure this matches the attempt time
+            )
+        )
         db.flush()
 
     # 5. Record the Attempt
@@ -228,7 +231,7 @@ def submit_answer(
         answer=user_ans,
         correct=correct,
         submitted_by_user_id=auth_id,
-        submitted_at=submitted_at
+        submitted_at=submitted_at,
     )
     db.add(new_attempt)
     db.commit()
@@ -239,5 +242,5 @@ def submit_answer(
         "part_solved": part if correct else None,
         "cooldown_until": cooldown_until.isoformat() if not correct else None,
         "remaining_cooldown_seconds": int(remaining) if not correct else 0,
-        "next_part": (part + 1) if (correct and part == 1) else part
+        "next_part": (part + 1) if (correct and part == 1) else part,
     }

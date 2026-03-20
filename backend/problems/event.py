@@ -7,6 +7,7 @@ from problems._01_the_muddy_arrival.main import MuddyArrival
 from problems._02_fruit_making_machine.main import FruitMachine
 from problems._03_robbery_puzzle.main import RobberyPuzzle
 from problems._04_the_climb.main import TheClimb
+from problems._05_fueling_up.main import FuelingUp
 from zoneinfo import ZoneInfo
 
 
@@ -62,8 +63,8 @@ PROBLEMS: dict[int, ProblemEntry] = {
         release_time=get_release_time(2026, 3, 19, 14, 0, 0),
     ),
     5: ProblemEntry(
-        problem_class=MathHomework,
-        readme_path="problems/_00_math_homework/README.md",
+        problem_class=FuelingUp,
+        readme_path="problems/_05_fueling_up/README.md",
         points_per_part=100,
         release_time=get_release_time(2026, 3, 20, 14, 0, 0),
     ),

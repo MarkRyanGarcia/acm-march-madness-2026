@@ -66,6 +66,6 @@ PROBLEMS: dict[int, ProblemEntry] = {
         problem_class=FuelingUp,
         readme_path="problems/_05_fueling_up/README.md",
         points_per_part=100,
-        release_time=get_release_time(2026, 3, 19, 14, 0, 0),
+        release_time=get_release_time(2026, 3, 20, 14, 0, 0),
     ),
 }

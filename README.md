@@ -1,11 +1,14 @@
 # ACM March Madness 2026
 ## https://madness.acmcsuf.com/
+<img width="1710" height="965" alt="Screenshot 2026-03-25 at 9 22 28 PM" src="https://github.com/user-attachments/assets/767c3b44-9224-4bde-b8c5-3065aa5ce9f2" />
 
 A competitive programming event platform built for [ACM at CSUF](https://acmcsuf.com). Teams solve daily algorithmic puzzles over 5 days, earn points, and compete on a live leaderboard.
 
 ## What it is
 
 Each day a new problem is released with a generated input file. Teams parse the input, solve two parts of the problem, and submit their integer answers. Points are awarded per correct part, with a time-based scoring component. The leaderboard tracks total points and which problems each team has solved (visualized as eggs).
+<img width="1710" height="963" alt="Screenshot 2026-03-26 at 1 07 16 AM" src="https://github.com/user-attachments/assets/081be8ea-fbe7-4f76-b9cd-32a1a3c49d9b" />
+
 
 ## Tech Stack
 
@@ -80,3 +83,7 @@ cd frontend
 npm install
 npm run dev
 ```
+
+<img width="1710" height="961" alt="Screenshot 2026-03-26 at 12 21 22 AM" src="https://github.com/user-attachments/assets/52d002d4-1f86-4522-b516-54cb38442f46" />
+<img width="1709" height="963" alt="Screenshot 2026-03-26 at 12 19 54 AM" src="https://github.com/user-attachments/assets/d40deb9e-b3d7-47b6-b875-d5fb2751d4ec" />
+
